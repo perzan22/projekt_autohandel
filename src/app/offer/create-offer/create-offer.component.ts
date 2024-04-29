@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Offer } from '../offer.model';
+import { OfferService } from '../offer.service';
 
 @Component({
   selector: 'app-create-offer',
@@ -9,6 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class CreateOfferComponent implements OnInit{
 
   form!: FormGroup
+  offer!: Offer
 
   rodzaj_paliw = [
     { value: 'Benzyna'},
@@ -17,6 +20,8 @@ export class CreateOfferComponent implements OnInit{
     { value: 'Prąd elektryczny' },
     { value: 'Hybrydowe'}
   ]
+
+  constructor(private offerService: OfferService) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -52,5 +57,20 @@ export class CreateOfferComponent implements OnInit{
   }
 
 
+  onPublishOffer() {
+
+    if (this.form.invalid) {
+      return
+    }
+
+    this.offer = { nazwa: this.form.value.nazwa, marka: this.form.value.marka, model: this.form.value.model, rok_produkcji: this.form.value.rok_produkcji, przebieg: this.form.value.przebieg,
+      spalanie: this.form.value.spalanie, pojemnosc_silnika: this.form.value.pojemnosc_silnika, rodzaj_paliwa: this.form.value.rodzaj_paliwa, opis: this.form.value.opis, 
+      cena: this.form.value.cena
+     }
+
+     this.offerService.addOffer(this.offer);
+
+
+  }
   
 }

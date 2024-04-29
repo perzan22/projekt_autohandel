@@ -1,5 +1,5 @@
 export interface Offer {
-    id: string
+    //id: string
     nazwa: string
     marka: string
     model: string

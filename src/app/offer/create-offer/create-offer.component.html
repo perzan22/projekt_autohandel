@@ -1,7 +1,7 @@
 <mat-card>
     <h1>Wypełnij formularz oferty</h1>
     <mat-divider></mat-divider>
-    <form [formGroup]="form">
+    <form [formGroup]="form" (submit)="onPublishOffer()">
         <h3>Tytuł ogłoszenia</h3>
         <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
             <mat-label>Tytuł (max 40 znaków)</mat-label>
@@ -68,6 +68,6 @@
                 </div>
             </section>
         </div>
-        
+        <button type="submit" mat-raised-button color="primary">OPUBLIKUJ OFERTĘ</button>
     </form>
 </mat-card>

@@ -8,12 +8,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OfferListComponent } from './offer/offer-list/offer-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateOfferComponent,
-    HeaderComponent
+    HeaderComponent,
+    OfferListComponent
   ],
   imports: [
     BrowserModule,
