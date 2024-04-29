@@ -11,7 +11,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDividerModule } from '@angular/material/divider';
+
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
         MatExpansionModule,
         MatIconModule,
         MatSidenavModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatDividerModule
     ],
     providers: [
         provideNativeDateAdapter()

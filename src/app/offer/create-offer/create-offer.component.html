@@ -1,58 +1,73 @@
 <mat-card>
+    <h1>Wypełnij formularz oferty</h1>
+    <mat-divider></mat-divider>
     <form [formGroup]="form">
+        <h3>Tytuł ogłoszenia</h3>
         <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Nazwa twojej oferty</mat-label>
+            <mat-label>Tytuł (max 40 znaków)</mat-label>
             <input matInput type="text" formControlName="nazwa">
         </mat-form-field>
+        <div id="divider">
+            <section id="car-info" class="form-div">
 
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Marka samochodu</mat-label>
-            <input matInput type="text" formControlName="marka">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Model samochodu</mat-label>
-            <input matInput type="text" formControlName="model">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Rok produkcji</mat-label>
-            <input matInput type="number" formControlName="rok_produkcji">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Przebieg</mat-label>
-            <input matInput type="number" formControlName="przebieg">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Spalanie [l/100km]</mat-label>
-            <input matInput type="text" pattern="[0-9]+([\.,][0-9]+)?" formControlName="spalanie">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Pojemność silnika [cm³]</mat-label>
-            <input matInput type="number" formControlName="pojemnosc_silnika">
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Rodzaj paliwa</mat-label>
-            <mat-select formControlName="rodzaj_paliwa">
-                @for (paliwo of rodzaj_paliw; track paliwo ) {
-                <mat-option [value]="paliwo.value">{{ paliwo.value }}</mat-option>
-                }
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Opis (opcjonalne)</mat-label>
-            <textarea matInput formControlName="opis"></textarea>
-        </mat-form-field>
-
-        <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
-            <mat-label>Cena</mat-label>
-            <input matInput type="number" formControlName="cena">
-        </mat-form-field>
+                <h3>Podaj podstawowe informacje o swoim aucie</h3>
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Marka samochodu</mat-label>
+                    <input matInput type="text" formControlName="marka">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Model samochodu</mat-label>
+                    <input matInput type="text" formControlName="model">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Rok produkcji</mat-label>
+                    <input matInput type="number" formControlName="rok_produkcji">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Przebieg</mat-label>
+                    <input matInput type="number" formControlName="przebieg">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Spalanie [l/100km]</mat-label>
+                    <input matInput type="text" pattern="[0-9]+([\.,][0-9]+)?" formControlName="spalanie">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Pojemność silnika [cm³]</mat-label>
+                    <input matInput type="number" formControlName="pojemnosc_silnika">
+                </mat-form-field>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                    <mat-label>Rodzaj paliwa</mat-label>
+                    <mat-select formControlName="rodzaj_paliwa">
+                        @for (paliwo of rodzaj_paliw; track paliwo ) {
+                        <mat-option [value]="paliwo.value">{{ paliwo.value }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </section>
+            <section id="right-section">
+                <div id="description" class="form-div">
+                    <h3>Poniższy opis powinien w jak największym stopniu zachęcić kupca do skorzystania z oferty</h3>
+                    <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                        <mat-label>Opis (opcjonalne)</mat-label>
+                        <textarea matInput formControlName="opis"></textarea>
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <div id="price" class="form-div">
+                    <h3>Proszę podać cenę </h3>
+                    <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                        <mat-label>Cena</mat-label>
+                        <input matInput type="number" formControlName="cena">
+                    </mat-form-field>
+                </div>
+            </section>
+        </div>
         
     </form>
 </mat-card>

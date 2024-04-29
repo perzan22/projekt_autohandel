@@ -21,7 +21,7 @@ export class CreateOfferComponent implements OnInit{
   ngOnInit(): void {
     this.form = new FormGroup({
       "nazwa": new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.maxLength(40)]
       }),
       "marka": new FormControl(null, {
         validators: [Validators.required]
