@@ -63,12 +63,8 @@ export class CreateOfferComponent implements OnInit{
       return
     }
 
-    this.offer = { nazwa: this.form.value.nazwa, marka: this.form.value.marka, model: this.form.value.model, rok_produkcji: this.form.value.rok_produkcji, przebieg: this.form.value.przebieg,
-      spalanie: this.form.value.spalanie, pojemnosc_silnika: this.form.value.pojemnosc_silnika, rodzaj_paliwa: this.form.value.rodzaj_paliwa, opis: this.form.value.opis, 
-      cena: this.form.value.cena
-     }
-
-     this.offerService.addOffer(this.offer);
+    this.offerService.addOffer(this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
+    this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
 
 
   }

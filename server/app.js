@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors')
 
+const offerRoutes = require('./routes/offers')
 
 const app = express();
 
@@ -19,6 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 
 app.use(cors());
 
-
+app.use('/api/offers/', offerRoutes)
 
 module.exports = app;

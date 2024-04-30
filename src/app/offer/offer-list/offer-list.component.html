@@ -1,6 +1,29 @@
-<p *ngIf="!offer">No offers!</p>
+<p *ngIf="offers.length <= 0">No offers!</p>
 
-<mat-card *ngIf="offer">
-    <h1>{{ offer.nazwa }}</h1>
-</mat-card>
+<mat-accordion *ngIf="offers.length > 0" multi="true">
+    <mat-expansion-panel *ngFor="let offer of offers">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <h2>{{ offer.nazwa }}</h2>
+            </mat-panel-title>
+            <mat-panel-description>
+                <h2>{{ offer.marka }} {{ offer.model }}</h2>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <section class="expansion-content">
+            <div class="personal-info">
+                <h3>Informacje techniczne:<br></h3>
+                <p>Rok produkcji: {{ offer.rok_produkcji }}<br></p>
+                <p>Przebieg: {{ offer.przebieg }} km<br></p>
+                <p>Pojemność silnika: {{ offer.pojemnosc_silnika }} cm<br></p>
+                <p>Opis: <br>{{ offer.opis }}</p>
+            </div>
+           <!--<div class="offer-buttons">
+                <button mat-button color="primary" *ngIf="isAuth && userID === offer.creator" [routerLink]="['/edit', offer.id]">EDIT</button>
+                <button mat-button color="warn" *ngIf="isAuth && userID === offer.creator" (click)="onDelete(offer.id)">DELETE</button>
+           </div>
+        -->
+        </section>
+    </mat-expansion-panel>
+</mat-accordion>
 

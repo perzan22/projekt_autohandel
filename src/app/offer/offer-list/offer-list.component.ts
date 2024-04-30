@@ -11,22 +11,21 @@ import { Subscription } from 'rxjs';
 export class OfferListComponent implements OnInit, OnDestroy{
 
 
-  offer!: Offer
+  offers: Offer[] = []
   private offerSubs!: Subscription
 
   constructor(private offerService: OfferService) {}
 
 
   ngOnInit(): void {
-    this.offer = this.offerService.offer;
-
+    this.offerService.getOffers();
     this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
       next: offerData => {
-        this.offer = offerData.offer 
+        this.offers = offerData.offers
       }
     })
 
-    console.log(this.offer)
+    console.log(this.offers)
   }
 
   ngOnDestroy(): void {
