@@ -1,29 +1,36 @@
-<p *ngIf="offers.length <= 0">No offers!</p>
+<p *ngIf="offers.length <= 0" id="no-offers">No offers!</p>
 
-<mat-accordion *ngIf="offers.length > 0" multi="true">
-    <mat-expansion-panel *ngFor="let offer of offers">
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <h2>{{ offer.nazwa }}</h2>
-            </mat-panel-title>
-            <mat-panel-description>
-                <h2>{{ offer.marka }} {{ offer.model }}</h2>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <section class="expansion-content">
-            <div class="personal-info">
-                <h3>Informacje techniczne:<br></h3>
-                <p>Rok produkcji: {{ offer.rok_produkcji }}<br></p>
-                <p>Przebieg: {{ offer.przebieg }} km<br></p>
-                <p>Pojemność silnika: {{ offer.pojemnosc_silnika }} cm<br></p>
-                <p>Opis: <br>{{ offer.opis }}</p>
-            </div>
-           <!--<div class="offer-buttons">
-                <button mat-button color="primary" *ngIf="isAuth && userID === offer.creator" [routerLink]="['/edit', offer.id]">EDIT</button>
-                <button mat-button color="warn" *ngIf="isAuth && userID === offer.creator" (click)="onDelete(offer.id)">DELETE</button>
-           </div>
-        -->
-        </section>
-    </mat-expansion-panel>
-</mat-accordion>
+<mat-card *ngFor="let offer of offers">
+    <mat-card-header>
+        <mat-card-title> {{ offer.nazwa }}</mat-card-title>
+        <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>
+            {{ offer.opis }}
+        </p>
+        <mat-divider></mat-divider>
+        <table>
+            <tr>
+                <th>Rok produkcji:</th>
+                <td>{{ offer.rok_produkcji }}</td>
+                <th>Przebieg:</th>
+                <td>{{ offer.przebieg }} km</td>
+            </tr>
+            <tr>
+                <th>Spalanie:</th>
+                <td>{{ offer.spalanie }} l/100km</td>
+                <th>Pojemność silnika:</th>
+                <td>{{ offer.pojemnosc_silnika }} cm³</td>
+            </tr>
+            <tr>
+                <th>Rodzaj paliwa:</th>
+                <td>{{ offer.rodzaj_paliwa }}</td>
+            </tr>
+        </table>
+        <h1>{{ offer.cena }} zł</h1>
+    </mat-card-content>
+    
+</mat-card>
 
