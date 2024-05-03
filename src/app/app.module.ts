@@ -10,13 +10,17 @@ import { HeaderComponent } from './header/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OfferListComponent } from './offer/offer-list/offer-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateOfferComponent,
     HeaderComponent,
-    OfferListComponent
+    OfferListComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

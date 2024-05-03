@@ -2,7 +2,13 @@
     <mat-sidenav mode="side" position="end" #sidenav [fixedInViewport]="true">
         <ul id="links">
             <li>
-                <a routerLink="/create" mat-button (click)="sidenav.close()">Create profile</a>
+                <a routerLink="/create" mat-button (click)="sidenav.close()">Nowa oferta</a>
+            </li>
+            <li>
+                <a routerLink="/signup" mat-button (click)="sidenav.close()">Zarejestruj się</a>
+            </li>
+            <li>
+                <a routerLink="/login" mat-button (click)="sidenav.close()">Zaloguj się</a>
             </li>
         </ul>
     </mat-sidenav>
