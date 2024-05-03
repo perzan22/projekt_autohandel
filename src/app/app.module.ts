@@ -9,6 +9,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OfferListComponent } from './offer/offer-list/offer-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { OfferListComponent } from './offer/offer-list/offer-list.component';
     AppRoutingModule,
     AngularMaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     provideAnimationsAsync()

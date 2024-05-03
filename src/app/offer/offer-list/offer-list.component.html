@@ -1,6 +1,36 @@
-<p *ngIf="!offer">No offers!</p>
+<p *ngIf="offers.length <= 0" id="no-offers">No offers!</p>
 
-<mat-card *ngIf="offer">
-    <h1>{{ offer.nazwa }}</h1>
+<mat-card *ngFor="let offer of offers">
+    <mat-card-header>
+        <mat-card-title> {{ offer.nazwa }}</mat-card-title>
+        <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <p>
+            {{ offer.opis }}
+        </p>
+        <mat-divider></mat-divider>
+        <table>
+            <tr>
+                <th>Rok produkcji:</th>
+                <td>{{ offer.rok_produkcji }}</td>
+                <th>Przebieg:</th>
+                <td>{{ offer.przebieg }} km</td>
+            </tr>
+            <tr>
+                <th>Spalanie:</th>
+                <td>{{ offer.spalanie }} l/100km</td>
+                <th>Pojemność silnika:</th>
+                <td>{{ offer.pojemnosc_silnika }} cm³</td>
+            </tr>
+            <tr>
+                <th>Rodzaj paliwa:</th>
+                <td>{{ offer.rodzaj_paliwa }}</td>
+            </tr>
+        </table>
+        <h1>{{ offer.cena }} zł</h1>
+    </mat-card-content>
+    
 </mat-card>
 
