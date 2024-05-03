@@ -1,9 +1,24 @@
-<mat-toolbar color="primary">
-    <a routerLink="/"><h1>Autohandel Bojano</h1></a>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" position="end" #sidenav [fixedInViewport]="true">
+        <ul id="links">
+            <li>
+                <a routerLink="/create" mat-button (click)="sidenav.close()">Create profile</a>
+            </li>
+        </ul>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <h1>
+                <a routerLink="/" (click)="sidenav.close()">Autohandel Bojano</a>
+            </h1>
+            <ul>
+                <li>
+                    <button mat-icon-button (click)="sidenav.toggle()">
+                        <mat-icon>menu</mat-icon>
+                    </button>   
+                </li>
+            </ul>
+        </mat-toolbar>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
-    <ul>
-        <li>
-            <a routerLink="/create" mat-raised-button>New offer</a>
-        </li>
-    </ul>
-</mat-toolbar>
