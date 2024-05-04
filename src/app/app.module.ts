@@ -9,10 +9,11 @@ import { AngularMaterialModule } from './angular-material.module';
 import { HeaderComponent } from './header/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OfferListComponent } from './offer/offer-list/offer-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CookieService } from 'ngx-cookie-service';
   ],
   providers: [
     provideAnimationsAsync(),
-    CookieService
+    CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
