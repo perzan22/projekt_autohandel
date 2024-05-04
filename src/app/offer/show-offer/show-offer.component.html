@@ -1,6 +1,4 @@
-<p *ngIf="offers.length <= 0" id="no-offers">No offers!</p>
-
-<mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)">
+<mat-card>
     <mat-card-header>
         <mat-card-title> {{ offer.nazwa }}</mat-card-title>
         <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
@@ -33,4 +31,3 @@
     </mat-card-content>
     
 </mat-card>
-

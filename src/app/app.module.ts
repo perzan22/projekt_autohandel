@@ -14,6 +14,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     HeaderComponent,
     OfferListComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ShowOfferComponent
   ],
   imports: [
     BrowserModule,

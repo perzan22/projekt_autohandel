@@ -73,4 +73,25 @@ export class OfferService {
         })
     }
 
+    getOffer(offerID: string) {
+        return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
+        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string }>('http://localhost:3000/api/offers/' + offerID)
+        .pipe(map(offer => {
+            return {
+                id: offer._id,
+                nazwa: offer.nazwa, 
+                marka: offer.marka,
+                model: offer.model,
+                rok_produkcji: offer.rok_produkcji,
+                przebieg: offer.przebieg,
+                spalanie: offer.spalanie,
+                pojemnosc_silnika: offer.pojemnosc_silnika,
+                rodzaj_paliwa: offer.rodzaj_paliwa,
+                opis: offer.opis,
+                cena: offer.cena,
+                creator: offer.creator
+            }
+        }))
+    }
+
 }

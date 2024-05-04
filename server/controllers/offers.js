@@ -38,3 +38,14 @@ exports.getOffers = (req, res, next) => {
     );
 
 }
+
+exports.getOffer = (req, res, next) => {
+    const offerID = req.params.id;
+    Offer.findById(offerID).then(offer => {
+        if (offer) {
+            res.status(200).json(offer)
+        } else {
+            res.status(404).json('Offer not found!')
+        }
+    })
+}

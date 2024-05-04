@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer-list',
@@ -14,7 +15,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
   offers: Offer[] = []
   private offerSubs!: Subscription
 
-  constructor(private offerService: OfferService) {}
+  constructor(private offerService: OfferService, private router: Router) {}
 
 
   ngOnInit(): void {
@@ -32,6 +33,8 @@ export class OfferListComponent implements OnInit, OnDestroy{
     this.offerSubs.unsubscribe()
   }
 
-
+  showOffer(offerID: string) {
+    this.router.navigate(['/offer/' + offerID])
+  }
   
 }
