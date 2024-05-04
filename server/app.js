@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 
 const offerRoutes = require('./routes/offers')
+const userRoutes = require('./routes/users')
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(cors());
 
 app.use('/api/offers/', offerRoutes)
+app.use('/api/users/', userRoutes)
 
 module.exports = app;

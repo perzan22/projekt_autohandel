@@ -15,6 +15,18 @@
             <mat-error *ngIf="emailInput.invalid">Proszę wpisać poprawny e-mail</mat-error>
         </mat-form-field>
         <mat-form-field>
+            <input 
+            matInput 
+            type="text" 
+            name="nickname"
+            ngModel
+            placeholder="Nazwa konta"
+            #emailInput="ngModel"
+            required>
+            <mat-error *ngIf="emailInput.invalid">Proszę wpisać poprawną nazwę konta</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
             <input type="password"
              matInput 
              placeholder="Hasło"
