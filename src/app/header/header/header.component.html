@@ -21,7 +21,7 @@
                 <a routerLink="/" (click)="sidenav.close()">Autohandel Bojano</a>
             </h1>
             <ul>
-                <h1 *ngIf="isAuthenticated">Witaj, {{ nickname }}</h1>
+                <h1 *ngIf="isAuthenticated" id="show-nick">Witaj, {{ nickname }}</h1>
                 <li>
                     
                     <button mat-icon-button (click)="sidenav.toggle()">
