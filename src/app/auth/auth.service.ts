@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     private nickname: string = ''
     private authStatusListener = new Subject<{ isAuth: boolean }>;
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private cookies: CookieService) {}
 
     getToken() {
         return this.token;
@@ -43,6 +44,7 @@ export class AuthService {
                 this.userID = response.userID;
                 this.nickname = response.nickname;
                 this.authStatusListener.next({ isAuth: true });
+                this.setCookies();
                 this.router.navigate(['/']);
             }
         })
@@ -59,6 +61,7 @@ export class AuthService {
                     this.userID = response.userID;
                     this.nickname = response.nickname;
                     this.authStatusListener.next({ isAuth: true });
+                    this.setCookies();
                     this.router.navigate(['/']);
                 }
             }
@@ -71,6 +74,48 @@ export class AuthService {
         this.token = '';
         this.userID = '';
         this.nickname = '';
+        this.clearCookies();
+    }
+
+    private setCookies() {
+        this.cookies.set('SESSION_TOKEN', this.token, 1);
+        this.cookies.set('USER_ID', this.userID, 1);
+        this.cookies.set('USER_NICKNAME', this.nickname, 1);
+    }
+
+    private clearCookies() {
+        this.cookies.delete('SESSION_TOKEN');
+        this.cookies.delete('USER_ID');
+        this.cookies.delete('USER_NICKNAME');
+    }
+
+    private getCookiesData() {
+        const token = this.cookies.get('SESSION_TOKEN');
+        const userID = this.cookies.get('USER_ID');
+        const nickname = this.cookies.get('USER_NICKNAME');
+
+        if(!token) {
+            return;
+        }
+
+        return {
+            token: token,
+            userID: userID,
+            nickname: nickname
+        }
+    }
+
+    autoAuth() {
+        const authInfo = this.getCookiesData();
+        if (!authInfo) {
+            return;
+        }
+
+        this.token = authInfo.token;
+        this.userID = authInfo.userID;
+        this.nickname = authInfo.nickname;
+        this.isAuth = true;
+        this.authStatusListener.next({ isAuth: true });
     }
 
 }

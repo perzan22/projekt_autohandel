@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.sass'
 })
 export class AppComponent {
-  title = 'projekt_autohandel';
+  title = 'Autohandel Bojano';
+
+  constructor(private authService: AuthService) {}
+  
+  ngOnInit(): void {
+
+    this.authService.autoAuth();
+
+  }
 }
