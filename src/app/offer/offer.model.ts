@@ -10,4 +10,5 @@ export interface Offer {
     rodzaj_paliwa: string
     opis: string
     cena: number
+    creator: string
 }

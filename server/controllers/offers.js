@@ -13,7 +13,8 @@ exports.createOffer = (req, res, next) => {
         pojemnosc_silnika: +req.body.pojemnosc_silnika,
         rodzaj_paliwa: req.body.rodzaj_paliwa,
         opis: req.body.opis,
-        cena: +req.body.cena
+        cena: +req.body.cena,
+        creator: req.userData.userID
     })
 
     console.log(offer)

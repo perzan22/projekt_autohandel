@@ -47,7 +47,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -59,8 +59,8 @@ export class OfferService {
                         pojemnosc_silnika: offer.pojemnosc_silnika,
                         rodzaj_paliwa: offer.rodzaj_paliwa,
                         opis: offer.opis,
-                        cena: offer.cena
-
+                        cena: offer.cena,
+                        creator: offer.creator
                     }
                 })
             }
