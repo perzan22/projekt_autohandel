@@ -12,4 +12,6 @@ router.post('', multer().none(), checkAuth, OffersControllers.createOffer)
 
 router.get('/:id', OffersControllers.getOffer)
 
+router.delete('/:id', checkAuth, OffersControllers.deleteOffer)
+
 module.exports = router;

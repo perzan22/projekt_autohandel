@@ -35,8 +35,8 @@ export class OfferService {
                 console.log(createdOffer.message)
                 this.router.navigate(['/']) 
             },
-            error: () => {
-                console.log("Offer not created")
+            error: (error) => {
+                console.log(error.messasge)
             }
         })
     }
@@ -92,6 +92,10 @@ export class OfferService {
                 creator: offer.creator
             }
         }))
+    }
+
+    deleteOffer(offerID: string) {
+        return this.http.delete('http://localhost:3000/api/offers/' + offerID)
     }
 
 }

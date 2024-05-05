@@ -49,3 +49,13 @@ exports.getOffer = (req, res, next) => {
         }
     })
 }
+
+exports.deleteOffer = (req, res, next) => {
+    Offer.deleteOne({_id: req.params.id}).then(result => {
+        if (result.deletedCount > 0) {
+            res.status(200).json({ message: 'Deleted successfully' })
+        } else {
+            res.status(401).json({ message: 'Delete not successfully' })
+        }
+    })
+}
