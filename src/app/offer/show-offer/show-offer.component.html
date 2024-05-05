@@ -29,6 +29,7 @@
         </table>
         <h1>{{ offer.cena }} zł</h1>
         <mat-divider></mat-divider>
-        <button mat-raised-button type="button" color="warn" (click)="onDelete(offer.id)" *ngIf="userID === offer.creator">USUŃ OFERTĘ</button>  
+        <button mat-raised-button type="button" color="warn" (click)="onDelete(offer.id)" *ngIf="userID === offer.creator">USUŃ OFERTĘ</button>
+        <button mat-raised-button type="button" color="accent" [routerLink]="['/edit', offer.id]" *ngIf="userID === offer.creator">EDYTUJ OFERTĘ</button>  
     </mat-card-content>
 </mat-card>

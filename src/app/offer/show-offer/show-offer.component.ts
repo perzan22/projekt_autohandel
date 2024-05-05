@@ -45,6 +45,10 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     })
   }
 
+  onEdit(offerID: string) {
+      
+  }
+
   ngOnDestroy(): void {
     this.authStatusSubs.unsubscribe();
   }

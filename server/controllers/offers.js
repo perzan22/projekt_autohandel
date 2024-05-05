@@ -1,3 +1,4 @@
+const { model } = require('mongoose')
 const Offer = require('../models/offer')
 
 
@@ -58,4 +59,34 @@ exports.deleteOffer = (req, res, next) => {
             res.status(401).json({ message: 'Delete not successfully' })
         }
     })
+}
+
+exports.editOffer = (req, res, next) => {
+    const offer = new Offer({
+        _id: req.body.id,
+        nazwa: req.body.nazwa,
+        marka: req.body.marka,
+        model: req.body.model,
+        rok_produkcji: +req.body.rok_produkcji,
+        przebieg: +req.body.przebieg,
+        spalanie: +req.body.spalanie,
+        pojemnosc_silnika: +req.body.pojemnosc_silnika,
+        rodzaj_paliwa: req.body.rodzaj_paliwa,
+        opis: req.body.opis,
+        cena: +req.body.cena,
+        creator: req.userData.userID
+    });
+
+    Offer.updateOne({_id: req.body.id, creator: req.userData.userID}, offer).then(result => {
+        if (result.matchedCount > 0) {
+            res.status(200).json({ message: 'Offer updated successfully!' })
+        } else {
+            res.status(401).json({ message: 'Not authorized' })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: `Couldn't edit an offer`
+        })
+    });
 }

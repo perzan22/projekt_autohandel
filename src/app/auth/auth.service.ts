@@ -84,9 +84,7 @@ export class AuthService {
     }
 
     private clearCookies() {
-        this.cookies.delete('SESSION_TOKEN');
-        this.cookies.delete('USER_ID');
-        this.cookies.delete('USER_NICKNAME');
+        this.cookies.deleteAll('/')
     }
 
     private getCookiesData() {

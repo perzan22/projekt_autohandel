@@ -73,7 +73,7 @@ export class OfferService {
         })
     }
 
-    getOffer(offerID: string) {
+    getOffer(offerID: string | null) {
         return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
         spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string }>('http://localhost:3000/api/offers/' + offerID)
         .pipe(map(offer => {
@@ -96,6 +96,29 @@ export class OfferService {
 
     deleteOffer(offerID: string) {
         return this.http.delete('http://localhost:3000/api/offers/' + offerID)
+    }
+
+    editOffer(id: string | null, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number, spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number) {
+        const offerData = new FormData();
+        if (id !== null) {
+            offerData.append('id', id)
+            offerData.append('nazwa', nazwa)
+            offerData.append('marka', marka)
+            offerData.append('model', model)
+            offerData.append('rok_produkcji', rok_produkcji.toString())
+            offerData.append('przebieg', przebieg.toString())
+            offerData.append('spalanie', spalanie.toString())
+            offerData.append('pojemnosc_silnika', pojemnosc_silnika.toString())
+            offerData.append('rodzaj_paliwa', rodzaj_paliwa)
+            offerData.append('opis', opis)
+            offerData.append('cena', cena.toString())
+
+
+            this.http.put('http://localhost:3000/api/offers/' + id, offerData)
+            .subscribe(response => {
+                this.router.navigate(['/'])
+            })
+        }
     }
 
 }

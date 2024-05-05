@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-create-offer',
@@ -12,6 +13,8 @@ export class CreateOfferComponent implements OnInit{
 
   form!: FormGroup
   offer!: Offer
+  mode: string = 'create'
+  offerID: string | null = null
 
   rodzaj_paliw = [
     { value: 'Benzyna'},
@@ -21,7 +24,7 @@ export class CreateOfferComponent implements OnInit{
     { value: 'Hybrydowe'}
   ]
 
-  constructor(private offerService: OfferService) {}
+  constructor(private offerService: OfferService, public route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -53,7 +56,25 @@ export class CreateOfferComponent implements OnInit{
       "cena": new FormControl(null, {
         validators: [Validators.required]
       })
-    })
+    });
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('offerID')) {
+        this.mode = 'edit';
+        this.offerID = paramMap.get('offerID');
+        this.offerService.getOffer(this.offerID).subscribe(offerData => {
+          this.offer = {id: offerData.id, nazwa: offerData.nazwa, marka: offerData.marka,
+                          model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
+                          spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
+                          cena: offerData.cena, creator: offerData.creator};
+          this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
+            'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena
+          });
+        });
+      } else {
+        this.mode = 'create';
+        this.offerID = null;
+      }
+    });
   }
 
 
@@ -63,8 +84,14 @@ export class CreateOfferComponent implements OnInit{
       return
     }
 
-    this.offerService.addOffer(this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
-    this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
+    if (this.mode === 'create') {
+      this.offerService.addOffer(this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
+    } else {
+      this.offerService.editOffer(this.offerID, this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
+    }
+    
 
 
   }
