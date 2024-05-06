@@ -2,7 +2,16 @@
     <mat-sidenav mode="side" position="end" #sidenav [fixedInViewport]="true">
         <ul id="links">
             <li>
-                <a routerLink="/create" mat-button (click)="sidenav.close()">Create profile</a>
+                <a routerLink="/create" *ngIf="isAuthenticated" mat-button (click)="sidenav.close()">Nowa oferta</a>
+            </li>
+            <li>
+                <a routerLink="/signup" *ngIf="!isAuthenticated" mat-button (click)="sidenav.close()">Zarejestruj się</a>
+            </li>
+            <li>
+                <a routerLink="/login" *ngIf="!isAuthenticated" mat-button (click)="sidenav.close()">Zaloguj się</a>
+            </li>
+            <li>
+                <a *ngIf="isAuthenticated" routerLink="/" mat-button (click)="sidenav.close()" (click)="onLogout()">Logout</a>
             </li>
         </ul>
     </mat-sidenav>
@@ -12,7 +21,9 @@
                 <a routerLink="/" (click)="sidenav.close()">Autohandel Bojano</a>
             </h1>
             <ul>
+                <h1 *ngIf="isAuthenticated" id="show-nick">Witaj, {{ nickname }}</h1>
                 <li>
+                    
                     <button mat-icon-button (click)="sidenav.toggle()">
                         <mat-icon>menu</mat-icon>
                     </button>   

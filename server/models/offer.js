@@ -10,7 +10,8 @@ const offerSchema = mongoose.Schema({
     pojemnosc_silnika: { type: Number, required: true },
     rodzaj_paliwa: { type: String, required: true },
     opis: { type: String, required: false },
-    cena: { type: Number, required: true }
+    cena: { type: Number, required: true },
+    creator: { type: String, required: true }
 })
 
 module.exports = mongoose.model('Offer', offerSchema)

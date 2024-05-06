@@ -1,0 +1,58 @@
+<mat-card>
+    <mat-card-title>
+        <h1>Zarejestruj się</h1>
+    </mat-card-title>
+    <form #signupForm="ngForm" (submit)="onSignup(signupForm)">
+        <mat-form-field>
+            <input 
+            matInput 
+            type="email" 
+            name="email"
+            ngModel
+            placeholder="E-mail"
+            #emailInput="ngModel"
+            required email>
+            <mat-error *ngIf="emailInput.invalid">Proszę wpisać poprawny e-mail</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input 
+            matInput 
+            type="text" 
+            name="nickname"
+            ngModel
+            placeholder="Nazwa konta"
+            #emailInput="ngModel"
+            required>
+            <mat-error *ngIf="emailInput.invalid">Proszę wpisać poprawną nazwę konta</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="password"
+             matInput 
+             placeholder="Hasło"
+             name="password"
+             ngModel
+             #passwordInput="ngModel"
+             required>
+            <mat-error *ngIf="passwordInput.invalid">Proszę wpisać poprawne hasło</mat-error>
+            <mat-hint *ngIf="error.length > 0">{{ error }}</mat-hint>
+
+
+        </mat-form-field>
+        <mat-form-field>
+            <input type="password"
+             matInput 
+             placeholder="Powtórz hasło"
+             name="passwordCheck"
+             ngModel
+             #passwordCheckInput="ngModel"
+             ngValidateEqual="password"
+             required>
+            <mat-error *ngIf="passwordCheckInput.hasError('notEqual')">Błędnie powtórzone hasło</mat-error>
+            <mat-error *ngIf="passwordCheckInput.invalid && !passwordCheckInput.hasError('notEqual')">Proszę wpisać hasło</mat-error>
+            
+        </mat-form-field>
+        <button type="submit" mat-raised-button color='primary'>Zarejestruj</button>
+        <p><a routerLink="/login">Zaloguj się jeśli posiadasz konto na naszej stronie.</a></p>
+    </form>
+</mat-card>
