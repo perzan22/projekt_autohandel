@@ -53,7 +53,8 @@ exports.loginUser = (req, res, next) => {
             res.status(200).json({
                 token: token,
                 userID: fetchedUser._id,
-                nickname: fetchedUser.nickname
+                nickname: fetchedUser.nickname,
+                email: fetchedUser.email
             })
 
         })

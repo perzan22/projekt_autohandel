@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
+import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
 
 const routes: Routes = [
   { path: '', component: OfferListComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'offer/:offerID', component: ShowOfferComponent },
-  { path: 'edit/:offerID', component: CreateOfferComponent, canActivate: [AuthGuard] }
+  { path: 'edit/:offerID', component: CreateOfferComponent, canActivate: [AuthGuard] },
+  { path: 'profile/create', component: CreateProfileComponent, canActivate: [AuthGuard] }
 
 ];
 

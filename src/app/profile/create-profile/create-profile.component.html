@@ -1,1 +1,55 @@
-<p>create-profile works!</p>
+<mat-card>
+    <mat-card-title>
+        <h1>Załóż profil użytkownika</h1>
+    </mat-card-title>
+    <mat-card-content>
+        <h2>Twoje dane logowania:</h2>
+        <h4>E-mail: {{ email }}</h4>
+        <h4>Twój nick: {{ nickname }}</h4>
+        <form type="submit" [formGroup]="form">
+            <h2>Podaj dane personalne:</h2>
+            
+            <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                <mat-label>Imię</mat-label>
+                <input matInput type="text" formControlName="imie">
+            </mat-form-field>
+
+            <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                <mat-label>Nazwisko</mat-label>
+                <input matInput type="text" formControlName="nazwisko">
+            </mat-form-field>
+
+            <h2>Podaj dane kontaktowe:</h2>
+
+            <div id="adres">
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true" id="ulica">
+                    <mat-label>Ulica</mat-label>
+                    <input matInput type="text" formControlName="ulica">
+                </mat-form-field>
+    
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true"  class="ulica-numer">
+                    <mat-label>Nr budynku</mat-label>
+                    <input matInput type="number" formControlName="nrBudynku">
+                </mat-form-field>
+    
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true"  class="ulica-numer">
+                    <mat-label>Nr mieszkania</mat-label>
+                    <input matInput type="number" formControlName="nrMieszkania">
+                </mat-form-field>
+    
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true" id="miasto">
+                    <mat-label>Miasto</mat-label>
+                    <input matInput type="text" formControlName="miasto">
+                </mat-form-field>
+            </div>
+            
+
+            <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
+                <mat-label>Nr telefonu</mat-label>
+                <input matInput type="tel" formControlName="nrTelefonu">
+            </mat-form-field>
+            <button mat-raised-button color="accent" type="submit" [routerLink]="['/']">ZAŁÓŻ PROFIL</button>
+        </form>
+    </mat-card-content>
+    
+</mat-card>
