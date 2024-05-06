@@ -7,16 +7,19 @@ import { AuthService } from '../auth.service';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.sass'
 })
-export class SignupComponent {
+export class SignupComponent{
+
+  error: string = ''
 
   constructor(private authService: AuthService) {}
 
-
+  
   onSignup(form: NgForm) {
     if(form.invalid) {
       return
     }
     this.authService.createUser(form.value.email, form.value.password, form.value.nickname)
-
+    this.error = this.authService.getError()
   }
+
 }

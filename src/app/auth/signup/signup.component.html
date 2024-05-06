@@ -35,18 +35,22 @@
              #passwordInput="ngModel"
              required>
             <mat-error *ngIf="passwordInput.invalid">Proszę wpisać poprawne hasło</mat-error>
+            <mat-hint *ngIf="error.length > 0">{{ error }}</mat-hint>
+
 
         </mat-form-field>
         <mat-form-field>
             <input type="password"
              matInput 
              placeholder="Powtórz hasło"
-             name="password-check"
+             name="passwordCheck"
              ngModel
-             #passwordInput="ngModel"
+             #passwordCheckInput="ngModel"
+             ngValidateEqual="password"
              required>
-            <mat-error *ngIf="passwordInput.invalid">Proszę wpisać poprawne hasło</mat-error>
-
+            <mat-error *ngIf="passwordCheckInput.hasError('notEqual')">Błędnie powtórzone hasło</mat-error>
+            <mat-error *ngIf="passwordCheckInput.invalid && !passwordCheckInput.hasError('notEqual')">Proszę wpisać hasło</mat-error>
+            
         </mat-form-field>
         <button type="submit" mat-raised-button color='primary'>Zarejestruj</button>
         <p><a routerLink="/login">Zaloguj się jeśli posiadasz konto na naszej stronie.</a></p>

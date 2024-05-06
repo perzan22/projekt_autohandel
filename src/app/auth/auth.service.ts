@@ -13,6 +13,7 @@ export class AuthService {
     private isAuth: boolean = false;
     private nickname: string = ''
     private authStatusListener = new Subject<{ isAuth: boolean }>;
+    private errorMess: string = ''
 
     constructor(private http: HttpClient, private router: Router, private cookies: CookieService) {}
 
@@ -36,6 +37,10 @@ export class AuthService {
         return this.nickname;
     }
 
+    getError() {
+        return this.errorMess
+    }
+
     createUser(email: string, password: string, nickname: string) {
         const authData: AuthData = { email: email, password: password, nickname: nickname };
         this.http.post<{ token: string, userID: string, nickname: string }>('http://localhost:3000/api/users/signup', authData).subscribe({
@@ -46,6 +51,10 @@ export class AuthService {
                 this.authStatusListener.next({ isAuth: true });
                 this.setCookies();
                 this.router.navigate(['/']);
+            },
+            error: error => {
+                this.errorMess = error.error.message;
+                console.log(this.errorMess)
             }
         })
     }

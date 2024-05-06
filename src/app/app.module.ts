@@ -15,6 +15,8 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
+import { ValidateEqualModule } from 'ng-validate-equal';
+import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
     OfferListComponent,
     LoginComponent,
     SignupComponent,
-    ShowOfferComponent
+    ShowOfferComponent,
+    CreateProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
     AngularMaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ValidateEqualModule
   ],
   providers: [
     provideAnimationsAsync(),
