@@ -78,13 +78,16 @@ export class AuthService {
     }
 
     private setCookies() {
-        this.cookies.set('SESSION_TOKEN', this.token, 1);
-        this.cookies.set('USER_ID', this.userID, 1);
-        this.cookies.set('USER_NICKNAME', this.nickname, 1);
+        this.cookies.set('SESSION_TOKEN', this.token, 1, '/');
+        this.cookies.set('USER_ID', this.userID, 1, '/');
+        this.cookies.set('USER_NICKNAME', this.nickname, 1, '/');
     }
 
     private clearCookies() {
         this.cookies.deleteAll('/')
+        this.cookies.deleteAll('/offer')
+        this.cookies.deleteAll('/edit')
+
     }
 
     private getCookiesData() {
