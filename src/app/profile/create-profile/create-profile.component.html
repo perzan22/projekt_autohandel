@@ -6,7 +6,7 @@
         <h2>Twoje dane logowania:</h2>
         <h4>E-mail: {{ email }}</h4>
         <h4>Twój nick: {{ nickname }}</h4>
-        <form type="submit" [formGroup]="form">
+        <form [formGroup]="form" (submit)="onSubmit()">
             <h2>Podaj dane personalne:</h2>
             
             <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
