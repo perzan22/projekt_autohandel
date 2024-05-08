@@ -47,7 +47,6 @@ export class CreateProfileComponent implements OnInit{
 
     this.nickname = this.authService.getNickname()
     this.email = this.authService.getEmail()
-
   }
 
   onSubmit() {

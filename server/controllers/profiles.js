@@ -1,4 +1,5 @@
 const Profile = require('../models/profile')
+const User = require('../models/user')
 
 
 exports.createProfile = (req, res, next) => {
@@ -23,5 +24,20 @@ exports.createProfile = (req, res, next) => {
                 id: result._id
             }
         });
-    })
-}
+
+        User.updateOne({ _id: req.userData.userID }, { $set: {profileID: result._id} }).then(user => {
+
+            if (user.matchedCount > 0) {
+                console.log({ message: 'Offer updated successfully!' })
+            } else {
+                console.log({ message: 'Not authorized' })
+            }
+        })
+        .catch(error => {
+            console.log({
+                message: `Couldn't edit an offer`
+            })
+            
+        }
+    )}
+)}

@@ -54,7 +54,8 @@ exports.loginUser = (req, res, next) => {
                 token: token,
                 userID: fetchedUser._id,
                 nickname: fetchedUser.nickname,
-                email: fetchedUser.email
+                email: fetchedUser.email,
+                profileID: fetchedUser.profileID
             })
 
         })
