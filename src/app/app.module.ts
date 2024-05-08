@@ -17,6 +17,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
+import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CreateProfileComponent } from './profile/create-profile/create-profile.
     LoginComponent,
     SignupComponent,
     ShowOfferComponent,
-    CreateProfileComponent
+    CreateProfileComponent,
+    ShowProfileComponent
   ],
   imports: [
     BrowserModule,

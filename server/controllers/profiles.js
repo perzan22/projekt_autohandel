@@ -28,16 +28,27 @@ exports.createProfile = (req, res, next) => {
         User.updateOne({ _id: req.userData.userID }, { $set: {profileID: result._id} }).then(user => {
 
             if (user.matchedCount > 0) {
-                console.log({ message: 'Offer updated successfully!' })
+                console.log({ message: 'profile updated successfully!' })
             } else {
                 console.log({ message: 'Not authorized' })
             }
         })
         .catch(error => {
             console.log({
-                message: `Couldn't edit an offer`
+                message: `Couldn't edit an profile`
             })
             
         }
     )}
 )}
+
+exports.getProfile = (req, res, next) => {
+    const profileID = req.params.id;
+    Profile.findById(profileID).then(profile => {
+        if (profile) {
+            res.status(200).json(profile)
+        } else {
+            res.status(404).json('Profile not found!')
+        }
+    })
+}

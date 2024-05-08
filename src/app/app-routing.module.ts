@@ -8,6 +8,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { HasProfileGuard } from './auth/guards/hasProfile.guard'
 import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
 import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
+import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 
 const routes: Routes = [
   { path: '', component: OfferListComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'offer/:offerID', component: ShowOfferComponent },
   { path: 'edit/:offerID', component: CreateOfferComponent, canActivate: [AuthGuard] },
-  { path: 'profile/create', component: CreateProfileComponent, canActivate: [AuthGuard] }
+  { path: 'profile/create', component: CreateProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/edit/:profileID', component: ShowProfileComponent, canActivate: [AuthGuard, HasProfileGuard] }
 
 ];
 
