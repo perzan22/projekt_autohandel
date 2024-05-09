@@ -23,7 +23,5 @@ export class ShowProfileComponent implements OnInit{
       }
     })
   }
-
-
   
 }

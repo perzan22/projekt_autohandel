@@ -6,6 +6,7 @@
             <h2>Twoje dane logowania</h2>
             <h4>E-mail: {{ profile.email }}</h4>
             <h4>Nickname: {{ profile.nickname }}</h4>
+            <button type="button" mat-raised-button color="accent" [routerLink]="['/profile/edit/log-info', profile.userID]">EDYTUJ DANE LOGOWANIA</button>
         </section>
         <section>
             <h2>Twoje dane personalne i kontaktowe</h2>
@@ -13,6 +14,7 @@
             <h4>Nazwisko: {{ profile.nazwisko }}</h4>
             <h4>Adres zamieszkania:<br> ul. {{ profile.adres }}<br> {{ profile.adresMiasto }}</h4>
             <h4>Numer telefonu: {{ profile.nrTelefonu }}</h4>
+            <button type="button" mat-raised-button color="accent" [routerLink]="['/profile/edit/profile-info', profile.id]">EDYTUJ DANE PERSONALNE I KONTAKTOWE</button>
         </section>
     </mat-card-content>
     

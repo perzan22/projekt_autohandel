@@ -1,6 +1,7 @@
 import { Offer } from "../offer/offer.model";
 
 export interface Profile {
+    id: string
     email: string,
     nickname: string,
     imie: string,

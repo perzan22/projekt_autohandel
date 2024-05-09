@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
 export class SignupComponent{
 
   error: string = ''
+  mode: string = 'signup'
 
   constructor(private authService: AuthService) {}
 

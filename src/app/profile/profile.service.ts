@@ -33,7 +33,7 @@ export class ProfileService {
         })
     }
 
-    getProfile(profileID: string) {
+    getProfile(profileID: string | null) {
         return this.http.get<{ _id: string, email: string, nickname: string, imie: string, nazwisko: string, adres: string, miasto: string, nrTelefonu: string, userID: string }>
         ('http://localhost:3000/api/profiles/' + profileID).pipe(map(profile => {
             return {
@@ -49,5 +49,33 @@ export class ProfileService {
                 ulubione: []
             }
         }))
+    }
+
+    editProfile(profileID: string | null, imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string) {
+
+        let adres = '';
+
+        if (nrMieszkania) {
+            adres = ulica + ' ' + nrBudynku + '/' + nrMieszkania
+        } else {
+            adres = ulica + ' ' + nrBudynku
+        }
+
+        const profileData = new FormData();
+        if (profileID !== null) {
+            profileData.append('id', profileID)
+            profileData.append('imie', imie)
+            profileData.append('nazwisko', nazwisko)
+            profileData.append('adres', adres)
+            profileData.append('miasto', miasto)
+            profileData.append('nrTelefonu', nrTelefonu)
+
+            this.http.put('http://localhost:3000/api/profiles/' + profileID, profileData).subscribe(response => {
+            this.router.navigate(['/profile/show/' + profileID])
+            })
+        }
+        
+
+        
     }
 }

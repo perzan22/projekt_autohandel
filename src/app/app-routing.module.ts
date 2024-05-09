@@ -18,7 +18,9 @@ const routes: Routes = [
   { path: 'offer/:offerID', component: ShowOfferComponent },
   { path: 'edit/:offerID', component: CreateOfferComponent, canActivate: [AuthGuard] },
   { path: 'profile/create', component: CreateProfileComponent, canActivate: [AuthGuard] },
-  { path: 'profile/edit/:profileID', component: ShowProfileComponent, canActivate: [AuthGuard, HasProfileGuard] }
+  { path: 'profile/show/:profileID', component: ShowProfileComponent, canActivate: [AuthGuard, HasProfileGuard] },
+  { path: 'profile/edit/log-info/:userID', component: SignupComponent, canActivate: [AuthGuard] },
+  { path: 'profile/edit/profile-info/:profileID', component: CreateProfileComponent, canActivate: [AuthGuard, HasProfileGuard] }
 
 ];
 

@@ -8,7 +8,7 @@
                 <a *ngIf="isAuthenticated && profileID.length === 0" routerLink="/profile/create" mat-button (click)="sidenav.close()">Stwórz profil</a>
             </li>
             <li>
-                <a *ngIf="isAuthenticated && profileID.length > 0" [routerLink]="['/profile/edit', profileID]" mat-button (click)="sidenav.close()">Zobacz profil</a>
+                <a *ngIf="isAuthenticated && profileID.length > 0" [routerLink]="['/profile/show', profileID]" mat-button (click)="sidenav.close()">Zobacz profil</a>
             </li>
             <li>
                 <a routerLink="/signup" *ngIf="!isAuthenticated" mat-button (click)="sidenav.close()">Zarejestruj się</a>

@@ -10,5 +10,7 @@ router.post('', checkAuth, multer().none(), ProfilesControllers.createProfile)
 
 router.get('/:id', checkAuth, ProfilesControllers.getProfile)
 
+router.put('/:id', checkAuth, multer().none(), ProfilesControllers.editProfile)
+
 module.exports = router
 
