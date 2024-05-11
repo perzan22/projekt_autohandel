@@ -24,7 +24,7 @@ export class AuthService {
     }
 
     getUserId() {
-        return this.userID;
+        return this.userID.toString();
     }
 
     getAuthStatusListener() {
@@ -48,11 +48,11 @@ export class AuthService {
     }
 
     getProfileID() {
-        return this.profileID
+        return this.profileID.toString();
     }
 
     createUser(email: string, password: string, nickname: string) {
-        const authData: AuthData = { email: email, password: password, nickname: nickname, profileID: '' };
+        const authData: AuthData = { email: email, password: password, nickname: nickname };
         this.http.post<{ token: string, userID: string, nickname: string, email: string }>('http://localhost:3000/api/users/signup', authData).subscribe({
             next: response => {
                 this.isAuth = true;
@@ -153,5 +153,13 @@ export class AuthService {
         this.authStatusListener.next({ isAuth: true });
     }
 
+
+    changePassword(userID: string | null, oldPassword: string, newPassword: string) {
+        return this.http.put('http://localhost:3000/api/users/passChange/' + userID, [ oldPassword, newPassword]).subscribe({
+            next: response => {
+                this.router.navigate(['/'])
+            }
+        })
+    }
 
 }

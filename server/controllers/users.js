@@ -65,3 +65,37 @@ exports.loginUser = (req, res, next) => {
             })
         })
 }
+
+exports.changePassword = (req, res, next) => {
+    let fetchedUser;
+    const userID = req.params.id
+    User.findById(userID).then(user => {
+        if (user) {
+            fetchedUser = user
+            const oldPassword = user.password
+            return bcrypt.compare(req.body[0], oldPassword).then(result => {
+                if (!result) {
+                    return res.status(401).json({
+                        message: 'Not valid old password'
+                    })
+                }
+                const newPassword = req.body[1]
+                if (passValid.validate(newPassword)) {
+                    bcrypt.hash(newPassword, 10).then(hash => {
+                        fetchedUser.password = hash
+                        User.updateOne({_id: req.params.id}, fetchedUser).then(result => {
+                            if (result.matchedCount > 0) {
+                                res.status(200).json({ message: 'Password updated successfully!' })
+                            } else {
+                                res.status(401).json({ message: 'Not authorized' })
+                            }
+                        })
+                    })
+                } else {
+                    res.status(400).json({ message: 'Hasło nie spełnia polityki haseł.' })
+                }
+
+            })
+        }
+    })
+}

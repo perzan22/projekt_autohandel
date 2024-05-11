@@ -6,7 +6,7 @@
             <h2>Twoje dane logowania</h2>
             <h4>E-mail: {{ profile.email }}</h4>
             <h4>Nickname: {{ profile.nickname }}</h4>
-            <button type="button" mat-raised-button color="accent" [routerLink]="['/profile/edit/log-info', profile.userID]">EDYTUJ DANE LOGOWANIA</button>
+            <button type="button" mat-raised-button color="accent" [routerLink]="['/profile/edit/change-password', profile.userID]">ZMIEŃ HASŁO</button>
         </section>
         <section>
             <h2>Twoje dane personalne i kontaktowe</h2>

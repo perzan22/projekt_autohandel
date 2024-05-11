@@ -1,13 +1,17 @@
 <mat-card>
     <mat-card-title>
-        <h1>Załóż profil użytkownika</h1>
+        <h1 *ngIf="mode === 'create'">Załóż profil użytkownika</h1>
+        <h1 *ngIf="mode === 'edit'">Edytuj profil użytkownika</h1>
+
     </mat-card-title>
     <mat-card-content>
         <h2>Twoje dane logowania:</h2>
         <h4>E-mail: {{ email }}</h4>
         <h4>Twój nick: {{ nickname }}</h4>
         <form [formGroup]="form" (submit)="onSubmit()">
-            <h2>Podaj dane personalne:</h2>
+            <h2 *ngIf="mode === 'create'">Podaj dane personalne:</h2>
+            <h2 *ngIf="mode === 'edit'">Edytuj dane personalne:</h2>
+
             
             <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                 <mat-label>Imię</mat-label>
@@ -19,7 +23,9 @@
                 <input matInput type="text" formControlName="nazwisko">
             </mat-form-field>
 
-            <h2>Podaj dane kontaktowe:</h2>
+            <h2 *ngIf="mode === 'create'">Podaj dane kontaktowe:</h2>
+            <h2 *ngIf="mode === 'edit'">Edytuj dane kontaktowe:</h2>
+
 
             <div id="adres">
                 <mat-form-field floatLabel="auto" [hideRequiredMarker]="true" id="ulica">
@@ -48,7 +54,9 @@
                 <mat-label>Nr telefonu</mat-label>
                 <input matInput type="tel" formControlName="nrTelefonu">
             </mat-form-field>
-            <button type="submit" mat-raised-button color="accent">ZAŁÓŻ PROFIL</button>
+            <button type="submit" mat-raised-button color="accent" *ngIf="mode === 'create'">ZAŁÓŻ PROFIL</button>
+            <button type="submit" mat-raised-button color="accent" *ngIf="mode === 'edit'">ZATWIERDŹ ZMIANY</button>
+
         </form>
     </mat-card-content>
     

@@ -12,7 +12,7 @@ export class HeaderComponent {
 
   isAuthenticated: Boolean = false;
   nickname: string = '';
-  profileID: string = ''
+  profileID!: string
   private authSubs!: Subscription;
 
   constructor(private authService: AuthService) {}
@@ -30,9 +30,11 @@ export class HeaderComponent {
         if (this.isAuthenticated) {
           this.nickname = this.authService.getNickname();
           this.profileID = this.authService.getProfileID();
+          
         }
       }
     })
+    console.log(this.profileID)
   }
 
   ngOnDestroy(): void {
