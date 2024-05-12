@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ProfileService } from '../profile.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Profile } from '../profile.model';
+import { mimeType } from '../../validators/mime-type.validator';
 
 @Component({
   selector: 'app-create-profile',
@@ -47,7 +48,9 @@ export class CreateProfileComponent implements OnInit{
       'nrTelefonu': new FormControl(null, {
         validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
       }),
-      'image': new FormControl(null)
+      'image': new FormControl(null, {
+        asyncValidators: [mimeType]
+      })
 
       
 
@@ -103,13 +106,26 @@ export class CreateProfileComponent implements OnInit{
   }
 
   onImagePicked(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
+    const inputElement = event.target as HTMLInputElement | null;
+    if (!inputElement) {
+      return;
+    }
+    const file = inputElement.files?.[0];
+    if (!file) {
+      return;
+    }
+
     this.form.patchValue({image: file});
-    this.form.get('image').updateValueAndValidity();
+    if (!this.form) {
+      return
+    }
+    this.form.get('image')?.updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () => {
       this.imgURL = reader.result as string;
     };
     reader.readAsDataURL(file);
+
+    
   }
 }
