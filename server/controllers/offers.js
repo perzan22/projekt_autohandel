@@ -19,6 +19,7 @@ exports.createOffer = (req, res, next) => {
         cena: +req.body.cena,
         creator: req.userData.userID,
         imagePath: url + '/images/cars/' + imagePath,
+        date: Date.now()
     })
 
     console.log(offer)
@@ -84,7 +85,8 @@ exports.editOffer = (req, res, next) => {
         opis: req.body.opis,
         cena: +req.body.cena,
         creator: req.userData.userID,
-        imagePath: imagePath
+        imagePath: imagePath,
+        date: Date.now()
     });
 
     Offer.updateOne({_id: req.body.id, creator: req.userData.userID}, offer).then(result => {

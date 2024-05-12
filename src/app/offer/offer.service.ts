@@ -51,7 +51,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -65,7 +65,8 @@ export class OfferService {
                         opis: offer.opis,
                         cena: offer.cena,
                         creator: offer.creator,
-                        imagePath: offer.imagePath
+                        imagePath: offer.imagePath,
+                        date: offer.date
                     }
                 })
             }
@@ -80,7 +81,7 @@ export class OfferService {
 
     getOffer(offerID: string | null) {
         return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
-        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string }>('http://localhost:3000/api/offers/' + offerID)
+        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string, date: Date }>('http://localhost:3000/api/offers/' + offerID)
         .pipe(map(offer => {
             return {
                 id: offer._id,
@@ -95,7 +96,8 @@ export class OfferService {
                 opis: offer.opis,
                 cena: offer.cena,
                 creator: offer.creator,
-                imagePath: offer.imagePath
+                imagePath: offer.imagePath,
+                date: offer.date
             }
         }))
     }

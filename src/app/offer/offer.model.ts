@@ -12,4 +12,5 @@ export interface Offer {
     cena: number
     creator: string
     imagePath: string
+    date: Date
 }

@@ -11,6 +11,8 @@ router.post('', checkAuth, fileExtractor, ProfilesControllers.createProfile)
 
 router.get('/:id', checkAuth, ProfilesControllers.getProfile)
 
+router.get('/user/:id', checkAuth, ProfilesControllers.getProfileByUserID)
+
 router.put('/:id', checkAuth, fileExtractor, ProfilesControllers.editProfile)
 
 module.exports = router

@@ -12,8 +12,8 @@ const offerSchema = mongoose.Schema({
     opis: { type: String, required: false },
     cena: { type: Number, required: true },
     imagePath: { type: String, required: true },
-    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
-
+    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    date: { type: Date, required: true, default: Date.now() }
 })
 
 module.exports = mongoose.model('Offer', offerSchema)

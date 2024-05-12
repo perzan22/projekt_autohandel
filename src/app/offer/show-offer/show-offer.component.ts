@@ -4,6 +4,8 @@ import { OfferService } from '../offer.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { ProfileService } from '../../profile/profile.service';
+import { Profile } from '../../profile/profile.model';
 
 @Component({
   selector: 'app-show-offer',
@@ -16,25 +18,37 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   userID!: string
   isAuth: boolean = false
   authStatusSubs!: Subscription
+  profileID!: string
+  profile!: Profile
+  showPhone: boolean = false
 
-  constructor(private offerService: OfferService, private route: ActivatedRoute, private authService: AuthService, private router: Router) {}
+  constructor(private offerService: OfferService, private route: ActivatedRoute, private authService: AuthService, private router: Router, private profileService: ProfileService) {}
   
 
   ngOnInit(): void {
     this.offerService.getOffer(this.route.snapshot.params['offerID']).subscribe({
       next: offer => {
         this.offer = offer
+        this.profileService.getProfileByUserID(this.offer.creator).subscribe({
+          next: profileData => {
+            this.profile = profileData
+          }
+        })
       }
     })
 
     this.userID = this.authService.getUserId();
     this.isAuth = this.authService.getIsAuth();
+    this.profileID = this.authService.getProfileID();
     this.authStatusSubs = this.authService.getAuthStatusListener().subscribe({
       next: isAuthenticated => {
         this.isAuth = isAuthenticated.isAuth
         this.userID = this.authService.getUserId();
+        this.profileID = this.authService.getProfileID();
       }
     })
+    
+    
   }
 
   onDelete(offerID: string) {
@@ -45,11 +59,11 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     })
   }
 
-  onEdit(offerID: string) {
-      
-  }
-
   ngOnDestroy(): void {
     this.authStatusSubs.unsubscribe();
+  }
+
+  onShowPhone() {
+    this.showPhone = true;
   }
 }

@@ -94,3 +94,14 @@ exports.editProfile = (req, res, next) => {
         })
     });
 }
+
+exports.getProfileByUserID = (req, res, next) => {
+    const userID = req.params.id;
+    Profile.findOne({userID: userID}).then(profile => {
+        if (profile) {
+            res.status(200).json(profile)
+        } else {
+            res.status(404).json('Profile not found!')
+        }
+    })
+}

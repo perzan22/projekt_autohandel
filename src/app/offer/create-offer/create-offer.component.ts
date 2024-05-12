@@ -73,7 +73,7 @@ export class CreateOfferComponent implements OnInit{
           this.offer = {id: offerData.id, nazwa: offerData.nazwa, marka: offerData.marka,
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
-                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath};
+                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date};
           this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
             'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena
           });
