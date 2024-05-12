@@ -21,6 +21,8 @@ mongoose.connect('mongodb+srv://olafperzanowski:' + 'NwadPWZOOJdM4uMR' + '@clust
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use('/images/avatars', express.static(path.join('server/images/avatars')))
+app.use('/images/cars', express.static(path.join('server/images/cars')))
+
 
 app.use(cors());
 

@@ -44,3 +44,5 @@ Thumbs.db
 
 #Users images
 /server/images/avatars/*
+/server/images/cars/*
+
