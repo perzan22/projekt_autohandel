@@ -20,6 +20,7 @@ export class CreateProfileComponent implements OnInit{
   mode: string = 'create'
   profile!: Profile
   profileID!: string | null
+  imgURL!: string
   constructor(private authService: AuthService, private profileService: ProfileService, private route: ActivatedRoute) {}
 
 
@@ -45,7 +46,8 @@ export class CreateProfileComponent implements OnInit{
       }),
       'nrTelefonu': new FormControl(null, {
         validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
-      })
+      }),
+      'image': new FormControl(null)
 
       
 
@@ -98,5 +100,9 @@ export class CreateProfileComponent implements OnInit{
       this.profileService.editProfile(this.profileID, this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu)
     }
     
+  }
+
+  onImagePicked(event: Event) {
+
   }
 }

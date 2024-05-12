@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit{
         this.mode = 'edit';
         this.userID = paramMap.get('userID');
       } else {
-        this.mode = 'create';
+        this.mode = 'signup';
         this.userID = null;
       }
     });
