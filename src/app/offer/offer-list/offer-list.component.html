@@ -1,36 +1,20 @@
 <p *ngIf="offers.length <= 0" id="no-offers">No offers!</p>
 
-<mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)">
-    <mat-card-header>
-        <mat-card-title> {{ offer.nazwa }}</mat-card-title>
-        <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
-    </mat-card-header>
+<div class="card-container">
+    <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)">
+        <mat-card-header>
+            <div class="header-text">
+                <mat-card-title> {{ offer.nazwa }}</mat-card-title>
+                <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
+            </div>
+        </mat-card-header>
+        <img mat-card-image [src]="offer.imagePath" [alt]="offer.nazwa">
+        <mat-card-content>
+            <p>{{ offer.rok_produkcji }} - {{ offer.przebieg }} km - {{ offer.rodzaj_paliwa }} - {{ offer.pojemnosc_silnika }} cm³ - {{ offer.spalanie }} l/100km</p>
+            <h1>{{ offer.cena }} zł</h1>
+        </mat-card-content>
+        
+    </mat-card>
+</div>
 
-    <mat-card-content>
-        <p>
-            {{ offer.opis }}
-        </p>
-        <mat-divider></mat-divider>
-        <table>
-            <tr>
-                <th>Rok produkcji:</th>
-                <td>{{ offer.rok_produkcji }}</td>
-                <th>Przebieg:</th>
-                <td>{{ offer.przebieg }} km</td>
-            </tr>
-            <tr>
-                <th>Spalanie:</th>
-                <td>{{ offer.spalanie }} l/100km</td>
-                <th>Pojemność silnika:</th>
-                <td>{{ offer.pojemnosc_silnika }} cm³</td>
-            </tr>
-            <tr>
-                <th>Rodzaj paliwa:</th>
-                <td>{{ offer.rodzaj_paliwa }}</td>
-            </tr>
-        </table>
-        <h1>{{ offer.cena }} zł</h1>
-    </mat-card-content>
-    
-</mat-card>
 

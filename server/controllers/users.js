@@ -21,7 +21,8 @@ exports.createUser = (req, res, next) => {
                     message: 'User created',
                     token: token,
                     userID: createdUser._id,
-                    nickname: createdUser.nickname
+                    nickname: createdUser.nickname,
+                    email: createdUser.email
                 })
             })
         })

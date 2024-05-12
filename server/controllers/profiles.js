@@ -3,6 +3,13 @@ const User = require('../models/user')
 
 
 exports.createProfile = (req, res, next) => {
+    const url = req.protocol + '://' + req.get('host');
+    let avatarPath;
+    if (req.file) {
+        avatarPath = req.file.filename
+    } else {
+        avatarPath = 'default_avatar.jpg'
+    }
 
     const profile = new Profile({
         imie: req.body.imie,
@@ -12,7 +19,8 @@ exports.createProfile = (req, res, next) => {
         nrTelefonu: req.body.nrTelefonu,
         userID: req.userData.userID,
         email: req.userData.email,
-        nickname: req.userData.nickname
+        nickname: req.userData.nickname,
+        avatarPath: url + '/images/avatars/' + avatarPath,
     })
 
     console.log(profile)
@@ -24,11 +32,11 @@ exports.createProfile = (req, res, next) => {
                 id: result._id
             }
         });
-
+        console.log(req.userData.userID)
         User.updateOne({ _id: req.userData.userID }, { $set: {profileID: result._id} }).then(user => {
 
             if (user.matchedCount > 0) {
-                console.log({ message: 'profile updated successfully!' })
+                console.log({ message: 'User updated successfully!' })
             } else {
                 console.log({ message: 'Not authorized' })
             }
@@ -54,6 +62,11 @@ exports.getProfile = (req, res, next) => {
 }
 
 exports.editProfile = (req, res, next) => {
+    let avatarPath = req.body.avatarPath;
+    if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        avatarPath = url + '/images/avatars/' + req.file.filename;
+    }
 
     const profile = new Profile({
         _id: req.body.id,
@@ -64,7 +77,8 @@ exports.editProfile = (req, res, next) => {
         nrTelefonu: req.body.nrTelefonu,
         userID: req.userData.userID,
         email: req.userData.email,
-        nickname: req.userData.nickname
+        nickname: req.userData.nickname,
+        avatarPath: avatarPath
     })
 
     Profile.updateOne({_id: req.body.id, userID: req.userData.userID}, profile).then(result => {
@@ -79,4 +93,15 @@ exports.editProfile = (req, res, next) => {
             message: `Couldn't edit an profile`
         })
     });
+}
+
+exports.getProfileByUserID = (req, res, next) => {
+    const userID = req.params.id;
+    Profile.findOne({userID: userID}).then(profile => {
+        if (profile) {
+            res.status(200).json(profile)
+        } else {
+            res.status(404).json('Profile not found!')
+        }
+    })
 }

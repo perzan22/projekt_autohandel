@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ProfileService } from '../profile.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Profile } from '../profile.model';
+import { mimeType } from '../../validators/mime-type.validator';
 
 @Component({
   selector: 'app-create-profile',
@@ -20,6 +21,7 @@ export class CreateProfileComponent implements OnInit{
   mode: string = 'create'
   profile!: Profile
   profileID!: string | null
+  imgURL!: string
   constructor(private authService: AuthService, private profileService: ProfileService, private route: ActivatedRoute) {}
 
 
@@ -45,6 +47,9 @@ export class CreateProfileComponent implements OnInit{
       }),
       'nrTelefonu': new FormControl(null, {
         validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
+      }),
+      'image': new FormControl(null, {
+        asyncValidators: [mimeType]
       })
 
       
@@ -58,25 +63,31 @@ export class CreateProfileComponent implements OnInit{
         this.profileService.getProfile(this.profileID).subscribe(profileData => {
           this.profile = {id: profileData.id, imie: profileData.imie, nazwisko: profileData.nazwisko,
                           adres: profileData.adres, adresMiasto: profileData.adresMiasto, nrTelefonu: profileData.nrTelefonu, 
-                          userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, 
+                          userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, avatarPath: profileData.avatarPath
                         };
+          
+          console.log(this.profile.avatarPath) 
+          if (this.profile.avatarPath) {
+            this.onImagePickedFromPath(this.profile.avatarPath);
+          }             
           const adres = this.profile.adres.split(' ');
           const ulica = adres[0];
           const numery = adres[1].split('/');
-          console.log(numery)
           if (numery.length > 1) {
             const nrBudynku = numery[0];
             const nrMieszkania = numery[1];
             this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
-            'nrBudynku': nrBudynku, 'nrMieszkania': nrMieszkania
+            'nrBudynku': nrBudynku, 'nrMieszkania': nrMieszkania, 'image': this.profile.avatarPath
           });
           } else {
             const nrBudynku = numery[0];
             this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
-            'nrBudynku': nrBudynku, 'nrMieszkania': null
+            'nrBudynku': nrBudynku, 'nrMieszkania': null, 'image': this.profile.avatarPath
           })
           
         }});
+        
+        
       } else {
         this.mode = 'create';
         this.profileID = null;
@@ -93,10 +104,42 @@ export class CreateProfileComponent implements OnInit{
     }
 
     if (this.mode === 'create') {
-      this.profileService.createProfile(this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu)
+      this.profileService.createProfile(this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu, this.form.value.image)
     } else {
-      this.profileService.editProfile(this.profileID, this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu)
+      this.profileService.editProfile(this.profileID, this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu, this.form.value.image)
     }
     
   }
+
+  onImagePicked(event: Event) {
+    console.log(event.target as HTMLInputElement)
+    const inputElement = event.target as HTMLInputElement | null;
+    if (!inputElement) {
+      return;
+    }
+    const file = inputElement.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    this.form.patchValue({image: file});
+    if (!this.form) {
+      return
+    }
+    this.form.get('image')?.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imgURL = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+    console.log(this.form.value.image);
+
+    
+  }
+
+  onImagePickedFromPath(avatar: string) {
+    this.imgURL = avatar;
+    console.log(this.imgURL)
+  }
+
 }

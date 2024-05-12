@@ -51,6 +51,12 @@ export class AuthService {
         return this.profileID.toString();
     }
 
+    setProfileID(profileID: string) {
+        this.profileID = profileID;
+        this.clearCookies();
+        this.setCookies();
+    }
+
     createUser(email: string, password: string, nickname: string) {
         const authData: AuthData = { email: email, password: password, nickname: nickname };
         this.http.post<{ token: string, userID: string, nickname: string, email: string }>('http://localhost:3000/api/users/signup', authData).subscribe({
@@ -58,7 +64,8 @@ export class AuthService {
                 this.isAuth = true;
                 this.userID = response.userID;
                 this.nickname = response.nickname;
-                this.email = response.email
+                this.email = response.email;
+                this.token = response.token;
                 this.authStatusListener.next({ isAuth: true });
                 this.setCookies();
                 this.router.navigate(['/profile/create']);

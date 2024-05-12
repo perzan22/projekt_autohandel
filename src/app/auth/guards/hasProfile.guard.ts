@@ -11,8 +11,6 @@ export class HasProfileGuard implements CanActivate {
         state: RouterStateSnapshot
         ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         const hasProfile = this.authService.getProfileID().length > 0;
-        console.log(hasProfile)
-        console.log(this.authService.getProfileID().length)
         if (!hasProfile) {
             this.router.navigate(['/profile/create']);
         }
