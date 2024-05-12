@@ -5,6 +5,12 @@
                 <a routerLink="/create" *ngIf="isAuthenticated" mat-button (click)="sidenav.close()">Nowa oferta</a>
             </li>
             <li>
+                <a *ngIf="isAuthenticated && !profileID" routerLink="/profile/create" mat-button (click)="sidenav.close()">Stwórz profil</a>
+            </li>
+            <li>
+                <a *ngIf="isAuthenticated && profileID" [routerLink]="['/profile/show', profileID]" mat-button (click)="sidenav.close()">Zobacz profil</a>
+            </li>
+            <li>
                 <a routerLink="/signup" *ngIf="!isAuthenticated" mat-button (click)="sidenav.close()">Zarejestruj się</a>
             </li>
             <li>
@@ -13,6 +19,7 @@
             <li>
                 <a *ngIf="isAuthenticated" routerLink="/" mat-button (click)="sidenav.close()" (click)="onLogout()">Logout</a>
             </li>
+            
         </ul>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -24,7 +31,7 @@
                 <h1 *ngIf="isAuthenticated" id="show-nick">Witaj, {{ nickname }}</h1>
                 <li>
                     
-                    <button mat-icon-button (click)="sidenav.toggle()">
+                    <button mat-icon-button (click)="sidenav.toggle()" (click)="ngOnInit()">
                         <mat-icon>menu</mat-icon>
                     </button>   
                 </li>

@@ -1,5 +1,7 @@
 <mat-card>
-    <h1>Wypełnij formularz oferty</h1>
+    <h1 *ngIf="mode === 'create'">Wypełnij formularz oferty</h1>
+    <h1 *ngIf="mode === 'edit'">Edytuj ofertę</h1>
+
     <mat-divider></mat-divider>
     <form [formGroup]="form" (submit)="onPublishOffer()">
         <h3>Tytuł ogłoszenia</h3>
@@ -10,7 +12,9 @@
         <div id="divider">
             <section id="car-info" class="form-div">
 
-                <h3>Podaj podstawowe informacje o swoim aucie</h3>
+                <h3 *ngIf="mode === 'create'">Podaj podstawowe informacje o swoim aucie</h3>
+                <h3 *ngIf="mode === 'edit'">Edytuj podstawowe informacje o swoim aucie</h3>
+
                 <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                     <mat-label>Marka samochodu</mat-label>
                     <input matInput type="text" formControlName="marka">
@@ -52,7 +56,9 @@
             </section>
             <section id="right-section">
                 <div id="description" class="form-div">
-                    <h3>Poniższy opis powinien w jak największym stopniu zachęcić kupca do skorzystania z oferty</h3>
+                    <h3 *ngIf="mode === 'create'">Poniższy opis powinien w jak największym stopniu zachęcić kupca do skorzystania z oferty</h3>
+                    <h3 *ngIf="mode === 'edit'">Edytuj opis oferty</h3>
+
                     <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                         <mat-label>Opis (opcjonalne)</mat-label>
                         <textarea matInput formControlName="opis"></textarea>
@@ -60,7 +66,9 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div id="price" class="form-div">
-                    <h3>Proszę podać cenę </h3>
+                    <h3 *ngIf="mode === 'create'">Proszę podać cenę</h3>
+                    <h3 *ngIf="mode === 'edit'">Edytuj cenę</h3>
+
                     <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                         <mat-label>Cena</mat-label>
                         <input matInput type="number" formControlName="cena">
@@ -68,6 +76,8 @@
                 </div>
             </section>
         </div>
-        <button type="submit" mat-raised-button color="primary">OPUBLIKUJ OFERTĘ</button>
+        <button type="submit" mat-raised-button color="primary" *ngIf="mode === 'create'">OPUBLIKUJ OFERTĘ</button>
+        <button type="submit" mat-raised-button color="accent" *ngIf="mode === 'edit'">ZATWIERDŹ ZMIANY</button>
+
     </form>
 </mat-card>

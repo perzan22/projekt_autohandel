@@ -1,4 +1,3 @@
-const { model } = require('mongoose')
 const Offer = require('../models/offer')
 
 

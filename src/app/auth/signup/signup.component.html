@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="mode === 'signup'">
     <mat-card-title>
         <h1>Zarejestruj się</h1>
     </mat-card-title>
@@ -54,5 +54,52 @@
         </mat-form-field>
         <button type="submit" mat-raised-button color='primary'>Zarejestruj</button>
         <p><a routerLink="/login">Zaloguj się jeśli posiadasz konto na naszej stronie.</a></p>
+    </form>
+</mat-card>
+
+<mat-card *ngIf="mode === 'edit'">
+    <mat-card-title>
+        <h1>Zmień hasło</h1>
+    </mat-card-title>
+    <form #signupForm="ngForm" (submit)="onPasswordChange(signupForm)">
+        <mat-form-field>
+            <input 
+            matInput 
+            type="password" 
+            name="oldPassword"
+            ngModel
+            placeholder="Stare hasło"
+            #oldPasswordInput="ngModel"
+            required>
+            <mat-error *ngIf="oldPasswordInput.invalid">Proszę wpisać poprawne stare hasło</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="password"
+             matInput 
+             placeholder="Nowe hasło"
+             name="password"
+             ngModel
+             #passwordInput="ngModel"
+             required>
+            <mat-error *ngIf="passwordInput.invalid">Proszę wpisać poprawne nowe hasło</mat-error>
+            <mat-hint *ngIf="error.length > 0">{{ error }}</mat-hint>
+
+
+        </mat-form-field>
+        <mat-form-field>
+            <input type="password"
+             matInput 
+             placeholder="Powtórz nowe hasło"
+             name="passwordCheck"
+             ngModel
+             #passwordCheckInput="ngModel"
+             ngValidateEqual="password"
+             required>
+            <mat-error *ngIf="passwordCheckInput.hasError('notEqual')">Błędnie powtórzone nowe hasło</mat-error>
+            <mat-error *ngIf="passwordCheckInput.invalid && !passwordCheckInput.hasError('notEqual')">Proszę wpisać nowe hasło</mat-error>
+            
+        </mat-form-field>
+        <button type="submit" mat-raised-button color='primary'>Zmień hasło</button>
     </form>
 </mat-card>
