@@ -63,12 +63,20 @@ export class CreateProfileComponent implements OnInit{
           const adres = this.profile.adres.split(' ');
           const ulica = adres[0];
           const numery = adres[1].split('/');
-          const nrBudynku = numery[0];
-          const nrMieszkania = numery[1];
-          this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
+          console.log(numery)
+          if (numery.length > 1) {
+            const nrBudynku = numery[0];
+            const nrMieszkania = numery[1];
+            this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
             'nrBudynku': nrBudynku, 'nrMieszkania': nrMieszkania
           });
-        });
+          } else {
+            const nrBudynku = numery[0];
+            this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
+            'nrBudynku': nrBudynku, 'nrMieszkania': null
+          })
+          
+        }});
       } else {
         this.mode = 'create';
         this.profileID = null;
