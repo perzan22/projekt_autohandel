@@ -3,6 +3,13 @@ const User = require('../models/user')
 
 
 exports.createProfile = (req, res, next) => {
+    const url = req.protocol + '://' + req.get('host');
+    let avatarPath;
+    if (req.file) {
+        avatarPath = req.file.name
+    } else {
+        avatarPath = 'default_avatar.jpg'
+    }
 
     const profile = new Profile({
         imie: req.body.imie,
@@ -12,7 +19,8 @@ exports.createProfile = (req, res, next) => {
         nrTelefonu: req.body.nrTelefonu,
         userID: req.userData.userID,
         email: req.userData.email,
-        nickname: req.userData.nickname
+        nickname: req.userData.nickname,
+        avatarPath: url + '/images/avatars/' + req.file.filename,
     })
 
     console.log(profile)
@@ -28,7 +36,7 @@ exports.createProfile = (req, res, next) => {
         User.updateOne({ _id: req.userData.userID }, { $set: {profileID: result._id} }).then(user => {
 
             if (user.matchedCount > 0) {
-                console.log({ message: 'profile updated successfully!' })
+                console.log({ message: 'User updated successfully!' })
             } else {
                 console.log({ message: 'Not authorized' })
             }
@@ -54,6 +62,11 @@ exports.getProfile = (req, res, next) => {
 }
 
 exports.editProfile = (req, res, next) => {
+    let avatarPath = req.body.avatarPath;
+    if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        avatarPath = url + '/images/avatars/' + req.file.filename;
+    }
 
     const profile = new Profile({
         _id: req.body.id,
@@ -64,7 +77,8 @@ exports.editProfile = (req, res, next) => {
         nrTelefonu: req.body.nrTelefonu,
         userID: req.userData.userID,
         email: req.userData.email,
-        nickname: req.userData.nickname
+        nickname: req.userData.nickname,
+        avatarPath: avatarPath
     })
 
     Profile.updateOne({_id: req.body.id, userID: req.userData.userID}, profile).then(result => {

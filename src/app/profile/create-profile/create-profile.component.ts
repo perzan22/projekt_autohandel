@@ -63,7 +63,7 @@ export class CreateProfileComponent implements OnInit{
         this.profileService.getProfile(this.profileID).subscribe(profileData => {
           this.profile = {id: profileData.id, imie: profileData.imie, nazwisko: profileData.nazwisko,
                           adres: profileData.adres, adresMiasto: profileData.adresMiasto, nrTelefonu: profileData.nrTelefonu, 
-                          userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, 
+                          userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, avatarPath: profileData.avatarPath
                         };
           const adres = this.profile.adres.split(' ');
           const ulica = adres[0];
@@ -98,7 +98,7 @@ export class CreateProfileComponent implements OnInit{
     }
 
     if (this.mode === 'create') {
-      this.profileService.createProfile(this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu)
+      this.profileService.createProfile(this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu, this.form.value.image)
     } else {
       this.profileService.editProfile(this.profileID, this.form.value.imie, this.form.value.nazwisko, this.form.value.ulica, this.form.value.nrBudynku, this.form.value.nrMieszkania, this.form.value.miasto, this.form.value.nrTelefonu)
     }
@@ -125,6 +125,7 @@ export class CreateProfileComponent implements OnInit{
       this.imgURL = reader.result as string;
     };
     reader.readAsDataURL(file);
+    console.log(this.form.value.image);
 
     
   }

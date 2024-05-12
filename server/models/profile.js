@@ -9,6 +9,7 @@ const profileSchema = mongoose.Schema({
     adres: { type: String, required: true },
     miasto: { type: String, required: true },
     nrTelefonu: { type: String, required: true },
+    avatarPath: { type: String, required: true },
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true }
 
 })

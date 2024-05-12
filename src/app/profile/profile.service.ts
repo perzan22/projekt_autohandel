@@ -9,7 +9,7 @@ export class ProfileService {
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    createProfile(imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string) {
+    createProfile(imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string, avatar: File | null) {
 
         let adres = '';
 
@@ -25,7 +25,9 @@ export class ProfileService {
         profileData.append('adres', adres)
         profileData.append('miasto', miasto)
         profileData.append('nrTelefonu', nrTelefonu)
-    
+        if (avatar) {
+            profileData.append('avatar', avatar, imie + nazwisko)
+        }
         this.http.post('http://localhost:3000/api/profiles', profileData).subscribe({
             next: () => {
                 this.router.navigate(['/']) 
@@ -34,7 +36,7 @@ export class ProfileService {
     }
 
     getProfile(profileID: string | null) {
-        return this.http.get<{ _id: string, email: string, nickname: string, imie: string, nazwisko: string, adres: string, miasto: string, nrTelefonu: string, userID: string }>
+        return this.http.get<{ _id: string, email: string, nickname: string, imie: string, nazwisko: string, adres: string, miasto: string, nrTelefonu: string, userID: string, avatarPath: string }>
         ('http://localhost:3000/api/profiles/' + profileID).pipe(map(profile => {
             return {
                 id: profile._id,
@@ -46,7 +48,8 @@ export class ProfileService {
                 adresMiasto: profile.miasto,
                 nrTelefonu: profile.nrTelefonu,
                 userID: profile.userID,
-                ulubione: []
+                ulubione: [],
+                avatarPath: profile.avatarPath
             }
         }))
     }

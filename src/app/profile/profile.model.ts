@@ -10,5 +10,6 @@ export interface Profile {
     adresMiasto: string,
     nrTelefonu: string,
     userID: string,
-    ulubione: Offer[]
+    ulubione: Offer[],
+    avatarPath: string
 }
