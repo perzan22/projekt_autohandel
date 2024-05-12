@@ -6,7 +6,7 @@ exports.createProfile = (req, res, next) => {
     const url = req.protocol + '://' + req.get('host');
     let avatarPath;
     if (req.file) {
-        avatarPath = req.file.name
+        avatarPath = req.file.filename
     } else {
         avatarPath = 'default_avatar.jpg'
     }

@@ -1,5 +1,6 @@
 const express = require('express')
 const multer = require('multer')
+const fileExtractor = require('../middlewares/car')
 
 const router = express.Router()
 
@@ -8,12 +9,12 @@ const checkAuth = require('../middlewares/check-auth');
 
 router.get('', OffersControllers.getOffers);
 
-router.post('', multer().none(), checkAuth, OffersControllers.createOffer)
+router.post('', fileExtractor, checkAuth, OffersControllers.createOffer)
 
 router.get('/:id', OffersControllers.getOffer)
 
 router.delete('/:id', checkAuth, OffersControllers.deleteOffer)
 
-router.put('/:id', multer().none(), checkAuth, OffersControllers.editOffer)
+router.put('/:id', fileExtractor, checkAuth, OffersControllers.editOffer)
 
 module.exports = router;

@@ -3,12 +3,13 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Profile } from "./profile.model";
 import { map } from "rxjs";
+import { AuthService } from "../auth/auth.service";
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
 
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
     createProfile(imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string, avatar: File | null) {
 
@@ -29,8 +30,10 @@ export class ProfileService {
         if (avatar) {
             profileData.append('avatar', avatar, imie + nazwisko)
         }
-        this.http.post('http://localhost:3000/api/profiles', profileData).subscribe({
-            next: () => {
+        this.http.post<{ message: string, profile: Profile }>('http://localhost:3000/api/profiles', profileData).subscribe({
+            next: createdProfile => {
+                console.log(createdProfile)
+                this.authService.setProfileID(createdProfile.profile.id)
                 this.router.navigate(['/']) 
             }
         })

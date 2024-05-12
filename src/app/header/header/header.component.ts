@@ -48,7 +48,7 @@ export class HeaderComponent {
         }
       }
     })
-    console.log(this.avatar)
+    console.log(this.profileID)
   }
 
   ngOnDestroy(): void {

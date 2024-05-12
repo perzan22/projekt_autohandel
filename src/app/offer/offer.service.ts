@@ -16,7 +16,7 @@ export class OfferService {
         return this.offersSubs.asObservable();
     }
 
-    addOffer(nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number, spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number) {
+    addOffer(nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number, spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, image: File | null) {
         
         const offerData = new FormData();
         offerData.append('nazwa', nazwa)
@@ -29,6 +29,10 @@ export class OfferService {
         offerData.append('rodzaj_paliwa', rodzaj_paliwa)
         offerData.append('opis', opis)
         offerData.append('cena', cena.toString())
+
+        if (image) {
+            offerData.append('image', image, nazwa)
+        }
 
         this.http.post<{message: string, offer: Offer}>('http://localhost:3000/api/offers', offerData).subscribe({
             next: (createdOffer) => {
@@ -47,7 +51,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -60,7 +64,8 @@ export class OfferService {
                         rodzaj_paliwa: offer.rodzaj_paliwa,
                         opis: offer.opis,
                         cena: offer.cena,
-                        creator: offer.creator
+                        creator: offer.creator,
+                        imagePath: offer.imagePath
                     }
                 })
             }
@@ -75,7 +80,7 @@ export class OfferService {
 
     getOffer(offerID: string | null) {
         return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
-        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string }>('http://localhost:3000/api/offers/' + offerID)
+        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string }>('http://localhost:3000/api/offers/' + offerID)
         .pipe(map(offer => {
             return {
                 id: offer._id,
@@ -89,7 +94,8 @@ export class OfferService {
                 rodzaj_paliwa: offer.rodzaj_paliwa,
                 opis: offer.opis,
                 cena: offer.cena,
-                creator: offer.creator
+                creator: offer.creator,
+                imagePath: offer.imagePath
             }
         }))
     }

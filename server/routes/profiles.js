@@ -1,6 +1,6 @@
 const express = require('express')
 const multer = require('multer')
-const fileExtractor = require('../middlewares/file')
+const fileExtractor = require('../middlewares/avatar')
 
 const router = express.Router()
 

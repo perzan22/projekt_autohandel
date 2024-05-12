@@ -51,6 +51,12 @@ export class AuthService {
         return this.profileID.toString();
     }
 
+    setProfileID(profileID: string) {
+        this.profileID = profileID;
+        this.clearCookies();
+        this.setCookies();
+    }
+
     createUser(email: string, password: string, nickname: string) {
         const authData: AuthData = { email: email, password: password, nickname: nickname };
         this.http.post<{ token: string, userID: string, nickname: string, email: string }>('http://localhost:3000/api/users/signup', authData).subscribe({

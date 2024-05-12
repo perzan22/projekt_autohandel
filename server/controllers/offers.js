@@ -2,6 +2,9 @@ const Offer = require('../models/offer')
 
 
 exports.createOffer = (req, res, next) => {
+    const url = req.protocol + '://' + req.get('host');
+
+    let imagePath = req.file.filename
     
     const offer = new Offer({
         nazwa: req.body.nazwa,
@@ -14,7 +17,8 @@ exports.createOffer = (req, res, next) => {
         rodzaj_paliwa: req.body.rodzaj_paliwa,
         opis: req.body.opis,
         cena: +req.body.cena,
-        creator: req.userData.userID
+        creator: req.userData.userID,
+        imagePath: url + '/images/cars/' + imagePath,
     })
 
     console.log(offer)
@@ -61,6 +65,12 @@ exports.deleteOffer = (req, res, next) => {
 }
 
 exports.editOffer = (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/cars/' + req.file.filename;
+    }
+
     const offer = new Offer({
         _id: req.body.id,
         nazwa: req.body.nazwa,
@@ -73,7 +83,8 @@ exports.editOffer = (req, res, next) => {
         rodzaj_paliwa: req.body.rodzaj_paliwa,
         opis: req.body.opis,
         cena: +req.body.cena,
-        creator: req.userData.userID
+        creator: req.userData.userID,
+        imagePath: imagePath
     });
 
     Offer.updateOne({_id: req.body.id, creator: req.userData.userID}, offer).then(result => {

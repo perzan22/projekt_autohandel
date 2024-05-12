@@ -65,24 +65,29 @@ export class CreateProfileComponent implements OnInit{
                           adres: profileData.adres, adresMiasto: profileData.adresMiasto, nrTelefonu: profileData.nrTelefonu, 
                           userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, avatarPath: profileData.avatarPath
                         };
-                        
+          
+          console.log(this.profile.avatarPath) 
+          if (this.profile.avatarPath) {
+            this.onImagePickedFromPath(this.profile.avatarPath);
+          }             
           const adres = this.profile.adres.split(' ');
           const ulica = adres[0];
           const numery = adres[1].split('/');
-          console.log(numery)
           if (numery.length > 1) {
             const nrBudynku = numery[0];
             const nrMieszkania = numery[1];
             this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
-            'nrBudynku': nrBudynku, 'nrMieszkania': nrMieszkania, 'image': this.convertImagePathToFile(this.profile.avatarPath)
+            'nrBudynku': nrBudynku, 'nrMieszkania': nrMieszkania, 'image': this.profile.avatarPath
           });
           } else {
             const nrBudynku = numery[0];
             this.form.setValue({'imie': this.profile.imie, 'nazwisko': this.profile.nazwisko, 'ulica': ulica, 'miasto': this.profile.adresMiasto, 'nrTelefonu': this.profile.nrTelefonu,
-            'nrBudynku': nrBudynku, 'nrMieszkania': null, 'image': this.convertImagePathToFile(this.profile.avatarPath)
+            'nrBudynku': nrBudynku, 'nrMieszkania': null, 'image': this.profile.avatarPath
           })
-          console.log(this.form.value.image)
+          
         }});
+        
+        
       } else {
         this.mode = 'create';
         this.profileID = null;
@@ -107,6 +112,7 @@ export class CreateProfileComponent implements OnInit{
   }
 
   onImagePicked(event: Event) {
+    console.log(event.target as HTMLInputElement)
     const inputElement = event.target as HTMLInputElement | null;
     if (!inputElement) {
       return;
@@ -131,27 +137,9 @@ export class CreateProfileComponent implements OnInit{
     
   }
 
-  convertImagePathToFile(imagePath: string): Promise<File> {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', imagePath);
-      xhr.responseType = 'blob';
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const blob = xhr.response;
-          const fileName = imagePath.split('/').pop();
-          const formData = new FormData();
-          formData.append('image', blob, fileName);
-          const file = formData.get('image') as File;
-          resolve(file);
-        } else {
-          reject('Nie udało się pobrać obrazka');
-        }
-      };
-      xhr.onerror = () => {
-        reject('Błąd pobierania obrazka');
-      };
-      xhr.send();
-    });
+  onImagePickedFromPath(avatar: string) {
+    this.imgURL = avatar;
+    console.log(this.imgURL)
   }
+
 }
