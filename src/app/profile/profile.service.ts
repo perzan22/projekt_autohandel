@@ -7,6 +7,7 @@ import { map } from "rxjs";
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
 
+
     constructor(private http: HttpClient, private router: Router) {}
 
     createProfile(imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string, avatar: File | null) {
@@ -54,7 +55,7 @@ export class ProfileService {
         }))
     }
 
-    editProfile(profileID: string | null, imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string) {
+    editProfile(profileID: string | null, imie: string, nazwisko: string, ulica: string, nrBudynku: string, nrMieszkania: string | null, miasto: string, nrTelefonu: string, avatar: File | null) {
 
         let adres = '';
 
@@ -72,6 +73,9 @@ export class ProfileService {
             profileData.append('adres', adres)
             profileData.append('miasto', miasto)
             profileData.append('nrTelefonu', nrTelefonu)
+            if (avatar) {
+                profileData.append('avatar', avatar, imie+nazwisko)
+            }
 
             this.http.put('http://localhost:3000/api/profiles/' + profileID, profileData).subscribe(response => {
             this.router.navigate(['/profile/show/' + profileID])

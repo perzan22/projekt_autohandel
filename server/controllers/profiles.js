@@ -20,7 +20,7 @@ exports.createProfile = (req, res, next) => {
         userID: req.userData.userID,
         email: req.userData.email,
         nickname: req.userData.nickname,
-        avatarPath: url + '/images/avatars/' + req.file.filename,
+        avatarPath: url + '/images/avatars/' + avatarPath,
     })
 
     console.log(profile)
@@ -32,7 +32,7 @@ exports.createProfile = (req, res, next) => {
                 id: result._id
             }
         });
-
+        console.log(req.userData.userID)
         User.updateOne({ _id: req.userData.userID }, { $set: {profileID: result._id} }).then(user => {
 
             if (user.matchedCount > 0) {

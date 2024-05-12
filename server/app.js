@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors')
@@ -19,6 +20,7 @@ mongoose.connect('mongodb+srv://olafperzanowski:' + 'NwadPWZOOJdM4uMR' + '@clust
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
+app.use('/images/avatars', express.static(path.join('server/images/avatars')))
 
 app.use(cors());
 

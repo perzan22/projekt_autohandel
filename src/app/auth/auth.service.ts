@@ -58,7 +58,8 @@ export class AuthService {
                 this.isAuth = true;
                 this.userID = response.userID;
                 this.nickname = response.nickname;
-                this.email = response.email
+                this.email = response.email;
+                this.token = response.token;
                 this.authStatusListener.next({ isAuth: true });
                 this.setCookies();
                 this.router.navigate(['/profile/create']);
