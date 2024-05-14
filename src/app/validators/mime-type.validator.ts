@@ -3,7 +3,7 @@ import { Observable, Observer, of } from "rxjs";
 
  export const mimeType = (control: AbstractControl): Promise<{ [key: string]: any} > | Observable<{ [key: string]: any }> => {
     if (typeof(control.value) === 'string') {
-      return of({ invalidMimeType: false });
+      return of({});
     }
 
     if (!control.value) {

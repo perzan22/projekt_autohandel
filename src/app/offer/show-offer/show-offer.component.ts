@@ -18,7 +18,7 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   userID!: string
   isAuth: boolean = false
   authStatusSubs!: Subscription
-  profileID!: string
+
   profile!: Profile
   showPhone: boolean = false
 
@@ -29,26 +29,25 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     this.offerService.getOffer(this.route.snapshot.params['offerID']).subscribe({
       next: offer => {
         this.offer = offer
-        this.profileService.getProfileByUserID(this.offer.creator).subscribe({
-          next: profileData => {
-            this.profile = profileData
+        this.isAuth = this.authService.getIsAuth();
+        if (this.isAuth) {
+            this.userID = this.authService.getUserId();
+        }
+        this.authStatusSubs = this.authService.getAuthStatusListener().subscribe({
+          next: isAuthenticated => {
+              this.isAuth = isAuthenticated.isAuth
+              if (this.isAuth) {
+              this.userID = this.authService.getUserId();
+            }
           }
         })
+        this.profileService.getProfileByUserID(this.offer.creator).subscribe({
+          next: profileData => {
+          this.profile = profileData
+        }
+      })
       }
     })
-
-    this.userID = this.authService.getUserId();
-    this.isAuth = this.authService.getIsAuth();
-    this.profileID = this.authService.getProfileID();
-    this.authStatusSubs = this.authService.getAuthStatusListener().subscribe({
-      next: isAuthenticated => {
-        this.isAuth = isAuthenticated.isAuth
-        this.userID = this.authService.getUserId();
-        this.profileID = this.authService.getProfileID();
-      }
-    })
-    
-    
   }
 
   onDelete(offerID: string) {
