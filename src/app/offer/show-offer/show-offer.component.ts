@@ -18,7 +18,6 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   userID!: string
   isAuth: boolean = false
   authStatusSubs!: Subscription
-
   profile!: Profile
   showPhone: boolean = false
 
@@ -41,11 +40,14 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
             }
           }
         })
-        this.profileService.getProfileByUserID(this.offer.creator).subscribe({
-          next: profileData => {
-          this.profile = profileData
+        if (this.isAuth) {
+          this.profileService.getProfileByUserID(this.offer.creator).subscribe({
+            next: profileData => {
+              this.profile = profileData
+            }
+          })
         }
-      })
+        
       }
     })
   }

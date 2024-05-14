@@ -74,8 +74,12 @@ export class CreateOfferComponent implements OnInit{
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
                           cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date};
+          if (this.offer.imagePath) {
+            this.onImagePickedFromPath(this.offer.imagePath);
+          } 
           this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
-            'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena
+            'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena,
+            'image': this.offer.imagePath
           });
         });
       } else {
@@ -130,6 +134,11 @@ export class CreateOfferComponent implements OnInit{
 
   onHideButton() {
     this.showButton = false;
+  }
+
+  onImagePickedFromPath(avatar: string) {
+    this.imgURL = avatar;
+    this.form.get('image')?.updateValueAndValidity();
   }
   
 }

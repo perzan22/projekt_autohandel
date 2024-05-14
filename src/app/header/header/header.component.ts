@@ -25,14 +25,6 @@ export class HeaderComponent {
     if (this.isAuthenticated) {
       this.nickname = this.authService.getNickname();
       this.profileID = this.authService.getProfileID();
-      if(this.profileID) {
-        this.profileService.getProfile(this.profileID).subscribe({
-          next: profile => {
-            this.avatar = profile.avatarPath
-          }
-        })
-      }
-      
     }
     this.authSubs = this.authService.getAuthStatusListener().subscribe({
       next: authData => {
@@ -40,15 +32,18 @@ export class HeaderComponent {
         if (this.isAuthenticated) {
           this.nickname = this.authService.getNickname();
           this.profileID = this.authService.getProfileID();
-          this.profileService.getProfile(this.profileID).subscribe({
-            next: profile => {
-              this.avatar = profile.avatarPath
-            }
-          })
+          
         }
       }
+      
     })
-    console.log(this.profileID)
+    if (this.profileID && this.isAuthenticated) {
+      this.profileService.getProfile(this.profileID).subscribe({
+        next: profile => {
+          this.avatar = profile.avatarPath
+        }
+      })
+    }
   }
 
   ngOnDestroy(): void {
