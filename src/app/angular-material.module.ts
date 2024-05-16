@@ -13,7 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule } from '@angular/material/slider'
+import { MatSliderModule } from '@angular/material/slider';
+import{ MatAutocompleteModule } from '@angular/material/autocomplete'
 
 
 
@@ -31,7 +32,8 @@ import { MatSliderModule } from '@angular/material/slider'
         MatSidenavModule,
         MatFormFieldModule,
         MatDividerModule,
-        MatSliderModule
+        MatSliderModule,
+        MatAutocompleteModule
     ],
     providers: [
         provideNativeDateAdapter()
