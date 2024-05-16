@@ -1,4 +1,5 @@
 const Offer = require('../models/offer')
+const Car = require('../models/car')
 
 
 exports.createOffer = (req, res, next) => {
@@ -31,6 +32,24 @@ exports.createOffer = (req, res, next) => {
                 id: result._id
             }
         });
+
+        return Car.findOne({ marka: req.body.marka, model: req.body.model });
+    })
+    .then(car => {
+        if (!car) {
+            const newCar = new Car({
+                marka: req.body.marka,
+                model: req.body.model
+            });
+
+            return newCar.save();
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).json({
+            message: 'Creating offer failed!'
+        })
     })
 }
 
