@@ -1,63 +1,69 @@
 <p *ngIf="offers.length <= 0" id="no-offers">Brak ofert!</p>
 <section class="main-page" *ngIf="mode === 'main'">
-    <div class="searchbar">
+    <form [formGroup]="form" class="searchbar">
         <mat-card class="search-card">
             <mat-card-header>
                 <mat-card-title>Wyszukaj ofertę</mat-card-title>
             </mat-card-header>
             
             <mat-card-content>
-                <mat-form-field class="search-select">
-                    <mat-label>Marka</mat-label>
-                    <mat-select>
-
-                    </mat-select>
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true" class="search-select">
+                    <mat-label>Marka samochodu</mat-label>
+                    <input matInput type="text" formControlName="marka" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        @for (marka of filteredBrands | async; track marka) {
+                          <mat-option [value]="marka">{{ marka }}</mat-option>
+                        }
+                        </mat-autocomplete>
                 </mat-form-field>
-
-                <mat-form-field class="search-select">
-                    <mat-label>Model</mat-label>
-                    <mat-select>
-                        
-                    </mat-select>
+        
+                <mat-form-field floatLabel="auto" [hideRequiredMarker]="true" class="search-select">
+                    <mat-label>Model samochodu</mat-label>
+                    <input matInput type="text" formControlName="model" [matAutocomplete]="autoModel">
+                    <mat-autocomplete #autoModel="matAutocomplete">
+                        @for (model of filteredModels | async; track model) {
+                          <mat-option [value]="model">{{ model }}</mat-option>
+                        }
+                        </mat-autocomplete>
                 </mat-form-field>
                 <div class="price-slider">
                     <h3>Przedział cenowy</h3>
                     <mat-slider min="0" max="100000" step="100" discrete [displayWith]="formatLabel">
-                        <input matSliderStartThumb>
-                        <input matSliderEndThumb>
+                        <input matSliderStartThumb formControlName="cenaMin">
+                        <input matSliderEndThumb formControlName="cenaMax">
                     </mat-slider>
                 </div>
                 
                 <div class="year">
                     <mat-form-field class="year-input">
                         <mat-label>Min. rok produkcji</mat-label>
-                        <input matInput type="number">  
+                        <input matInput type="number" formControlName="rokProdukcjiMin">  
                     </mat-form-field>
     
                     <mat-form-field class="year-input">
                         <mat-label>Max. rok produkcji</mat-label>
-                        <input matInput type="number"> 
+                        <input matInput type="number" formControlName="rokProdukcjiMax"> 
                     </mat-form-field>
                 </div>
 
                 <mat-form-field class="year-input">
                     <mat-label>Max. przebieg</mat-label>
-                    <input matInput type="number"> 
+                    <input matInput type="number" formControlName="przebiegMax"> 
                 </mat-form-field>
                 <mat-form-field class="search-select">
                     <mat-label>Rodzaj paliwa</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="rodzajPaliwa">
                         @for (paliwo of rodzaj_paliw; track paliwo ) {
                         <mat-option [value]="paliwo.value">{{ paliwo.value }}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
-                <button type="button" mat-raised-button color="accent">SZUKAJ</button>
+                <button type="submit" mat-raised-button color="accent" routerLink="/search" (click)="onSearch()">SZUKAJ</button>
             </mat-card-content>
         </mat-card>
 
-    </div>
-    <h1>Sprawdź oferty na naszym</h1>
+    </form>
+    <h1>Sprawdź oferty na naszym portalu</h1>
     <div class="card-container">
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
             <mat-card-header>

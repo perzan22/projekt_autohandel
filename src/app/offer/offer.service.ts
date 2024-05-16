@@ -129,4 +129,65 @@ export class OfferService {
         }
     }
 
+    getOffersSerching(marka: string | null, model: string | null, cenaMin: number | null, cenaMax: number | null, rokProdukcjiMin: number | null, rokProdukcjiMax: number | null, przebiegMax: number | null, rodzajPaliwa: string | null) {
+        let url = 'http://localhost:3000/api/offers/search?'
+
+        if (marka) {
+            url = url + `marka=${marka}&`
+
+            if (model) {
+                url = url + `model=${model}&`
+            }
+        }
+
+        if (cenaMin) {
+            url = url + `cena_min=${cenaMin}&`
+        }
+        if (cenaMax) {
+            url = url  + `cena_max=${cenaMax}&`
+        }
+        if (rokProdukcjiMin) {
+            url = url + `rok_produkcji_min=${rokProdukcjiMin}&`
+        }
+        if (rokProdukcjiMax) {
+            url = url + `rok_produkcji_max=${rokProdukcjiMax}&`
+        }
+        if (przebiegMax) {
+            url = url + `przebieg_max=${przebiegMax}&`
+        }
+        if (rodzajPaliwa) {
+            url = url + `rodzaj_paliwa=${rodzajPaliwa}`
+        }
+
+        this.http.get<{ message: string, offers: any }>(url)
+        .pipe(map(offerData => {
+            return {
+                offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
+                    return {
+                        id: offer._id,
+                        nazwa: offer.nazwa, 
+                        marka: offer.marka,
+                        model: offer.model,
+                        rok_produkcji: offer.rok_produkcji,
+                        przebieg: offer.przebieg,
+                        spalanie: offer.spalanie,
+                        pojemnosc_silnika: offer.pojemnosc_silnika,
+                        rodzaj_paliwa: offer.rodzaj_paliwa,
+                        opis: offer.opis,
+                        cena: offer.cena,
+                        creator: offer.creator,
+                        imagePath: offer.imagePath,
+                        date: offer.date
+                    }
+                })
+            }
+        }))
+        .subscribe({
+            next: (fetchedOffers) => {
+                this.offers = fetchedOffers.offers;
+                this.offersSubs.next({ offers: [...this.offers] });
+            }
+        })
+    }
 }

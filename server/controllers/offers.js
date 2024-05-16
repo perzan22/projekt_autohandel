@@ -120,4 +120,19 @@ exports.editOffer = (req, res, next) => {
             message: `Couldn't edit an offer`
         })
     });
+
+    exports.getOffers = (req, res, next) => {
+
+        const marka = req.query.marka
+        const model = req.query.model
+        const cenaMin = +req.query.cena_min
+        const cenaMax = +req.query.cena_max
+        const rokProdukcjiMin = +req.query.rok_produkcji_min
+        const rokProdukcjiMax = +req.query.rok_produkcji_max
+        const przebiegMax = +req.query.przebieg_max
+        const rodzajPaliwa = req.query.rodzaj_paliwa
+
+        
+
+    }
 }

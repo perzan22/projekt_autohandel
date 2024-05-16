@@ -17,4 +17,6 @@ router.delete('/:id', checkAuth, OffersControllers.deleteOffer)
 
 router.put('/:id', fileExtractor, checkAuth, OffersControllers.editOffer)
 
+router.get('/search', )
+
 module.exports = router;

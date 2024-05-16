@@ -18,9 +18,9 @@ export class CarService {
     getCars() {
         
         this.http.get<{ message: string, cars: any }>('http://localhost:3000/api/cars')
-        .pipe(map(carData => {
+        .pipe(map(carsData => {
             return {
-                cars: carData.cars.map((car: { marka: string, model: string }) => {
+                cars: carsData.cars.map((car: { marka: string, model: string }) => {
                     return {
                        marka: car.marka,
                        model: car.model
@@ -35,5 +35,7 @@ export class CarService {
             }
         })
     }
+
+    
 
 }
