@@ -39,12 +39,13 @@
         <h1>{{ offer.cena }} zł</h1>
         <mat-divider></mat-divider>
         <div class="buttons">
-            <button mat-raised-button type="button" color="warn" (click)="onDelete(offer.id)" *ngIf="userID === offer.creator">USUŃ OFERTĘ</button>
-            <button mat-raised-button type="button" color="accent" [routerLink]="['/edit', offer.id]" *ngIf="userID === offer.creator">EDYTUJ OFERTĘ</button>  
+            <button mat-raised-button type="button" color="warn" (click)="onDelete(offer.id)" *ngIf="userID && userID === offer.creator">USUŃ OFERTĘ</button>
+            <button mat-raised-button type="button" color="accent" [routerLink]="['/edit', offer.id]" *ngIf="userID && userID === offer.creator">EDYTUJ OFERTĘ</button>  
 
-            <button mat-raised-button type="button" color="accent" *ngIf="isAuth && userID !== offer.creator">NAPISZ WIADOMOŚĆ</button>
+            <button mat-raised-button type="button" color="accent" *ngIf="isAuth && userID && userID !== offer.creator">NAPISZ WIADOMOŚĆ</button>
             <h2 *ngIf="showPhone">+48 {{ profile.nrTelefonu }}</h2>
-            <button mat-stroked-button type="button" color="primary" *ngIf="isAuth && userID !== offer.creator" (click)="onShowPhone()" [hidden]="showPhone">POKAŻ NUMER TELEFONU</button>
+            <button mat-stroked-button type="button" color="primary" *ngIf="isAuth && userID && userID !== offer.creator" (click)="onShowPhone()" [hidden]="showPhone">POKAŻ NUMER TELEFONU</button>
+            <h2 *ngIf="!isAuth" id="log-info"><a routerLink="/login">Zaloguj się, aby skontaktować się ze sprzedawcą</a></h2>
         </div>
         
         

@@ -66,7 +66,6 @@ export class CreateProfileComponent implements OnInit{
                           userID: profileData.userID, email: profileData.email, nickname: profileData.nickname, ulubione: profileData.ulubione, avatarPath: profileData.avatarPath
                         };
           
-          console.log(this.profile.avatarPath) 
           if (this.profile.avatarPath) {
             this.onImagePickedFromPath(this.profile.avatarPath);
           }             
@@ -139,7 +138,7 @@ export class CreateProfileComponent implements OnInit{
 
   onImagePickedFromPath(avatar: string) {
     this.imgURL = avatar;
-    console.log(this.imgURL)
+    this.form.get('image')?.updateValueAndValidity();
   }
 
 }
