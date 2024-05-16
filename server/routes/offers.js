@@ -7,7 +7,7 @@ const router = express.Router()
 const OffersControllers = require('../controllers/offers');
 const checkAuth = require('../middlewares/check-auth');
 
-router.get('', OffersControllers.getOffers);
+router.get('', OffersControllers.getRandomOffers);
 
 router.post('', fileExtractor, checkAuth, OffersControllers.createOffer)
 

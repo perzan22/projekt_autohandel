@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-offer-list',
@@ -14,15 +14,27 @@ export class OfferListComponent implements OnInit, OnDestroy{
 
   offers: Offer[] = []
   private offerSubs!: Subscription
+  mode: string = 'main'
 
-  constructor(private offerService: OfferService, private router: Router) {}
+  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute) {}
 
 
   ngOnInit(): void {
-    this.offerService.getOffers();
-    this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
-      next: offerData => {
-        this.offers = offerData.offers
+    
+
+    this.route.paramMap.subscribe({
+      next: (paramMap: ParamMap) => {
+        if (paramMap.has("searchParam")) {
+          this.mode = 'search'
+        } else {
+          this.mode = 'main'
+          this.offerService.getOffers();
+          this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
+            next: offerData => {
+              this.offers = offerData.offers
+      }
+    })
+        }
       }
     })
 

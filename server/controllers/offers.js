@@ -34,8 +34,8 @@ exports.createOffer = (req, res, next) => {
     })
 }
 
-exports.getOffers = (req, res, next) => {
-    Offer.find().then(documents =>
+exports.getRandomOffers = (req, res, next) => {
+    Offer.aggregate([{ $sample: { size: 5 } }]).exec().then(documents =>
         res.status(200).json({
             message: 'Offers fetched succesfully!',
             offers: documents
