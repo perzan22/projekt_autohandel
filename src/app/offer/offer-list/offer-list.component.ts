@@ -16,6 +16,14 @@ export class OfferListComponent implements OnInit, OnDestroy{
   private offerSubs!: Subscription
   mode: string = 'main'
 
+  rodzaj_paliw = [
+    { value: 'Benzyna'},
+    { value: 'Diesel'},
+    { value: 'Gaz'},
+    { value: 'Prąd elektryczny' },
+    { value: 'Hybrydowe'}
+  ]
+
   constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute) {}
 
 
@@ -47,6 +55,10 @@ export class OfferListComponent implements OnInit, OnDestroy{
 
   showOffer(offerID: string) {
     this.router.navigate(['/offer/' + offerID])
+  }
+
+  formatLabel(value: number): string {
+    return value + 'zł'
   }
   
 }

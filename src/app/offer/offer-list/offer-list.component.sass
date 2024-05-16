@@ -1,49 +1,88 @@
 .main-page
+    margin: 50px auto
     display: flex
+    flex-direction: column
+    h1
+        text-align: center
+        color: #546E7A
     
-.serachbar
-    width: 25%
-
+.searchbar
+    width: 60%
+    margin: 10px auto
 
 
 .card-container
-    width: 75%
-    margin: 10px 20px
+    width: 60%
+    margin: 20px auto
     display: flex
     flex-wrap: wrap
     justify-content: space-around
     
-mat-card
+.offer
     width: calc(20% - 16px)
     margin-bottom: 20px
+
+    mat-card-content
+        height: 100%
+        display: flex   
+        flex-direction: column
+        justify-content: space-between
 
     :hover
         cursor: pointer
     
     p
-        font-weight: bold
-        font-size: 14px
+        font-size: 12px
         text-align: center
+    
+    h1
+        text-align: end
+        color: #546E7A
 
-mat-divider
-    margin-bottom: 1rem
+    mat-card-title
+        font-size: 15px
+        
 
-table
-    table-layout: fixed
-    font-size: 13px
+.search-card
 
-td, th
-    text-align: start
+    mat-card-title
+        font-family: 'Roboto', sans-serif
+        color: #546E7A
 
-h1
-    text-align: end
-    color: #546E7A
+    mat-card-content
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        align-content: center
+    
+
+    mat-slider
+        width: 400px
+
+    .search-select
+        margin: 10px 10px
+        width: 25%
+
+    .year
+        display: flex
+        margin: auto 20px
+
+    .price-slider
+        display: flex
+        flex-direction: column
+
+        h3
+            text-align: center
+            color: #546E7A
+
+    button
+        position: relative
+        top: -10px
+        margin: auto 10px
+
+mat-card
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25)
 
 #no-offers
     text-align: center
 
-mat-card-content
-    height: 100%
-    display: flex   
-    flex-direction: column
-    justify-content: space-between

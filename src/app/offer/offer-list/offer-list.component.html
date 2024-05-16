@@ -1,10 +1,65 @@
 <p *ngIf="offers.length <= 0" id="no-offers">Brak ofert!</p>
 <section class="main-page" *ngIf="mode === 'main'">
     <div class="searchbar">
+        <mat-card class="search-card">
+            <mat-card-header>
+                <mat-card-title>Wyszukaj ofertę</mat-card-title>
+            </mat-card-header>
+            
+            <mat-card-content>
+                <mat-form-field class="search-select">
+                    <mat-label>Marka</mat-label>
+                    <mat-select>
+
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="search-select">
+                    <mat-label>Model</mat-label>
+                    <mat-select>
+                        
+                    </mat-select>
+                </mat-form-field>
+                <div class="price-slider">
+                    <h3>Przedział cenowy</h3>
+                    <mat-slider min="0" max="100000" step="100" discrete [displayWith]="formatLabel">
+                        <input value="5000" matSliderStartThumb>
+                        <input value="50000" matSliderEndThumb>
+                    </mat-slider>
+                </div>
+                
+                <div class="year">
+                    <mat-form-field class="year-input">
+                        <mat-label>Min. rok produkcji</mat-label>
+                        <input matInput type="number">  
+                    </mat-form-field>
+    
+                    <mat-form-field class="year-input">
+                        <mat-label>Max. rok produkcji</mat-label>
+                        <input matInput type="number"> 
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field class="year-input">
+                    <mat-label>Max. przebieg</mat-label>
+                    <input matInput type="number"> 
+                </mat-form-field>
+                <mat-form-field class="search-select">
+                    <mat-label>Rodzaj paliwa</mat-label>
+                    <mat-select>
+                        @for (paliwo of rodzaj_paliw; track paliwo ) {
+                        <mat-option [value]="paliwo.value">{{ paliwo.value }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+                <button type="button" mat-raised-button color="accent">SZUKAJ</button>
+            </mat-card-content>
+        </mat-card>
 
     </div>
+    <h1>Sprawdź oferty na naszym</h1>
     <div class="card-container">
-        <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)">
+        <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
             <mat-card-header>
                 <div class="header-text">
                     <mat-card-title> {{ offer.nazwa }}</mat-card-title>
