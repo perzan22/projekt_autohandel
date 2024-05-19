@@ -1,5 +1,5 @@
 <p *ngIf="offers.length <= 0" id="no-offers">Brak ofert!</p>
-<section class="main-page" *ngIf="mode === 'main'">
+<section class="main-page">
     <form [formGroup]="form" class="searchbar">
         <mat-card class="search-card">
             <mat-card-header>
@@ -58,7 +58,7 @@
                         }
                     </mat-select>
                 </mat-form-field>
-                <button type="submit" mat-raised-button color="accent" routerLink="/search" (click)="onSearch()">SZUKAJ</button>
+                <button type="submit" mat-raised-button color="accent" (click)="onSearch()">SZUKAJ</button>
             </mat-card-content>
         </mat-card>
 

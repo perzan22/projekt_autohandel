@@ -120,19 +120,65 @@ exports.editOffer = (req, res, next) => {
             message: `Couldn't edit an offer`
         })
     });
+}
 
-    exports.getOffers = (req, res, next) => {
+exports.getOffersSearch = (req, res, next) => {
 
-        const marka = req.query.marka
-        const model = req.query.model
-        const cenaMin = +req.query.cena_min
-        const cenaMax = +req.query.cena_max
-        const rokProdukcjiMin = +req.query.rok_produkcji_min
-        const rokProdukcjiMax = +req.query.rok_produkcji_max
-        const przebiegMax = +req.query.przebieg_max
-        const rodzajPaliwa = req.query.rodzaj_paliwa
+    const marka = req.query.marka
+    const model = req.query.model
+    const cenaMin = req.query.cena_min ? +req.query.cena_min : null;
+    const cenaMax = req.query.cena_max ? +req.query.cena_max : null
+    const rokProdukcjiMin = req.query.rok_produkcji_min ? +req.query.rok_produkcji_min : null
+    const rokProdukcjiMax = req.query.rok_produkcji_max ? +req.query.rok_produkcji_max : null
+    const przebiegMax = req.query.przebieg_max ? +req.query.przebieg_max : null
+    const rodzajPaliwa = req.query.rodzaj_paliwa
 
-        
+    let query = {};
 
+    if (marka) {
+        query.marka = marka
     }
+
+    if (model) {
+        query.model = model
+    }
+
+    if (cenaMin !== null || cenaMax !== null) {
+        query.cena = {};
+        if (cenaMin !== null) {
+            query.cena.$gte = cenaMin;
+        }
+        if (cenaMax !== null) {
+            query.cena.$lte = cenaMax;
+        }
+    }
+
+    if (rokProdukcjiMin !== null || rokProdukcjiMax !== null) {
+        query.rok_produkcji = {};
+        if (rokProdukcjiMin !== null) {
+            query.rok_produkcji.$gte = rokProdukcjiMin;
+        }
+        if (rokProdukcjiMax !== null) {
+            query.rok_produkcji.$lte = rokProdukcjiMax;
+        }
+    }
+    if (przebiegMax !== null) {
+        query.przebieg = { $lte: przebiegMax };
+    }
+    if (rodzajPaliwa) {
+        query.rodzaj_paliwa = rodzajPaliwa;
+    }
+
+    Offer.find(query).then(offers => {
+        res.status(200).json({ 
+            message: "Offers fetched successfully",
+            offers: offers 
+        });
+       // console.log(offers)
+    }).catch(error => {
+        res.status(500).json({
+            message: 'Fetching offers failed!',
+            error: error
+        });
+    });
 }

@@ -19,24 +19,24 @@ const normalizePort = val => {
   return false;
 };
 
-const onError = error => {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-  const bind = typeof port === "string" ? "pipe " + port : "port " + port;
-  switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-};
+// const onError = error => {
+//   if (error.syscall !== "listen") {
+//     throw error;
+//   }
+//   const bind = typeof port === "string" ? "pipe " + port : "port " + port;
+//   switch (error.code) {
+//     case "EACCES":
+//       console.error(bind + " requires elevated privileges");
+//       process.exit(1);
+//       break;
+//     case "EADDRINUSE":
+//       console.error(bind + " is already in use");
+//       process.exit(1);
+//       break;
+//     default:
+//       throw error;
+//   }
+// };
 
 const onListening = () => {
   const addr = server.address();
@@ -58,6 +58,6 @@ io.on("connection", socket => {
   });
 });
 
-server.on("error", onError);
+//server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);

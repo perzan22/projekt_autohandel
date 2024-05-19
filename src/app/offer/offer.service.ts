@@ -130,36 +130,35 @@ export class OfferService {
     }
 
     getOffersSerching(marka: string | null, model: string | null, cenaMin: number | null, cenaMax: number | null, rokProdukcjiMin: number | null, rokProdukcjiMax: number | null, przebiegMax: number | null, rodzajPaliwa: string | null) {
-        let url = 'http://localhost:3000/api/offers/search?'
+        let baseUrl = 'http://localhost:3000/api/offers/search';
+        let url = new URL(baseUrl);
 
         if (marka) {
-            url = url + `marka=${marka}&`
-
+            url.searchParams.append('marka', marka);
             if (model) {
-                url = url + `model=${model}&`
+                url.searchParams.append('model', model);
             }
         }
-
         if (cenaMin) {
-            url = url + `cena_min=${cenaMin}&`
+            url.searchParams.append('cena_min', cenaMin.toString());
         }
         if (cenaMax) {
-            url = url  + `cena_max=${cenaMax}&`
+            url.searchParams.append('cena_max', cenaMax.toString());
         }
         if (rokProdukcjiMin) {
-            url = url + `rok_produkcji_min=${rokProdukcjiMin}&`
+            url.searchParams.append('rok_produkcji_min', rokProdukcjiMin.toString());
         }
         if (rokProdukcjiMax) {
-            url = url + `rok_produkcji_max=${rokProdukcjiMax}&`
+            url.searchParams.append('rok_produkcji_max', rokProdukcjiMax.toString());
         }
         if (przebiegMax) {
-            url = url + `przebieg_max=${przebiegMax}&`
+            url.searchParams.append('przebieg_max', przebiegMax.toString());
         }
         if (rodzajPaliwa) {
-            url = url + `rodzaj_paliwa=${rodzajPaliwa}`
+            url.searchParams.append('rodzaj_paliwa', rodzajPaliwa);
         }
 
-        this.http.get<{ message: string, offers: any }>(url)
+        this.http.get<{ message: string, offers: any }>(url.toString())
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
@@ -187,6 +186,9 @@ export class OfferService {
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
                 this.offersSubs.next({ offers: [...this.offers] });
+            }, 
+            error: error => {
+                console.log(error)
             }
         })
     }
