@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { Observable, Subscription, map, startWith } from 'rxjs';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Car } from '../../car/car.model';
 import { CarService } from '../../car/car.service';
@@ -47,22 +47,12 @@ export class OfferListComponent implements OnInit, OnDestroy{
       "rodzajPaliwa": new FormControl(null)
     })
     
-
-    this.route.paramMap.subscribe({
-      next: (paramMap: ParamMap) => {
-        if (paramMap.has("searchParam")) {
-          this.mode = 'search'
-        } else {
-          this.mode = 'main'
-          this.offerService.getOffers();
+    this.offerService.getOffers();
           this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
             next: offerData => {
               this.offers = offerData.offers
             }
           })
-        }
-      }
-    })
 
     this.carService.getCars()
     this.carSubs = this.carService.getCarUpdateListener().subscribe({
@@ -104,9 +94,10 @@ export class OfferListComponent implements OnInit, OnDestroy{
     if (this.form.invalid) {
       return
     }
-
-    this.offerService.getOffersSerching(this.form.value.marka, this.form.value.model, this.form.value.cenaMin,
-       this.form.value.cenaMax, this.form.value.rokProdukcjiMin, this.form.value.rokProdukcjiMax, this.form.value.przebiegMax, this.form.value.rodzajPaliwa)
+    
+    this.router.navigate(['search'], { queryParams: { marka: this.form.value.marka, model: this.form.value.model, cena_min: this.form.value.cenaMin, cena_max: this.form.value.cenaMax,
+      rok_produkcji_min: this.form.value.rokProdukcjiMin, rok_produkcji_max: this.form.value.rokProdukcjiMax, przebieg_max: this.form.value.przebiegMax, rodzaj_paliwa: this.form.value.rodzajPaliwa
+     } } )
   }
 
   private _filterBrands(value: string | { name: string }): string[] {

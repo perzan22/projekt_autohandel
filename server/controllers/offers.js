@@ -174,7 +174,22 @@ exports.getOffersSearch = (req, res, next) => {
             message: "Offers fetched successfully",
             offers: offers 
         });
-       // console.log(offers)
+    }).catch(error => {
+        res.status(500).json({
+            message: 'Fetching offers failed!',
+            error: error
+        });
+    });
+}
+
+exports.getUserOffers = (req, res, next) => {
+    const userID = req.params.userID
+
+    Offer.find({ creator: userID }).then(offers => {
+        res.status(200).json({ 
+            message: "Offers fetched successfully",
+            offers: offers 
+        });
     }).catch(error => {
         res.status(500).json({
             message: 'Fetching offers failed!',

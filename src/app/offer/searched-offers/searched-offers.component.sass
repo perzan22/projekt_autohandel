@@ -1,0 +1,122 @@
+.main-page
+    margin: 50px auto
+    display: flex
+    flex-direction: column
+    h1
+        text-align: center
+        color: #546E7A
+    
+.searchbar
+    width: 60%
+    margin: 10px auto
+
+
+.card-container
+    
+    margin: 20px auto
+    justify-content: space-around
+    
+.offer
+    margin-bottom: 20px
+    width: 1200px
+    height: 300px
+    display: flex
+    flex-direction: row
+
+    :hover
+        cursor: pointer
+    
+    p
+        font-size: 18px
+        text-align: center
+    
+    h1
+        text-align: end
+        color: #546E7A
+        font-size: 25px
+
+    mat-card-title
+        font-size: 25px
+
+
+    mat-card-subtitle
+        font-size: 20px
+
+    mat-card-content
+        display: flex
+        justify-content: space-between
+
+        h1
+            font-size: 40px
+
+        table
+            table-layout: fixed
+            font-family: "helvetica neue", helvetica, arial, sans-serif
+            text-align: right
+            
+            th, td
+                padding: 0 10px
+        
+    .image
+        position: relative
+        height: 200px
+        width: 400px
+        margin: auto 20px
+
+    .image img
+        position: absolute
+        height: 100%
+        width: 100%
+        object-fit: cover
+        object-position: center
+        border-radius: 10px
+
+    .content
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        width: 100%
+
+.search-card
+
+    mat-card-title
+        font-family: 'Roboto', sans-serif
+        color: #546E7A
+
+    mat-card-content
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        align-content: center
+    
+
+    mat-slider
+        width: 400px
+
+    .search-select
+        margin: 10px 10px
+        width: 25%
+
+    .year
+        display: flex
+        margin: auto 10px
+
+    .price-slider
+        display: flex
+        flex-direction: column
+
+        h3
+            text-align: center
+            color: #546E7A
+
+    button
+        position: relative
+        top: -10px
+        margin: auto 10px
+
+mat-card
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25)
+
+#no-offers
+    text-align: center
+

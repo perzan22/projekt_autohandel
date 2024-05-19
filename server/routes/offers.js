@@ -7,7 +7,9 @@ const router = express.Router()
 const OffersControllers = require('../controllers/offers');
 const checkAuth = require('../middlewares/check-auth');
 
-router.get('/search', OffersControllers.getOffersSearch)
+router.get('/search', OffersControllers.getOffersSearch);
+
+router.get('/my-offers/:userID', checkAuth, OffersControllers.getUserOffers)
 
 router.get('', OffersControllers.getRandomOffers);
 

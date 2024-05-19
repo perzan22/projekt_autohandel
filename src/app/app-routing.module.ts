@@ -9,6 +9,7 @@ import { HasProfileGuard } from './auth/guards/hasProfile.guard'
 import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
 import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
+import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 
 const routes: Routes = [
   { path: '', component: OfferListComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'profile/show/:profileID', component: ShowProfileComponent, canActivate: [AuthGuard, HasProfileGuard] },
   { path: 'profile/edit/change-password/:userID', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit/profile-info/:profileID', component: CreateProfileComponent, canActivate: [AuthGuard, HasProfileGuard] },
-  { path: 'search', component: OfferListComponent }
+  { path: 'search', component: SearchedOffersComponent },
+  { path: 'my-offers', component: SearchedOffersComponent, canActivate: [AuthGuard] }
 
 ];
 

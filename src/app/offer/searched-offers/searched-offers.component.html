@@ -1,5 +1,5 @@
 <section class="main-page">
-    <form [formGroup]="form" class="searchbar">
+    <form [formGroup]="form" class="searchbar" (submit)="onSearch()" *ngIf="mode === 'search'">
         <mat-card class="search-card">
             <mat-card-header>
                 <mat-card-title>Wyszukaj ofertę</mat-card-title>
@@ -62,24 +62,39 @@
         </mat-card>
 
     </form>
-    <h1>Sprawdź oferty na naszym portalu</h1>
-    <p *ngIf="offers.length <= 0" id="no-offers">Brak ofert!</p>
+    <h1 *ngIf="mode === 'search'">Znalezione oferty</h1>
+    <h1 *ngIf="mode === 'my-offers'">Twoje aktualne oferty</h1>
+
+    <p *ngIf="offers.length <= 0 && mode === 'search'" id="no-offers">Brak znalezionych ofert! Zmień opcje filtrowania wyników</p>
+    <p *ngIf="offers.length <= 0 && mode === 'my-offers'" id="no-offers">Nie masz żadnych aktualnych ofert! <a href="/create">Utwórz nową ofertę</a></p>
+
     <div class="card-container">
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
-            <mat-card-header>
-                <div class="header-text">
-                    <mat-card-title> {{ offer.nazwa }}</mat-card-title>
-                    <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
-                </div>
-            </mat-card-header>
-            <img mat-card-image [src]="offer.imagePath" [alt]="offer.nazwa">
-            <mat-card-content>
-                <p>{{ offer.rok_produkcji }} - {{ offer.przebieg }} km - {{ offer.rodzaj_paliwa }} - {{ offer.pojemnosc_silnika }} cm³ - {{ offer.spalanie }} l/100km</p>
-                <h1>{{ offer.cena }} zł</h1>
-            </mat-card-content>
-            
+            <div class="image">
+                <img [src]="offer.imagePath" [alt]="offer.nazwa">
+            </div>
+            <div class="content">
+                <mat-card-header>
+                    <div class="header-text">  
+                        <mat-card-title> {{ offer.nazwa }}</mat-card-title>
+                        <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
+                    </div>  
+                </mat-card-header>
+                <mat-card-content>
+                    <table>
+                        <tr>
+                            <th>Rok produkcji:</th><td>{{ offer.rok_produkcji }}</td><th>Przebieg:</th><td>{{ offer.przebieg }} km</td>
+                        </tr>
+                        <tr>
+                            <th>Rodzaj paliwa:</th><td>{{ offer.rodzaj_paliwa }}</td><th>Pojemność silnika:</th><td>{{ offer.pojemnosc_silnika }} cm³</td>
+                        </tr>
+                        <tr>
+                            <th>Spalanie:</th><td>{{ offer.spalanie }} l/100km</td>
+                        </tr>
+                    </table>
+                    <h1>{{ offer.cena }} zł</h1>
+                </mat-card-content>
+            </div>
         </mat-card>
     </div>
 </section>
-
-

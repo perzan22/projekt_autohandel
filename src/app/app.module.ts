@@ -18,6 +18,7 @@ import { ShowOfferComponent } from './offer/show-offer/show-offer.component';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
+import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ShowProfileComponent } from './profile/show-profile/show-profile.compon
     SignupComponent,
     ShowOfferComponent,
     CreateProfileComponent,
-    ShowProfileComponent
+    ShowProfileComponent,
+    SearchedOffersComponent
   ],
   imports: [
     BrowserModule,

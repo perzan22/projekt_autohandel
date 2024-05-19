@@ -3,6 +3,7 @@ import { Offer } from "./offer.model";
 import { Subject, map } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { Query } from "mongoose";
 
 @Injectable({ providedIn: 'root' })
 export class OfferService {
@@ -129,36 +130,12 @@ export class OfferService {
         }
     }
 
-    getOffersSerching(marka: string | null, model: string | null, cenaMin: number | null, cenaMax: number | null, rokProdukcjiMin: number | null, rokProdukcjiMax: number | null, przebiegMax: number | null, rodzajPaliwa: string | null) {
-        let baseUrl = 'http://localhost:3000/api/offers/search';
-        let url = new URL(baseUrl);
+    getOffersSerching(queryParams: string) {
 
-        if (marka) {
-            url.searchParams.append('marka', marka);
-            if (model) {
-                url.searchParams.append('model', model);
-            }
-        }
-        if (cenaMin) {
-            url.searchParams.append('cena_min', cenaMin.toString());
-        }
-        if (cenaMax) {
-            url.searchParams.append('cena_max', cenaMax.toString());
-        }
-        if (rokProdukcjiMin) {
-            url.searchParams.append('rok_produkcji_min', rokProdukcjiMin.toString());
-        }
-        if (rokProdukcjiMax) {
-            url.searchParams.append('rok_produkcji_max', rokProdukcjiMax.toString());
-        }
-        if (przebiegMax) {
-            url.searchParams.append('przebieg_max', przebiegMax.toString());
-        }
-        if (rodzajPaliwa) {
-            url.searchParams.append('rodzaj_paliwa', rodzajPaliwa);
-        }
+        const baseUrl = 'http://localhost:3000/api/offers'
+        const url = baseUrl + queryParams
 
-        this.http.get<{ message: string, offers: any }>(url.toString())
+        this.http.get<{ message: string, offers: any }>(url)
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
@@ -189,6 +166,39 @@ export class OfferService {
             }, 
             error: error => {
                 console.log(error)
+            }
+        })
+    }
+
+    getUserOffers(userID: string) {
+        this.http.get<{ message: string, offers: any }>('http://localhost:3000/api/offers/my-offers/' + userID)
+        .pipe(map(offerData => {
+            return {
+                offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
+                    return {
+                        id: offer._id,
+                        nazwa: offer.nazwa, 
+                        marka: offer.marka,
+                        model: offer.model,
+                        rok_produkcji: offer.rok_produkcji,
+                        przebieg: offer.przebieg,
+                        spalanie: offer.spalanie,
+                        pojemnosc_silnika: offer.pojemnosc_silnika,
+                        rodzaj_paliwa: offer.rodzaj_paliwa,
+                        opis: offer.opis,
+                        cena: offer.cena,
+                        creator: offer.creator,
+                        imagePath: offer.imagePath,
+                        date: offer.date
+                    }
+                })
+            }
+        }))
+        .subscribe({
+            next: (fetchedOffers) => {
+                this.offers = fetchedOffers.offers;
+                this.offersSubs.next({ offers: [...this.offers] });
             }
         })
     }
