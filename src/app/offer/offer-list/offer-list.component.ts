@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Car } from '../../car/car.model';
 import { CarService } from '../../car/car.service';
+import { ProfileService } from '../../profile/profile.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -31,7 +32,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
     { value: 'Hybrydowe'}
   ]
 
-  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService) {}
+  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private profileService: ProfileService) {}
 
 
   ngOnInit(): void {
@@ -122,4 +123,9 @@ export class OfferListComponent implements OnInit, OnDestroy{
     .filter((model, index, self) => self.indexOf(model) === index);
   }
   
+  onAddToFavorites(offerID: string) {
+    this.profileService.addToFavorites(offerID);
+
+  }
+
 }

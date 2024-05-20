@@ -13,4 +13,5 @@ export interface Offer {
     creator: string
     imagePath: string
     date: Date
+    czyUlubione: boolean
 }

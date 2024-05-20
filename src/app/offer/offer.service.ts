@@ -3,7 +3,7 @@ import { Offer } from "./offer.model";
 import { Subject, map } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { Query } from "mongoose";
+
 
 @Injectable({ providedIn: 'root' })
 export class OfferService {
@@ -52,7 +52,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date; czyUlubione: boolean}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -67,7 +67,8 @@ export class OfferService {
                         cena: offer.cena,
                         creator: offer.creator,
                         imagePath: offer.imagePath,
-                        date: offer.date
+                        date: offer.date,
+                        czyUlubione: offer.czyUlubione
                     }
                 })
             }
@@ -82,7 +83,7 @@ export class OfferService {
 
     getOffer(offerID: string | null) {
         return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
-        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string, date: Date }>('http://localhost:3000/api/offers/' + offerID)
+        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string, date: Date, czyUlubione: boolean }>('http://localhost:3000/api/offers/' + offerID)
         .pipe(map(offer => {
             return {
                 id: offer._id,
@@ -98,7 +99,8 @@ export class OfferService {
                 cena: offer.cena,
                 creator: offer.creator,
                 imagePath: offer.imagePath,
-                date: offer.date
+                date: offer.date,
+                czyUlubione: offer.czyUlubione
             }
         }))
     }
@@ -139,7 +141,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date; czyUlubione: boolean}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -154,7 +156,8 @@ export class OfferService {
                         cena: offer.cena,
                         creator: offer.creator,
                         imagePath: offer.imagePath,
-                        date: offer.date
+                        date: offer.date,
+                        czyUlubione: offer.czyUlubione
                     }
                 })
             }

@@ -105,3 +105,45 @@ exports.getProfileByUserID = (req, res, next) => {
         }
     })
 }
+
+exports.addToFavorites = (req, res, next) => {
+    const userID = req.userData.userID;
+    const offerID = req.body.offerID;
+
+    Profile.findOne({ userID: userID }).then(profile => {
+        if (!profile) {
+            return res.status(404).json({ message: 'Profile not found' })
+        }
+
+        if (!profile.ulubione.includes(offerID)) {
+            profile.ulubione.push(offerID);
+            profile.save().then(result => {
+                res.status(200).json({ message: 'Offer added to ulubione', ulubione: result.ulubione })
+            });
+        } else {
+            res.status(200).json({ message: 'Offer already in ulubione' });
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: 'Adding to ulubione failed', error: error });
+    });
+}
+
+exports.removeFromFavorites = (req, res, next) => {
+    const userID = req.userData.userID;
+    const offerID = req.body.offerID;
+  
+    Profile.findOne({ userID: userID })
+      .then(profile => {
+        if (!profile) {
+          return res.status(404).json({ message: 'Profile not found' });
+        }
+        profile.ulubione = profile.ulubione.filter(_id => _id.toString() !== offerID.toString());
+        profile.save().then(result => {
+          res.status(200).json({ message: 'Offer removed from ulubione', ulubione: result.ulubione });
+        });
+      })
+      .catch(error => {
+        res.status(500).json({ message: 'Removing from ulubione failed', error: error });
+      });
+  };

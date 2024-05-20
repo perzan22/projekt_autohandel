@@ -107,4 +107,12 @@ export class ProfileService {
             }
         }))
     }
+
+    addToFavorites(offerID: string) {
+        return this.http.post('http://localhost:3000/api/profiles/favorites/add', { offerID })
+    }
+
+    removeFromFavorites(offerID: string) {
+        return this.http.post('http://localhost:3000/api/profiles/favorites/remove', { offerID })
+    }
 }

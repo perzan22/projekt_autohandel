@@ -6,16 +6,17 @@ const router = express.Router()
 
 const OffersControllers = require('../controllers/offers');
 const checkAuth = require('../middlewares/check-auth');
+const checkProfile = require('../middlewares/check-profile')
 
-router.get('/search', OffersControllers.getOffersSearch);
+router.get('/search', checkProfile, OffersControllers.getOffersSearch);
 
 router.get('/my-offers/:userID', checkAuth, OffersControllers.getUserOffers)
 
-router.get('', OffersControllers.getRandomOffers);
+router.get('', checkProfile, OffersControllers.getRandomOffers);
 
 router.post('', fileExtractor, checkAuth, OffersControllers.createOffer)
 
-router.get('/:id', OffersControllers.getOffer)
+router.get('/:id', checkProfile, OffersControllers.getOffer)
 
 router.delete('/:id', checkAuth, OffersControllers.deleteOffer)
 

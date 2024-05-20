@@ -84,7 +84,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
           this.offer = {id: offerData.id, nazwa: offerData.nazwa, marka: offerData.marka,
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
-                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date};
+                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date, czyUlubione: false};
           if (this.offer.imagePath) {
             this.onImagePickedFromPath(this.offer.imagePath);
           } 

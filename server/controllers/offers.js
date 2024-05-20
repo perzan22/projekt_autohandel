@@ -1,5 +1,6 @@
 const Offer = require('../models/offer')
 const Car = require('../models/car')
+const Profile = require('../models/profile')
 
 
 exports.createOffer = (req, res, next) => {
@@ -54,21 +55,54 @@ exports.createOffer = (req, res, next) => {
 }
 
 exports.getRandomOffers = (req, res, next) => {
-    Offer.aggregate([{ $sample: { size: 5 } }]).exec().then(documents =>
+    Offer.aggregate([{ $sample: { size: 5 } }]).exec().then(documents => {
+
+        let userFavorites = []
+        if (req.userData) {
+            Profile.findOne({ userID: req.userData.userID }).then(profile => {
+                if (profile) {
+                    userFavorites = profile.ulubione.map(fav => fav.toString());
+                }
+            })
+        }
+
+        const offersWithFavorites = documents.map(offer => {
+            return {
+                ...offer,
+                czyUlubione: userFavorites.includes(offer._id.toString())
+            };
+        });
+
+        console.log(offersWithFavorites)
         res.status(200).json({
             message: 'Offers fetched succesfully!',
-            offers: documents
+            offers: offersWithFavorites
         })
-    );
-
+    });
 }
 
 exports.getOffer = (req, res, next) => {
     const offerID = req.params.id;
     Offer.findById(offerID).then(offer => {
         if (offer) {
-            res.status(200).json(offer)
-        } else {
+
+            let isFavorite = false
+            if (req.userData) {
+                Profile.findOne({ userID: req.userData.userID }).then(profile => {
+                    if (profile) {
+                        isFavorite = profile.ulubione.includes(offer._id.toString());
+                    }
+                })
+            }
+
+            const offerWithFavorites = {
+                ...offer._doc,
+                czyUlubione: isFavorite
+            }
+
+            res.status(200).json(offerWithFavorites)
+
+    } else {
             res.status(404).json('Offer not found!')
         }
     })
@@ -170,9 +204,27 @@ exports.getOffersSearch = (req, res, next) => {
     }
 
     Offer.find(query).then(offers => {
+
+        let userFavorites = []
+        if (req.userData) {
+            Profile.findOne({ userID: req.userData.userID }).then(profile => {
+                if (profile) {
+                    userFavorites = profile.ulubione.map(fav => fav.toString());
+                }
+            })
+        }
+        
+        const offersWithFavorites = offers.map(offer => {
+            return {
+                ...offer._doc,
+                czyUlubione: userFavorites.includes(offer._id.toString())
+            };
+        });
+
+
         res.status(200).json({ 
             message: "Offers fetched successfully",
-            offers: offers 
+            offers: offersWithFavorites 
         });
     }).catch(error => {
         res.status(500).json({

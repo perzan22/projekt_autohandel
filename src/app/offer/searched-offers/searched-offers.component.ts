@@ -41,12 +41,16 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
 
-    this.userID = this.authService.getUserId();
     this.isAuth = this.authService.getIsAuth();
+    if (this.isAuth) {
+      this.userID = this.authService.getUserId();
+    }
     this.authSubs = this.authService.getAuthStatusListener().subscribe({
       next: user => {
-        this.userID = this.authService.getUserId();
         this.isAuth = user.isAuth
+        if (this.isAuth) {
+          this.userID = this.authService.getUserId();
+        }
       }
     })
 
