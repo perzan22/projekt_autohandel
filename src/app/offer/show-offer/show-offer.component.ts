@@ -67,4 +67,23 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   onShowPhone() {
     this.showPhone = true;
   }
+
+  onAddToFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
+    this.profileService.addToFavorites(offerID);
+    this.toggleFavoriteStatus(true)
+  }
+
+  onRemoveFromFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
+    this.profileService.removeFromFavorites(offerID);
+    this.toggleFavoriteStatus(false)
+  }
+
+  private toggleFavoriteStatus(status: boolean) {
+    const offer = this.offer
+    if (offer) {
+      offer.czyUlubione = status;
+    }
+  }
 }

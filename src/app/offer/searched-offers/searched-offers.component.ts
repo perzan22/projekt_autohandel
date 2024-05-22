@@ -8,6 +8,7 @@ import { Car } from '../../car/car.model';
 import { CarService } from '../../car/car.service';
 import { __values } from 'tslib';
 import { AuthService } from '../../auth/auth.service';
+import { ProfileService } from '../../profile/profile.service';
 
 @Component({
   selector: 'searched-offers',
@@ -36,7 +37,7 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     { value: 'Hybrydowe'}
   ]
 
-  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private authService: AuthService) {}
+  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private authService: AuthService, private profileService: ProfileService) {}
 
 
   ngOnInit(): void {
@@ -124,9 +125,17 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             map(value => this._filterModels(value))
           )
       
-        } else {
+        } else if (url[0].path === 'my-offers') {
           this.mode = 'my-offers'
           this.offerService.getUserOffers(this.userID);
+          this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
+            next: offerData => {
+              this.offers = offerData.offers
+            }
+          })
+        } else {
+          this.mode = 'favorites';
+          this.offerService.getFavoritesOffers(this.userID);
           this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
             next: offerData => {
               this.offers = offerData.offers
@@ -192,4 +201,22 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     .filter((model, index, self) => self.indexOf(model) === index);
   }
   
+  onAddToFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
+    this.profileService.addToFavorites(offerID);
+    this.toggleFavoriteStatus(offerID, true)
+  }
+
+  onRemoveFromFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
+    this.profileService.removeFromFavorites(offerID);
+    this.toggleFavoriteStatus(offerID, false)
+  }
+
+  private toggleFavoriteStatus(offerID: string, status: boolean) {
+    const offer = this.offers.find(o => o.id === offerID)
+    if (offer) {
+      offer.czyUlubione = status;
+    }
+  }
 }

@@ -23,7 +23,9 @@ const routes: Routes = [
   { path: 'profile/edit/change-password/:userID', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'profile/edit/profile-info/:profileID', component: CreateProfileComponent, canActivate: [AuthGuard, HasProfileGuard] },
   { path: 'search', component: SearchedOffersComponent },
-  { path: 'my-offers', component: SearchedOffersComponent, canActivate: [AuthGuard] }
+  { path: 'my-offers', component: SearchedOffersComponent, canActivate: [AuthGuard] },
+  { path: 'favorites', component: SearchedOffersComponent, canActivate: [AuthGuard] }
+
 
 ];
 

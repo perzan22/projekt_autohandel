@@ -12,6 +12,8 @@ router.get('/search', checkProfile, OffersControllers.getOffersSearch);
 
 router.get('/my-offers/:userID', checkAuth, OffersControllers.getUserOffers)
 
+router.get('/favorites/:userID', checkAuth, OffersControllers.getFavoritesOffers)
+
 router.get('', checkProfile, OffersControllers.getRandomOffers);
 
 router.post('', fileExtractor, checkAuth, OffersControllers.createOffer)

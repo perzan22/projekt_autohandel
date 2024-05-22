@@ -269,3 +269,41 @@ exports.getUserOffers = (req, res, next) => {
         });
     });
 }
+
+exports.getFavoritesOffers = (req, res, next) => {
+    const userID = req.params.userID
+
+    Profile.findOne({ userID: userID }).then(profile => {
+
+        const favorites = profile.ulubione
+
+        Offer.find({ _id: { $in: favorites } }).then(offers => {
+
+            const offersWithFavorites = offers.map(offer => {
+
+                return {
+                    ...offer._doc,
+                    czyUlubione: favorites.includes(offer._id.toString())
+                };
+            })
+
+            res.status(200).json({
+                message: 'Offers fetched successfully',
+                offers: offersWithFavorites
+            })
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Offers fetching failed',
+                error: error
+            })
+        })
+
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Profile not found',
+            error: error
+        })
+    })
+}

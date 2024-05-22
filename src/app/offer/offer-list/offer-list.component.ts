@@ -26,6 +26,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
   private carSubs!: Subscription
   isAuth: boolean = false
   private authSubs!: Subscription
+  userID!: string
 
   rodzaj_paliw = [
     { value: 'Benzyna'},
@@ -52,9 +53,15 @@ export class OfferListComponent implements OnInit, OnDestroy{
     })
 
     this.isAuth = this.authService.getIsAuth();
+    if (this.isAuth) {
+      this.userID = this.authService.getUserId();
+    }
     this.authSubs = this.authService.getAuthStatusListener().subscribe({
       next: isAuth => {
         this.isAuth = isAuth.isAuth
+        if (isAuth) {
+          this.userID = this.authService.getUserId();
+        }
       }
     })
     

@@ -8,6 +8,9 @@
                 <a routerLink="/my-offers" *ngIf="isAuthenticated" mat-button (click)="sidenav.close()">Twoje oferty</a>
             </li>
             <li>
+                <a routerLink="/favorites" *ngIf="isAuthenticated" mat-button (click)="sidenav.close()">Ulubione oferty</a>
+            </li>
+            <li>
                 <a *ngIf="isAuthenticated && !profileID" routerLink="/profile/create" mat-button (click)="sidenav.close()">Stwórz profil</a>
             </li>
             <li>
