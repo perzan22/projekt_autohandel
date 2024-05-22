@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Car } from '../../car/car.model';
 import { CarService } from '../../car/car.service';
 import { ProfileService } from '../../profile/profile.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-offer-list',
@@ -23,6 +24,8 @@ export class OfferListComponent implements OnInit, OnDestroy{
   filteredBrands!: Observable<string[]> | undefined
   filteredModels!: Observable<string[]> | undefined
   private carSubs!: Subscription
+  isAuth: boolean = false
+  private authSubs!: Subscription
 
   rodzaj_paliw = [
     { value: 'Benzyna'},
@@ -32,7 +35,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
     { value: 'Hybrydowe'}
   ]
 
-  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private profileService: ProfileService) {}
+  constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private profileService: ProfileService, private authService: AuthService) {}
 
 
   ngOnInit(): void {
@@ -47,13 +50,20 @@ export class OfferListComponent implements OnInit, OnDestroy{
       "przebiegMax": new FormControl(null),
       "rodzajPaliwa": new FormControl(null)
     })
+
+    this.isAuth = this.authService.getIsAuth();
+    this.authSubs = this.authService.getAuthStatusListener().subscribe({
+      next: isAuth => {
+        this.isAuth = isAuth.isAuth
+      }
+    })
     
     this.offerService.getOffers();
-          this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
-            next: offerData => {
-              this.offers = offerData.offers
-            }
-          })
+    this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
+      next: offerData => {
+        this.offers = offerData.offers
+      }
+    })
 
     this.carService.getCars()
     this.carSubs = this.carService.getCarUpdateListener().subscribe({
@@ -79,8 +89,9 @@ export class OfferListComponent implements OnInit, OnDestroy{
 
 
   ngOnDestroy(): void {
-    this.offerSubs.unsubscribe()
-    this.carSubs.unsubscribe()
+    this.offerSubs.unsubscribe();
+    this.carSubs.unsubscribe();
+    this.authSubs.unsubscribe();
   }
 
   showOffer(offerID: string) {
@@ -123,9 +134,23 @@ export class OfferListComponent implements OnInit, OnDestroy{
     .filter((model, index, self) => self.indexOf(model) === index);
   }
   
-  onAddToFavorites(offerID: string) {
+  onAddToFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
     this.profileService.addToFavorites(offerID);
+    this.toggleFavoriteStatus(offerID, true)
+  }
 
+  onRemoveFromFavorites(event: Event, offerID: string) {
+    event.stopPropagation();
+    this.profileService.removeFromFavorites(offerID);
+    this.toggleFavoriteStatus(offerID, false)
+  }
+
+  private toggleFavoriteStatus(offerID: string, status: boolean) {
+    const offer = this.offers.find(o => o.id === offerID)
+    if (offer) {
+      offer.czyUlubione = status;
+    }
   }
 
 }

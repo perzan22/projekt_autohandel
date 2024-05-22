@@ -49,7 +49,8 @@ exports.createOffer = (req, res, next) => {
     .catch(error => {
         console.error(error);
         res.status(500).json({
-            message: 'Creating offer failed!'
+            message: 'Creating offer failed!',
+            error: error
         })
     })
 }
@@ -62,21 +63,33 @@ exports.getRandomOffers = (req, res, next) => {
             Profile.findOne({ userID: req.userData.userID }).then(profile => {
                 if (profile) {
                     userFavorites = profile.ulubione.map(fav => fav.toString());
+                    console.log(userFavorites)
+
+                    const offersWithFavorites = documents.map(offer => {
+                        return {
+                            ...offer,
+                            czyUlubione: userFavorites.includes(offer._id.toString())
+                        };
+                    });
+
+                    res.status(200).json({
+                        message: 'Offers fetched successfully!',
+                        offers: offersWithFavorites
+                    })
                 }
             })
+        } else {
+
+            res.status(200).json({
+                message: 'Offers fetched successfully!',
+                offers: documents
+            })
         }
-
-        const offersWithFavorites = documents.map(offer => {
-            return {
-                ...offer,
-                czyUlubione: userFavorites.includes(offer._id.toString())
-            };
-        });
-
-        console.log(offersWithFavorites)
-        res.status(200).json({
-            message: 'Offers fetched succesfully!',
-            offers: offersWithFavorites
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: `Couldn't fetch offers!`,
+            error: error
         })
     });
 }
@@ -91,18 +104,19 @@ exports.getOffer = (req, res, next) => {
                 Profile.findOne({ userID: req.userData.userID }).then(profile => {
                     if (profile) {
                         isFavorite = profile.ulubione.includes(offer._id.toString());
+
+                        const offerWithFavorites = {
+                            ...offer._doc,
+                            czyUlubione: isFavorite
+                        }
+
+                        res.status(200).json(offerWithFavorites)
                     }
                 })
-            }
-
-            const offerWithFavorites = {
-                ...offer._doc,
-                czyUlubione: isFavorite
-            }
-
-            res.status(200).json(offerWithFavorites)
-
-    } else {
+            } else {
+                res.status(200).json(offer)
+            }     
+        } else {
             res.status(404).json('Offer not found!')
         }
     })
@@ -151,7 +165,8 @@ exports.editOffer = (req, res, next) => {
     })
     .catch(error => {
         res.status(500).json({
-            message: `Couldn't edit an offer`
+            message: `Couldn't edit an offer`,
+            error: error
         })
     });
 }
@@ -210,22 +225,27 @@ exports.getOffersSearch = (req, res, next) => {
             Profile.findOne({ userID: req.userData.userID }).then(profile => {
                 if (profile) {
                     userFavorites = profile.ulubione.map(fav => fav.toString());
+
+                    const offersWithFavorites = offers.map(offer => {
+                        return {
+                            ...offer._doc,
+                            czyUlubione: userFavorites.includes(offer._id.toString())
+                        };
+                    });
+                    res.status(200).json({ 
+                        message: "Offers fetched successfully",
+                        offers: offersWithFavorites 
+                    });
                 }
             })
+        } else {
+            res.status(200).json({ 
+                message: "Offers fetched successfully",
+                offers: offers 
+            });
         }
         
-        const offersWithFavorites = offers.map(offer => {
-            return {
-                ...offer._doc,
-                czyUlubione: userFavorites.includes(offer._id.toString())
-            };
-        });
-
-
-        res.status(200).json({ 
-            message: "Offers fetched successfully",
-            offers: offersWithFavorites 
-        });
+        
     }).catch(error => {
         res.status(500).json({
             message: 'Fetching offers failed!',

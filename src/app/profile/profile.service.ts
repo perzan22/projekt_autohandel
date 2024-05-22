@@ -109,10 +109,18 @@ export class ProfileService {
     }
 
     addToFavorites(offerID: string) {
-        return this.http.post('http://localhost:3000/api/profiles/favorites/add', { offerID })
+        return this.http.post<{ message: string, ulubione: string[] }>('http://localhost:3000/api/profiles/favorites/add', { offerID }).subscribe({
+            next: favorite => {
+                console.log(favorite.message)
+            }
+        })
     }
 
     removeFromFavorites(offerID: string) {
-        return this.http.post('http://localhost:3000/api/profiles/favorites/remove', { offerID })
+        return this.http.post<{ message: string, ulubione: string[] }>('http://localhost:3000/api/profiles/favorites/remove', { offerID }).subscribe({
+            next: favorite => {
+                console.log(favorite.message)
+            }
+        })
     }
 }
