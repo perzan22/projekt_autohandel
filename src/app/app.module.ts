@@ -19,6 +19,9 @@ import { ValidateEqualModule } from 'ng-validate-equal';
 import { CreateProfileComponent } from './profile/create-profile/create-profile.component';
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { SearchedOffersComponent } from './offer/searched-offers/searched-offers
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    ValidateEqualModule
+    ValidateEqualModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     provideAnimationsAsync(),

@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
 import { CookieService } from "ngx-cookie-service";
+import { Socket } from "ngx-socket-io";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     private email: string = ''
     private profileID: string = ''
 
-    constructor(private http: HttpClient, private router: Router, private cookies: CookieService) {}
+    constructor(private http: HttpClient, private router: Router, private cookies: CookieService, private socket: Socket) {}
 
     getToken() {
         return this.token;
@@ -91,6 +92,7 @@ export class AuthService {
                     this.email = response.email
                     this.profileID = response.profileID
                     this.setCookies();
+                    this.socket.connect();
                     this.router.navigate(['/']);
                 }
             }
