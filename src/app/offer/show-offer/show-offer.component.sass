@@ -24,12 +24,38 @@ button
 .header-info
     width: 50%
 
+    .header-text
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        #heart-clicked
+            color: #D16D6A
+            font-size: 40px
+            width: 40px
+            height: 100%
+            margin: 10px
+
+        #heart:hover
+            fill: black
+            cursor: pointer
+
+        #heart-clicked:hover
+            color: black
+            cursor: pointer
+        
+        #heart
+            margin: 10px
+    
+
 mat-card-header
     display: flex
-    justify-content: end
+    justify-content: space-between
+
 
     img
         width:100%
+        border-radius: 10px
 
 mat-card-footer
     font-size: 10px

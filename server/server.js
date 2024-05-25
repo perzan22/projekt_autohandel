@@ -2,6 +2,7 @@ const app = require("./app");
 const debug = require("debug")("node-angular");
 const http = require("http");
 const socketIo = require("socket.io");
+const chatSocket = require('./sockets/chat')
 
 const normalizePort = val => {
   var port = parseInt(val, 10);
@@ -49,15 +50,13 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-const io = socketIo(server);
-io.on("connection", socket => {
-  console.log("New client connected");
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:4200'
+  }
 });
+chatSocket(io);
 
-server.on("error", onError);
+//server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);

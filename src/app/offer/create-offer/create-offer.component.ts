@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { mimeType } from '../../validators/mime-type.validator';
+import { Car } from '../../car/car.model';
+import { Observable, Subscription, map, startWith } from 'rxjs';
+import { CarService } from '../../car/car.service';
 
 @Component({
   selector: 'app-create-offer',
   templateUrl: './create-offer.component.html',
   styleUrl: './create-offer.component.sass'
 })
-export class CreateOfferComponent implements OnInit{
+export class CreateOfferComponent implements OnInit, OnDestroy{
 
   form!: FormGroup
   offer!: Offer
@@ -18,6 +21,11 @@ export class CreateOfferComponent implements OnInit{
   offerID: string | null = null
   imgURL!: string
   showButton: boolean = true
+  cars: Car[] = []
+  filteredBrands!: Observable<string[]> | undefined
+  filteredModels!: Observable<string[]> | undefined
+  private carSubs!: Subscription
+
 
   rodzaj_paliw = [
     { value: 'Benzyna'},
@@ -27,7 +35,10 @@ export class CreateOfferComponent implements OnInit{
     { value: 'Hybrydowe'}
   ]
 
-  constructor(private offerService: OfferService, public route: ActivatedRoute) {}
+  constructor(private offerService: OfferService, public route: ActivatedRoute, private carService: CarService) {}
+
+
+  
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -73,7 +84,7 @@ export class CreateOfferComponent implements OnInit{
           this.offer = {id: offerData.id, nazwa: offerData.nazwa, marka: offerData.marka,
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
-                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date};
+                          cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date, czyUlubione: false};
           if (this.offer.imagePath) {
             this.onImagePickedFromPath(this.offer.imagePath);
           } 
@@ -87,8 +98,51 @@ export class CreateOfferComponent implements OnInit{
         this.offerID = null;
       }
     });
+
+    this.carService.getCars()
+    this.carSubs = this.carService.getCarUpdateListener().subscribe({
+      next: carData => {
+        this.cars = carData.cars
+      }
+    })
+
+    this.filteredBrands = this.form.get('marka')?.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterBrands(value))
+    )
+
+    this.filteredModels = this.form.get('model')?.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterModels(value))
+    )
+
   }
 
+  ngOnDestroy(): void {
+    this.carSubs.unsubscribe()
+  }
+
+  private _filterBrands(value: string | { name: string }): string[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : value.name.toLowerCase();
+    return this.cars
+    .map(car => car.marka)
+    .filter(brand => brand.toLowerCase().includes(filterValue))
+    .filter((brand, index, self) => self.indexOf(brand) === index);
+  }
+
+  private _filterModels(value: string | { name: string }): string[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : value.name.toLowerCase();
+    let selectedBrand: string;
+    if (this.form.get('marka')?.value) {
+      selectedBrand = this.form.get('marka')?.value.toLowerCase();
+    }
+    
+    return this.cars
+    .filter(car => car.marka.toLowerCase() === selectedBrand)
+    .map(car => car.model)
+    .filter(model => model.toLowerCase().includes(filterValue))
+    .filter((model, index, self) => self.indexOf(model) === index);
+  }
 
   onPublishOffer() {
 

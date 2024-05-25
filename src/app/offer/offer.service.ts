@@ -4,6 +4,7 @@ import { Subject, map } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 
+
 @Injectable({ providedIn: 'root' })
 export class OfferService {
 
@@ -51,7 +52,7 @@ export class OfferService {
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
-                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date}) => {
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date; czyUlubione: boolean}) => {
                     return {
                         id: offer._id,
                         nazwa: offer.nazwa, 
@@ -66,7 +67,8 @@ export class OfferService {
                         cena: offer.cena,
                         creator: offer.creator,
                         imagePath: offer.imagePath,
-                        date: offer.date
+                        date: offer.date,
+                        czyUlubione: offer.czyUlubione
                     }
                 })
             }
@@ -81,7 +83,7 @@ export class OfferService {
 
     getOffer(offerID: string | null) {
         return this.http.get<{_id: string, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number,
-        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string, date: Date }>('http://localhost:3000/api/offers/' + offerID)
+        spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, creator: string, imagePath: string, date: Date, czyUlubione: boolean }>('http://localhost:3000/api/offers/' + offerID)
         .pipe(map(offer => {
             return {
                 id: offer._id,
@@ -97,7 +99,8 @@ export class OfferService {
                 cena: offer.cena,
                 creator: offer.creator,
                 imagePath: offer.imagePath,
-                date: offer.date
+                date: offer.date,
+                czyUlubione: offer.czyUlubione
             }
         }))
     }
@@ -129,4 +132,111 @@ export class OfferService {
         }
     }
 
+    getOffersSerching(queryParams: string) {
+
+        const baseUrl = 'http://localhost:3000/api/offers'
+        const url = baseUrl + queryParams
+
+        this.http.get<{ message: string, offers: any }>(url)
+        .pipe(map(offerData => {
+            return {
+                offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date; czyUlubione: boolean}) => {
+                    return {
+                        id: offer._id,
+                        nazwa: offer.nazwa, 
+                        marka: offer.marka,
+                        model: offer.model,
+                        rok_produkcji: offer.rok_produkcji,
+                        przebieg: offer.przebieg,
+                        spalanie: offer.spalanie,
+                        pojemnosc_silnika: offer.pojemnosc_silnika,
+                        rodzaj_paliwa: offer.rodzaj_paliwa,
+                        opis: offer.opis,
+                        cena: offer.cena,
+                        creator: offer.creator,
+                        imagePath: offer.imagePath,
+                        date: offer.date,
+                        czyUlubione: offer.czyUlubione
+                    }
+                })
+            }
+        }))
+        .subscribe({
+            next: (fetchedOffers) => {
+                this.offers = fetchedOffers.offers;
+                this.offersSubs.next({ offers: [...this.offers] });
+            }, 
+            error: error => {
+                console.log(error)
+            }
+        })
+    }
+
+    getUserOffers(userID: string) {
+        this.http.get<{ message: string, offers: any }>('http://localhost:3000/api/offers/my-offers/' + userID)
+        .pipe(map(offerData => {
+            return {
+                offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date;}) => {
+                    return {
+                        id: offer._id,
+                        nazwa: offer.nazwa, 
+                        marka: offer.marka,
+                        model: offer.model,
+                        rok_produkcji: offer.rok_produkcji,
+                        przebieg: offer.przebieg,
+                        spalanie: offer.spalanie,
+                        pojemnosc_silnika: offer.pojemnosc_silnika,
+                        rodzaj_paliwa: offer.rodzaj_paliwa,
+                        opis: offer.opis,
+                        cena: offer.cena,
+                        creator: offer.creator,
+                        imagePath: offer.imagePath,
+                        date: offer.date,
+                    }
+                })
+            }
+        }))
+        .subscribe({
+            next: (fetchedOffers) => {
+                this.offers = fetchedOffers.offers;
+                this.offersSubs.next({ offers: [...this.offers] });
+            }
+        })
+    }
+
+    getFavoritesOffers(userID: string) {
+        this.http.get<{ message: string, offers: any }>('http://localhost:3000/api/offers/favorites/' + userID)
+        .pipe(map(offerData => {
+            return {
+                offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
+                    przebieg: number; spalanie: number; pojemnosc_silnika: number; rodzaj_paliwa: string; opis: string; cena: number; creator: string; imagePath: string; date: Date; czyUlubione: boolean}) => {
+                    return {
+                        id: offer._id,
+                        nazwa: offer.nazwa, 
+                        marka: offer.marka,
+                        model: offer.model,
+                        rok_produkcji: offer.rok_produkcji,
+                        przebieg: offer.przebieg,
+                        spalanie: offer.spalanie,
+                        pojemnosc_silnika: offer.pojemnosc_silnika,
+                        rodzaj_paliwa: offer.rodzaj_paliwa,
+                        opis: offer.opis,
+                        cena: offer.cena,
+                        creator: offer.creator,
+                        imagePath: offer.imagePath,
+                        date: offer.date,
+                        czyUlubione: offer.czyUlubione
+                    }
+                })
+            }
+        }))
+        .subscribe({
+            next: (fetchedOffers) => {
+                this.offers = fetchedOffers.offers;
+                this.offersSubs.next({ offers: [...this.offers] });
+            }
+        })
+    }
 }

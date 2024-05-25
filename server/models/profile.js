@@ -10,7 +10,8 @@ const profileSchema = mongoose.Schema({
     miasto: { type: String, required: true },
     nrTelefonu: { type: String, required: true },
     avatarPath: { type: String, required: true, default: 'http://localhost:3000/images/avatars/default_avatar.jpg' },
-    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true }
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+    ulubione: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Offer' }]
 })
 
 profileSchema.plugin(uniqueValidator);

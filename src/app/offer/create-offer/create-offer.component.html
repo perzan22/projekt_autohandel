@@ -10,19 +10,29 @@
             <input matInput type="text" formControlName="nazwa">
         </mat-form-field>
         <div id="divider">
-            <section id="car-info" class="form-div">
+            <section id="marka-info" class="form-div">
 
                 <h3 *ngIf="mode === 'create'">Podaj podstawowe informacje o swoim aucie</h3>
                 <h3 *ngIf="mode === 'edit'">Edytuj podstawowe informacje o swoim aucie</h3>
 
                 <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                     <mat-label>Marka samochodu</mat-label>
-                    <input matInput type="text" formControlName="marka">
+                    <input matInput type="text" formControlName="marka" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        @for (marka of filteredBrands | async; track marka) {
+                          <mat-option [value]="marka">{{ marka }}</mat-option>
+                        }
+                        </mat-autocomplete>
                 </mat-form-field>
         
                 <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">
                     <mat-label>Model samochodu</mat-label>
-                    <input matInput type="text" formControlName="model">
+                    <input matInput type="text" formControlName="model" [matAutocomplete]="autoModel">
+                    <mat-autocomplete #autoModel="matAutocomplete">
+                        @for (model of filteredModels | async; track model) {
+                          <mat-option [value]="model">{{ model }}</mat-option>
+                        }
+                        </mat-autocomplete>
                 </mat-form-field>
         
                 <mat-form-field floatLabel="auto" [hideRequiredMarker]="true">

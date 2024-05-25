@@ -1,5 +1,5 @@
 <section class="main-page">
-    <form [formGroup]="form" class="searchbar">
+    <form [formGroup]="form" class="searchbar" (submit)="onSearch()" *ngIf="mode === 'search'">
         <mat-card class="search-card">
             <mat-card-header>
                 <mat-card-title>Wyszukaj ofertę</mat-card-title>
@@ -62,31 +62,47 @@
         </mat-card>
 
     </form>
-    <h1>Sprawdź oferty na naszym portalu</h1>
-    <p *ngIf="offers.length <= 0" id="no-offers">Brak ofert!</p>
+    <h1 *ngIf="mode === 'search'">Znalezione oferty</h1>
+    <h1 *ngIf="mode === 'my-offers'">Twoje aktualne oferty</h1>
+    <h1 *ngIf="mode === 'favorites'">Twoje ulubione oferty</h1>
+
+
+    <p *ngIf="offers.length <= 0 && mode === 'search'" id="no-offers">Brak znalezionych ofert! Zmień opcje filtrowania wyników</p>
+    <p *ngIf="offers.length <= 0 && mode === 'my-offers'" id="no-offers">Nie masz żadnych aktualnych ofert! <a href="/create">Utwórz nową ofertę</a></p>
+    <p *ngIf="offers.length <= 0 && mode === 'favorites'" id="no-offers">Nie masz żadnych ulubionych ofert! Poszukaj i dodaj ulubione oferty</p>
+
+
     <div class="card-container">
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
-            <mat-card-header>
-                <div class="header-text">
-                    <mat-card-title> {{ offer.nazwa }}</mat-card-title>
-                    <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
-                </div>
-            </mat-card-header>
             <div class="image">
-                <img mat-card-image [src]="offer.imagePath" [alt]="offer.nazwa">
+                <img [src]="offer.imagePath" [alt]="offer.nazwa">
             </div>
-            
-            <mat-card-content>
-                <p>{{ offer.rok_produkcji }} - {{ offer.przebieg }} km - {{ offer.rodzaj_paliwa }} - {{ offer.pojemnosc_silnika }} cm³ - {{ offer.spalanie }} l/100km</p>
-                <h1>
-                   {{ offer.cena }} zł
-                   <mat-icon id="heart-clicked" *ngIf="isAuth && offer.czyUlubione && userID !== offer.creator" (click)="onRemoveFromFavorites($event, offer.id)">favorite</mat-icon>
-                   <svg *ngIf="isAuth && !offer.czyUlubione && userID !== offer.creator" (click)="onAddToFavorites($event, offer.id)" title="Dodaj do ulubionych"  id='heart' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#D16D6A"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-                </h1>
-            </mat-card-content>
-            
+            <div class="content">
+                <mat-card-header>
+                    <div class="header-text">  
+                        <div>
+                            <mat-card-title> {{ offer.nazwa }}</mat-card-title>
+                            <mat-card-subtitle> {{ offer.marka }} {{ offer.model }}</mat-card-subtitle>
+                        </div>
+                        <mat-icon id="heart-clicked" *ngIf="isAuth && offer.czyUlubione && userID !== offer.creator" (click)="onRemoveFromFavorites($event, offer.id)">favorite</mat-icon>
+                        <svg *ngIf="isAuth && !offer.czyUlubione && userID !== offer.creator" (click)="onAddToFavorites($event, offer.id)" title="Dodaj do ulubionych"  id='heart' xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#D16D6A"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
+                    </div>  
+                </mat-card-header>
+                <mat-card-content>
+                    <table>
+                        <tr>
+                            <th>Rok produkcji:</th><td>{{ offer.rok_produkcji }}</td><th>Przebieg:</th><td>{{ offer.przebieg }} km</td>
+                        </tr>
+                        <tr>
+                            <th>Rodzaj paliwa:</th><td>{{ offer.rodzaj_paliwa }}</td><th>Pojemność silnika:</th><td>{{ offer.pojemnosc_silnika }} cm³</td>
+                        </tr>
+                        <tr>
+                            <th>Spalanie:</th><td>{{ offer.spalanie }} l/100km</td>
+                        </tr>
+                    </table>
+                    <h1>{{ offer.cena }} zł</h1>
+                </mat-card-content>
+            </div>
         </mat-card>
     </div>
 </section>
-
-

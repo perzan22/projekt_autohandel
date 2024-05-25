@@ -12,55 +12,67 @@
 
 
 .card-container
-    width: 60%
+    
     margin: 20px auto
-    display: flex
-    flex-wrap: wrap
     justify-content: space-around
     
 .offer
-    width: calc(20% - 16px)
-    height: 100%
     margin-bottom: 20px
-
-    mat-card-content
-        height: 100%
-        display: flex   
-        flex-direction: column
-        justify-content: space-between
+    width: 1200px
+    height: 300px
+    display: flex
+    flex-direction: row
 
     :hover
         cursor: pointer
     
     p
-        font-size: 12px
+        font-size: 18px
         text-align: center
     
     h1
-        display: flex
-        justify-content: space-between
+        text-align: end
         color: #546E7A
-
-    mat-card-header
-        height: 100px
-        flex-wrap: nowrap
+        font-size: 25px
 
     mat-card-title
-        font-size: 15px
+        font-size: 25px
 
-    #heart-clicked
-        color: #D16D6A
 
-    #heart:hover
-        fill: black
+    mat-card-subtitle
+        font-size: 20px
 
-    #heart-clicked:hover
-        color: black
+    mat-card-header
+        display: flex
+        align-items: center
 
+    .header-text
+        display: flex
+        justify-content: space-between
+        width: 100%
+
+
+
+    mat-card-content
+        display: flex
+        justify-content: space-between
+
+        h1
+            font-size: 40px
+
+        table
+            table-layout: fixed
+            font-family: "helvetica neue", helvetica, arial, sans-serif
+            text-align: right
+            
+            th, td
+                padding: 0 10px
+        
     .image
         position: relative
-        width: 100%
-        height: 150px
+        height: 200px
+        width: 400px
+        margin: auto 20px
 
     .image img
         position: absolute
@@ -68,7 +80,25 @@
         width: 100%
         object-fit: cover
         object-position: center
-        
+        border-radius: 10px
+
+    .content
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        width: 100%
+
+    #heart-clicked
+        color: #D16D6A
+        height: 100%
+        width: 40px
+        font-size: 40px
+
+    #heart:hover
+        fill: black
+
+    #heart-clicked:hover
+        color: black
 
 .search-card
 
