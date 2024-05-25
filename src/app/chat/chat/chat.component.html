@@ -1,23 +1,23 @@
 <mat-card class="chat-container">
     <mat-card-header>
-        <mat-card-title>Czat z użytkownikiem ...</mat-card-title>
+        <mat-card-title *ngIf="receiverProfile">Czat z użytkownikiem {{ receiverProfile.nickname }}</mat-card-title>
     </mat-card-header>
+    <mat-divider></mat-divider>
     <mat-card-content>
-        <div class="receiver-msg">
-            <img src="http://localhost:3000/images/avatars/default_avatar.jpg">
-            <p>Witam</p>
-        </div>
-        <div class="sender-msg">
-            <p>Cześć</p>
-            <img src="http://localhost:3000/images/avatars/default_avatar.jpg">
+        <div class="chat-messages">
+            <div *ngFor="let message of messages" [ngClass]="{'receiver-msg': message.sender !== userID, 'sender-msg': message.sender === userID}">
+                <img *ngIf="receiverProfile && message.sender !== userID" [src]="receiverProfile.avatarPath">
+                <p>{{message.msg}}</p>
+                <img *ngIf="userProfile && message.sender === userID" [src]="userProfile.avatarPath">
+            </div>
         </div>
         <mat-divider></mat-divider>
-        <div class="sender-container">
+        <form class="sender-container" [formGroup]="chatForm" (submit)="sendMessage()">
             <mat-form-field class="message-input-container">
-                <input matInput placeholder="Wyślij wiadomość">
+                <input matInput placeholder="Napisz wiadomość..." formControlName="message">
+                <mat-error *ngIf="chatForm.invalid">Nie można wysłać pustej wiadomości</mat-error>
             </mat-form-field>
-            <button type="button" mat-raised-button color="primary">Wyślij</button>
-        </div>
+            <button type="submit" mat-raised-button color="primary">Wyślij</button>
+        </form>
     </mat-card-content>
-    
 </mat-card>
