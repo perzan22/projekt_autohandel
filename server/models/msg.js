@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const msgSchema = mongoose.Schema({
-    offerID: { type: String, required: true },
-    sellerID: { type: String, required: true },
-    buyerID: { type: String, required: true }
+    sender: { type: String, required: true },
+    receiver: { type: String, required: true },
+    date: { type: Date, required: true },
+    msg: { type: String, require: true }
 }, { unique: true })
 
-chatSchema.plugin(uniqueValidator);
+msgSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Chat', chatSchema);
+module.exports = mongoose.model('Message', msgSchema);
