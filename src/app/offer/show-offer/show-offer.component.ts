@@ -6,6 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { ProfileService } from '../../profile/profile.service';
 import { Profile } from '../../profile/profile.model';
+import { ChatService } from '../../chat/chat.service';
 
 @Component({
   selector: 'app-show-offer',
@@ -21,7 +22,7 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   profile!: Profile
   showPhone: boolean = false
 
-  constructor(private offerService: OfferService, private route: ActivatedRoute, private authService: AuthService, private router: Router, private profileService: ProfileService) {}
+  constructor(private offerService: OfferService, private route: ActivatedRoute, private authService: AuthService, private router: Router, private profileService: ProfileService, private chatService: ChatService) {}
   
 
   ngOnInit(): void {
@@ -85,5 +86,9 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     if (offer) {
       offer.czyUlubione = status;
     }
+  }
+
+  onChat() {
+    this.chatService.openChat(this.offer.creator, this.userID, this.offer.id);
   }
 }

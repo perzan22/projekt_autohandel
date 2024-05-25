@@ -8,6 +8,7 @@ const offerRoutes = require('./routes/offers')
 const userRoutes = require('./routes/users')
 const profilesRoutes = require('./routes/profiles')
 const carsRoutes = require('./routes/cars')
+const chatRoutes = require('./routes/chat')
 
 
 
@@ -33,5 +34,7 @@ app.use('/api/offers/', offerRoutes)
 app.use('/api/users/', userRoutes)
 app.use('/api/profiles/', profilesRoutes)
 app.use('/api/cars/', carsRoutes)
+app.use('/api/chat/', chatRoutes)
+
 
 module.exports = app;

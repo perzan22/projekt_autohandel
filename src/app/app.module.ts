@@ -20,6 +20,7 @@ import { CreateProfileComponent } from './profile/create-profile/create-profile.
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ChatComponent } from './chat/chat/chat.component';
 
 const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
 
@@ -34,7 +35,8 @@ const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
     ShowOfferComponent,
     CreateProfileComponent,
     ShowProfileComponent,
-    SearchedOffersComponent
+    SearchedOffersComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
