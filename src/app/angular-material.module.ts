@@ -14,7 +14,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSliderModule } from '@angular/material/slider';
-import{ MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -33,7 +34,8 @@ import{ MatAutocompleteModule } from '@angular/material/autocomplete'
         MatFormFieldModule,
         MatDividerModule,
         MatSliderModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatPaginatorModule
     ],
     providers: [
         provideNativeDateAdapter()

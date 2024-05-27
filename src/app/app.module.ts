@@ -20,6 +20,9 @@ import { CreateProfileComponent } from './profile/create-profile/create-profile.
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ChatComponent } from './chat/chat/chat.component';
+import { ChatListComponent } from './chat/chat-list/chat-list.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
 
@@ -34,7 +37,9 @@ const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
     ShowOfferComponent,
     CreateProfileComponent,
     ShowProfileComponent,
-    SearchedOffersComponent
+    SearchedOffersComponent,
+    ChatComponent,
+    ChatListComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,8 @@ const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
     FormsModule,
     HttpClientModule,
     ValidateEqualModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    InfiniteScrollModule
   ],
   providers: [
     provideAnimationsAsync(),

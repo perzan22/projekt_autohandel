@@ -1,0 +1,22 @@
+<mat-card class="chat-container">
+    <mat-card-header>
+        <mat-card-title *ngIf="receiverProfile">Czat z użytkownikiem {{ receiverProfile.nickname }}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <div class="chat-messages" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+            <div *ngFor="let message of messages" [ngClass]="{'receiver-msg': message.sender !== userID, 'sender-msg': message.sender === userID}">
+                <img *ngIf="receiverProfile && message.sender !== userID" [src]="receiverProfile.avatarPath">
+                <p>{{message.msg}}</p>
+                <img *ngIf="userProfile && message.sender === userID" [src]="userProfile.avatarPath">
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+        <form class="sender-container" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+            <mat-form-field class="message-input-container">
+                <input matInput placeholder="Napisz wiadomość..." formControlName="message">
+            </mat-form-field>
+            <button type="submit" mat-raised-button color="primary">Wyślij</button>
+        </form>
+    </mat-card-content>
+</mat-card>

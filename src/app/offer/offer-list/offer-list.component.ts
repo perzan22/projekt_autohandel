@@ -88,7 +88,6 @@ export class OfferListComponent implements OnInit, OnDestroy{
       startWith(''),
       map(value => this._filterModels(value))
     )
-
     
 
     console.log(this.offers)

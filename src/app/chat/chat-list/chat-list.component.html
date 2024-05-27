@@ -1,0 +1,48 @@
+<mat-card>
+    <h1>Twoje wiadomości</h1>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <div class="messages" id="selling">
+            <h1>Sprzedajesz</h1>
+            <mat-divider></mat-divider>
+            <div *ngFor="let chat of chats">
+                <div class="chat" *ngIf="chat.seller === userID">
+                    <div class="messages-info">
+                        <div class="image">
+                            <img [src]="chat.offer.imagePath">
+                        </div>
+                        <div class="info">
+                            <h3>{{ chat.offer.nazwa }}</h3>
+                            <p>{{ chat.offer.marka }} {{ chat.offer.model }}</p>
+                        </div>
+                    </div>
+                    <div class="send">
+                        <button mat-fab type="button" [routerLink]="['/chat/', chat.id]" color="primary"><mat-icon>send</mat-icon></button>
+                    </div>
+                </div>
+                <mat-divider *ngIf="chat.seller === userID"></mat-divider>
+            </div>
+        </div>
+        <div class="messages">
+            <h1>Kupujesz</h1>
+            <mat-divider></mat-divider>
+            <div *ngFor="let chat of chats">
+                <div class="chat">
+                    <div class="messages-info" *ngIf="chat.buyer === userID">
+                        <div class="image">
+                            <img [src]="chat.offer.imagePath">
+                        </div>
+                        <div class="info">
+                            <h3>{{ chat.offer.nazwa }}</h3>
+                            <p>{{ chat.offer.marka }} {{ chat.offer.model }}</p>
+                        </div>
+                    </div>
+                    <div class="send" *ngIf="chat.buyer === userID">
+                        <button mat-fab type="button" [routerLink]="['/chat/', chat.id]" color="primary"><mat-icon>send</mat-icon></button>
+                    </div>
+                </div>
+                <mat-divider *ngIf="chat.buyer === userID"></mat-divider>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

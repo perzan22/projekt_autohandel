@@ -5,9 +5,9 @@
 
     </mat-card-title>
     <mat-card-content>
-        <h2>Twoje dane logowania</h2>
-        <h4>E-mail: {{ email }}</h4>
-        <h4>Twój nick: {{ nickname }}</h4>
+        <h2 *ngIf="mode === 'create'">Twoje dane logowania</h2>
+        <h4 *ngIf="mode === 'create'">E-mail: {{ email }}</h4>
+        <h4 *ngIf="mode === 'create'">Twój nick: {{ nickname }}</h4>
         <form [formGroup]="form" (submit)="onSubmit()">
             <h2 *ngIf="mode === 'create'">Podaj dane personalne</h2>
             <h2 *ngIf="mode === 'edit'">Edytuj dane personalne</h2>
