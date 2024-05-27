@@ -267,7 +267,7 @@ exports.getOffersSearch = (req, res, next) => {
                             czyUlubione: userFavorites.includes(offer._id.toString())
                         };
                     });
-                    return Offer.countDocuments().then(count => {
+                    return Offer.countDocuments(query).then(count => {
                         res.status(200).json({ 
                             message: "Offers fetched successfully",
                             offers: offersWithFavorites,
