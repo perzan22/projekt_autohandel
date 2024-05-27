@@ -88,7 +88,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
       startWith(''),
       map(value => this._filterModels(value))
     )
-
+    document.body.classList.add('no-scroll-page')
     
 
     console.log(this.offers)
@@ -99,6 +99,7 @@ export class OfferListComponent implements OnInit, OnDestroy{
     this.offerSubs.unsubscribe();
     this.carSubs.unsubscribe();
     this.authSubs.unsubscribe();
+    document.body.classList.remove('no-scroll-page')
   }
 
   showOffer(offerID: string) {

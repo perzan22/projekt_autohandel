@@ -11,6 +11,7 @@ import { CreateProfileComponent } from './profile/create-profile/create-profile.
 import { ShowProfileComponent } from './profile/show-profile/show-profile.component';
 import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 import { ChatComponent } from './chat/chat/chat.component';
+import { ChatListComponent } from './chat/chat-list/chat-list.component';
 
 const routes: Routes = [
   { path: '', component: OfferListComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'search', component: SearchedOffersComponent },
   { path: 'my-offers', component: SearchedOffersComponent, canActivate: [AuthGuard] },
   { path: 'favorites', component: SearchedOffersComponent, canActivate: [AuthGuard] },
-  { path: 'chat/:chatID', component: ChatComponent, canActivate: [AuthGuard] }
+  { path: 'chat/:chatID', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'my-messages', component: ChatListComponent, canActivate: [AuthGuard] }
 
 ];
 

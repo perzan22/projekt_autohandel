@@ -181,6 +181,9 @@ exports.getOffersSearch = (req, res, next) => {
     const rokProdukcjiMax = req.query.rok_produkcji_max ? +req.query.rok_produkcji_max : null
     const przebiegMax = req.query.przebieg_max ? +req.query.przebieg_max : null
     const rodzajPaliwa = req.query.rodzaj_paliwa
+    const sortowanie = req.query.sortowanie
+    const pageSize = +req.query.pagesize
+    const pageIndex = +req.query.pageindex
 
     let query = {};
 
@@ -217,12 +220,44 @@ exports.getOffersSearch = (req, res, next) => {
     if (rodzajPaliwa) {
         query.rodzaj_paliwa = rodzajPaliwa;
     }
+    let sort
+    if (sortowanie === 'cenaDesc') {
+        sort = { cena: 'desc' }
+    }
+    if (sortowanie === 'cenaAsc') {
+        sort = { cena: 'asc' }
+    }
+    if (sortowanie === 'rokProdukcjiAsc') {
+        sort = { rok_produkcji: 'asc' }
+    }
+    if (sortowanie === 'rokProdukcjiDesc') {
+        sort = { rok_produkcji: 'desc' }
+    }
+    if (sortowanie === 'przebiegAsc') {
+        sort = { przebieg: 'asc' }
+    }
+    if (sortowanie === 'przebiegDesc') {
+        sort = { przebieg: 'desc' }
+    }
+    if (sortowanie === 'dateAsc') {
+        sort = { date: 'asc' }
+    }
+    if (sortowanie === 'dateDesc') {
+        sort = { date: 'desc' }
+    }
 
-    Offer.find(query).then(offers => {
+    const offerQuery = Offer.find(query)
+    if (pageSize && pageIndex) {
+        offerQuery.skip(pageSize*(pageIndex - 1)).limit(pageSize)
+    }
+    offerQuery
+    .sort(sort)
+    .then(offers => {
 
         let userFavorites = []
         if (req.userData) {
-            Profile.findOne({ userID: req.userData.userID }).then(profile => {
+            Profile.findOne({ userID: req.userData.userID })
+            .then(profile => {
                 if (profile) {
                     userFavorites = profile.ulubione.map(fav => fav.toString());
 
@@ -232,10 +267,13 @@ exports.getOffersSearch = (req, res, next) => {
                             czyUlubione: userFavorites.includes(offer._id.toString())
                         };
                     });
-                    res.status(200).json({ 
-                        message: "Offers fetched successfully",
-                        offers: offersWithFavorites 
-                    });
+                    return Offer.countDocuments().then(count => {
+                        res.status(200).json({ 
+                            message: "Offers fetched successfully",
+                            offers: offersWithFavorites,
+                            maxOffers: count 
+                        });
+                    })   
                 }
             })
         } else {

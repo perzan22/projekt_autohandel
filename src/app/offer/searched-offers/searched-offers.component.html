@@ -60,7 +60,14 @@
                 <button type="submit" mat-raised-button color="accent" (click)="onSearch()">SZUKAJ</button>
             </mat-card-content>
         </mat-card>
-
+        <mat-form-field class="search-select" id="sort">
+            <mat-label>Sortuj</mat-label>
+            <mat-select formControlName="sortowanie">
+                @for (sort of sortowanie; track sort ) {
+                <mat-option [value]="sort.value">{{ sort.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
     </form>
     <h1 *ngIf="mode === 'search'">Znalezione oferty</h1>
     <h1 *ngIf="mode === 'my-offers'">Twoje aktualne oferty</h1>
@@ -71,8 +78,8 @@
     <p *ngIf="offers.length <= 0 && mode === 'my-offers'" id="no-offers">Nie masz żadnych aktualnych ofert! <a href="/create">Utwórz nową ofertę</a></p>
     <p *ngIf="offers.length <= 0 && mode === 'favorites'" id="no-offers">Nie masz żadnych ulubionych ofert! Poszukaj i dodaj ulubione oferty</p>
 
-
     <div class="card-container">
+        <mat-paginator #paginator class="paginator" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"></mat-paginator>
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
             <div class="image">
                 <img [src]="offer.imagePath" [alt]="offer.nazwa">

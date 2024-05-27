@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, afterNextRender } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, afterNextRender } from '@angular/core';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { Observable, Subscription, map, startWith } from 'rxjs';
@@ -9,6 +9,7 @@ import { CarService } from '../../car/car.service';
 import { __values } from 'tslib';
 import { AuthService } from '../../auth/auth.service';
 import { ProfileService } from '../../profile/profile.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'searched-offers',
@@ -29,6 +30,13 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
   private authSubs!: Subscription
   isAuth: boolean = false
 
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 15];
+
+  pageEvent!: PageEvent
+
   rodzaj_paliw = [
     { value: 'Benzyna'},
     { value: 'Diesel'},
@@ -37,11 +45,25 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     { value: 'Hybrydowe'}
   ]
 
+  sortowanie = [
+    { name: 'Cena (rosnąco)', value: 'cenaAsc' },
+    { name: 'Cena (malejąco)', value: 'cenaDesc' },
+    { name: 'Rok produkcji (rosnąco)', value: 'rokProdukcjiAsc' },
+    { name: 'Rok produkcji (malejąco)', value: 'cenaDesc' },
+    { name: 'Przebieg (rosnąco)', value: 'przebiegAsc' },
+    { name: 'Przebieg (malejąco)', value: 'przebiegDesc' },
+    { name: 'Od najnowszych', value: 'dateAsc' },
+    { name: 'Od najstarszych', value: 'dateDesc' }
+  ]
+
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+
   constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private authService: AuthService, private profileService: ProfileService) {}
 
 
   ngOnInit(): void {
 
+    this.paginator._intl.itemsPerPageLabel = 'Ilośc ofert na stronie:'
     this.isAuth = this.authService.getIsAuth();
     if (this.isAuth) {
       this.userID = this.authService.getUserId();
@@ -69,7 +91,8 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             "rokProdukcjiMin": new FormControl(null),
             "rokProdukcjiMax": new FormControl(null),
             "przebiegMax": new FormControl(null),
-            "rodzajPaliwa": new FormControl(null)
+            "rodzajPaliwa": new FormControl(null),
+            "sortowanie": new FormControl(null)
           })
       
           this.route.queryParams.subscribe({
@@ -98,6 +121,9 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
               if (params['rodzaj_paliwa']) {
                 this.form.patchValue({'rodzajPaliwa': params['rodzaj_paliwa']})
               }
+              if (params['sortowanie']) {
+                this.form.patchValue({'sortowanie': params['sortowanie']})
+              }
             }
           })
           
@@ -105,6 +131,7 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
           this.offerSubs = this.offerService.getOfferUpdateListener().subscribe({
             next: offerData => {
               this.offers = offerData.offers
+              this.length = offerData.maxOffers
             }
           })
       
@@ -173,10 +200,10 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     }
     
     this.router.navigate([], { relativeTo: this.route, queryParams: { marka: this.form.value.marka, model: this.form.value.model, cena_min: this.form.value.cenaMin, cena_max: this.form.value.cenaMax,
-      rok_produkcji_min: this.form.value.rokProdukcjiMin, rok_produkcji_max: this.form.value.rokProdukcjiMax, przebieg_max: this.form.value.przebiegMax, rodzaj_paliwa: this.form.value.rodzajPaliwa
+      rok_produkcji_min: this.form.value.rokProdukcjiMin, rok_produkcji_max: this.form.value.rokProdukcjiMax, przebieg_max: this.form.value.przebiegMax, rodzaj_paliwa: this.form.value.rodzajPaliwa, sortowanie: this.form.value.sortowanie
    },  replaceUrl: true } )
 
-   this.ngOnInit()
+   window.location.reload()
   }
 
   private _filterBrands(value: string | { name: string }): string[] {
@@ -218,5 +245,19 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     if (offer) {
       offer.czyUlubione = status;
     }
+  }
+
+  pageChanged(e: PageEvent) {
+    this.pageEvent = e
+    this.pageSize = e.pageSize
+    this.pageIndex = e.pageIndex + 1
+
+    this.router.navigate([], { queryParams: { marka: this.form.value.marka, model: this.form.value.model, cena_min: this.form.value.cenaMin, cena_max: this.form.value.cenaMax,
+      rok_produkcji_min: this.form.value.rokProdukcjiMin, rok_produkcji_max: this.form.value.rokProdukcjiMax, przebieg_max: this.form.value.przebiegMax, rodzaj_paliwa: this.form.value.rodzajPaliwa, sortowanie: this.form.value.sortowanie,
+      pagesize: this.pageSize, pageindex: this.pageIndex }
+    })
+    .then(() => {
+      this.ngOnInit()
+    })
   }
 }

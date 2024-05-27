@@ -3,5 +3,6 @@ export interface Message {
     sender: string,
     receiver: string,
     date: Date,
-    msg: string
+    msg: string,
+    chat: string
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Offer } from '../../offer/offer.model';
 import { Profile } from '../../profile/profile.model';
@@ -9,7 +9,7 @@ import { ProfileService } from '../../profile/profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { OfferService } from '../../offer/offer.service';
 import { Message } from '../message.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Subscription, map } from 'rxjs';
 
 @Component({
@@ -29,15 +29,15 @@ export class ChatComponent implements OnDestroy, OnInit{
   chatForm!: FormGroup
   private socketSubscription!: Subscription
   private messagesSubs!: Subscription
+  offset: number = 0
+  limit: number = 12
 
-  constructor(private socket: Socket, private route: ActivatedRoute, private chatService: ChatService, private profileService: ProfileService, private authService: AuthService, private offerService: OfferService) {}
+  constructor(private socket: Socket, private route: ActivatedRoute, private chatService: ChatService, private profileService: ProfileService, private authService: AuthService, private el: ElementRef) {}
 
 
   ngOnInit(): void {
     this.chatForm = new FormGroup({
-      'message': new FormControl(null, {
-        validators: [Validators.required]
-      })
+      'message': new FormControl(null)
     })
 
     this.socket.connect();
@@ -63,19 +63,15 @@ export class ChatComponent implements OnDestroy, OnInit{
               this.receiverProfile = profile
             }
           })
-          this.offerService.getOffer(chat.offer).subscribe({
-            next: offer => {
-              this.offer = offer
-            }
-          })
-          this.socket.emit('join', { userID: this.userID })
-          this.socketSubscription = this.socket.fromEvent<{ _id: string, sender: string, receiver: string, date: Date, msg: string }>('receiveMessage').pipe(map(message => {
+          this.socket.emit('join', { userID: this.userID, chatID: chat.id })
+          this.socketSubscription = this.socket.fromEvent<{ _id: string, sender: string, receiver: string, date: Date, msg: string, chat: string }>('receiveMessage').pipe(map(message => {
             return {
               id: message._id,
               sender: message.sender,
               receiver: message.receiver,
               date: message.date,
-              msg: message.msg
+              msg: message.msg,
+              chat: message.chat
             }
           }))
           .subscribe({
@@ -83,16 +79,19 @@ export class ChatComponent implements OnDestroy, OnInit{
               this.messages.push(messageFetched)
             }
           })
-          this.chatService.getMessages(this.userID, this.receiverID)
+          this.chatService.getMessages(this.userID, this.receiverID, this.chat.id, this.offset, this.limit)
           this.messagesSubs = this.chatService.getMessageUpdateListener().subscribe({
             next: messages => {
               this.messages = messages.messages
+              this.offset += this.limit
+              console.log(this.messages)
             }
           })
           
         }
       }
     })
+    document.body.classList.add('no-scroll-page')
   }
 
 
@@ -104,24 +103,34 @@ export class ChatComponent implements OnDestroy, OnInit{
     if (this.messagesSubs) {
       this.messagesSubs.unsubscribe();
     }
+    document.body.classList.remove('no-scroll-page')
   }
 
   sendMessage() {
-    if (this.chatForm.invalid) {
+    if (!this.chatForm.get('message')?.value) {
       return
     }
     const msg = this.chatForm.value.message
-    console.log('Sending message"', {
-      sender: this.userID,
-      receiver: this.receiverID,
-      msg: msg
-    })
     this.socket.emit('sendMessage', {
       sender: this.userID,
       receiver: this.receiverID,
-      msg: msg
+      msg: msg,
+      chat: this.chat.id
     })
 
-    this.chatForm.reset();
+    this.chatForm.reset()
+  }
+
+  onScroll() {
+    console.log('scrolluje')
+    if (this.messages.length > 0) {
+      const lastMessageID = this.messages[0].id;
+      this.chatService.getMoreMessages(this.chat.id, lastMessageID, this.limit).subscribe({
+        next: messages => {
+          this.messages = [...messages, ...this.messages];
+          this.offset += this.limit
+        }
+      })
+    }
   }
 }

@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 export class OfferService {
 
     private offers: Offer[] = []
-    private offersSubs = new Subject<{ offers: Offer[] }>
+    private offersSubs = new Subject<{ offers: Offer[], maxOffers: number }>
 
     constructor(private http: HttpClient, private router: Router) {}
 
@@ -76,7 +76,7 @@ export class OfferService {
         .subscribe({
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
-                this.offersSubs.next({ offers: [...this.offers] });
+                this.offersSubs.next({ offers: [...this.offers], maxOffers: 5 });
             }
         })
     }
@@ -137,7 +137,7 @@ export class OfferService {
         const baseUrl = 'http://localhost:3000/api/offers'
         const url = baseUrl + queryParams
 
-        this.http.get<{ message: string, offers: any }>(url)
+        this.http.get<{ message: string, offers: any, maxOffers: number }>(url)
         .pipe(map(offerData => {
             return {
                 offers: offerData.offers.map((offer: { _id: string; nazwa: string; marka: string; model: string; rok_produkcji: number; 
@@ -159,13 +159,13 @@ export class OfferService {
                         date: offer.date,
                         czyUlubione: offer.czyUlubione
                     }
-                })
+                }), maxOffers: offerData.maxOffers
             }
         }))
         .subscribe({
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
-                this.offersSubs.next({ offers: [...this.offers] });
+                this.offersSubs.next({ offers: [...this.offers], maxOffers: fetchedOffers.maxOffers });
             }, 
             error: error => {
                 console.log(error)
@@ -201,7 +201,7 @@ export class OfferService {
         .subscribe({
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
-                this.offersSubs.next({ offers: [...this.offers] });
+                this.offersSubs.next({ offers: [...this.offers], maxOffers: 0 });
             }
         })
     }
@@ -235,8 +235,9 @@ export class OfferService {
         .subscribe({
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
-                this.offersSubs.next({ offers: [...this.offers] });
+                this.offersSubs.next({ offers: [...this.offers], maxOffers: 0 });
             }
         })
     }
+
 }

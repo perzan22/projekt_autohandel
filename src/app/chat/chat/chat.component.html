@@ -4,7 +4,7 @@
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>
-        <div class="chat-messages">
+        <div class="chat-messages" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
             <div *ngFor="let message of messages" [ngClass]="{'receiver-msg': message.sender !== userID, 'sender-msg': message.sender === userID}">
                 <img *ngIf="receiverProfile && message.sender !== userID" [src]="receiverProfile.avatarPath">
                 <p>{{message.msg}}</p>
@@ -12,10 +12,9 @@
             </div>
         </div>
         <mat-divider></mat-divider>
-        <form class="sender-container" [formGroup]="chatForm" (submit)="sendMessage()">
+        <form class="sender-container" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
             <mat-form-field class="message-input-container">
                 <input matInput placeholder="Napisz wiadomość..." formControlName="message">
-                <mat-error *ngIf="chatForm.invalid">Nie można wysłać pustej wiadomości</mat-error>
             </mat-form-field>
             <button type="submit" mat-raised-button color="primary">Wyślij</button>
         </form>

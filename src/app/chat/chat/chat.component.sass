@@ -12,22 +12,22 @@ mat-card-header
     color: #546E7A
 
 mat-card-content
-    height: 100%
+    height: 90%
     display: flex
     flex-direction: column
     justify-content: end
 
     .chat-messages
-        overflow-y: scroll
+        overflow-y: auto
         height: 100%
         display: flex
         flex-direction: column
         justify-content: end
-        -ms-overflow-style: none
-        scrollbar-width: none
-        
+        //-ms-overflow-style: none
+        //scrollbar-width: none
+
     .chat-messages::-webkit-scrollbar
-        display: none
+        //display: none
 
 .receiver-msg
     display: flex
@@ -82,6 +82,8 @@ mat-card-content
     button
         font-size: 18px
         height: 40px
+
+
     
     
 
