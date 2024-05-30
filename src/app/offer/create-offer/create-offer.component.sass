@@ -51,13 +51,26 @@ button
 .photo-button
     margin: auto
 
-.img-preview
-    height: 15rem
-    margin: auto
+.images
+    display: flex
+    flex-wrap: wrap
+    width: 100%
+    justify-content: space-around
+ 
+    .img-preview
+        position: relative
+        height: 70px
+        width: 140px
+        margin: 5px 5px
 
-.img-preview img
-    height: 100%
+    .img-preview img
+        position: absolute
+        height: 100%
+        width: 100%
+        object-fit: cover
+        object-position: center
+        border-radius: 10px
 
-img:hover
-    cursor: pointer
+    img:hover
+        cursor: pointer
 

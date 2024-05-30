@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { mimeType } from '../../validators/mime-type.validator';
+import { mimeTypeMulti } from '../../validators/mime-type-multi.validator';
 import { Car } from '../../car/car.model';
 import { Observable, Subscription, map, startWith } from 'rxjs';
 import { CarService } from '../../car/car.service';
@@ -19,7 +19,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   offer!: Offer
   mode: string = 'create'
   offerID: string | null = null
-  imgURL!: string
+  imgURLs: string[] = []
   showButton: boolean = true
   cars: Car[] = []
   filteredBrands!: Observable<string[]> | undefined
@@ -70,8 +70,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
       "cena": new FormControl(null, {
         validators: [Validators.required]
       }),
-      'image': new FormControl(null, {
-        validators: [Validators.required], asyncValidators: [mimeType]
+      'images': new FormControl(null, {
+        validators: [Validators.required], asyncValidators: [mimeTypeMulti]
       }
 
       )
@@ -85,9 +85,9 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
                           cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date, czyUlubione: false};
-          if (this.offer.imagePath) {
-            this.onImagePickedFromPath(this.offer.imagePath);
-          } 
+          // if (this.offer.imagePath) {
+          //   this.onImagePickedFromPath(this.offer.imagePath);
+          // } 
           this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
             'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena,
             'image': this.offer.imagePath
@@ -163,36 +163,35 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   }
 
   onImagePicked(event: Event) {
-    console.log(event.target)
     const inputElement = event.target as HTMLInputElement | null;
-    if (!inputElement) {
+    if (!inputElement || !inputElement.files || !this.form) {
       return;
     }
-    const file = inputElement.files?.[0];
-    if (!file) {
-      return;
-    }
+    
+    const files = Array.from(inputElement.files);
 
-    this.form.patchValue({image: file});
-    if (!this.form) {
-      return
-    }
-    this.form.get('image')?.updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imgURL = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-    console.log(this.form.value.image);
+    this.form.patchValue({ images: files });
+    this.form.get('images')?.updateValueAndValidity();
+
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imgURLs.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      
+      })
+
+    console.log(this.form.value.images);
   }
 
   onHideButton() {
     this.showButton = false;
   }
 
-  onImagePickedFromPath(avatar: string) {
-    this.imgURL = avatar;
-    this.form.get('image')?.updateValueAndValidity();
-  }
+  // onImagePickedFromPath(avatar: string) {
+  //   this.imgURL = avatar;
+  //   this.form.get('image')?.updateValueAndValidity();
+  // }
   
 }
