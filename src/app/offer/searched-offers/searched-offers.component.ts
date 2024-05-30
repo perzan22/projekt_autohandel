@@ -63,7 +63,6 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
 
-    this.paginator._intl.itemsPerPageLabel = 'Ilośc ofert na stronie:'
     this.isAuth = this.authService.getIsAuth();
     if (this.isAuth) {
       this.userID = this.authService.getUserId();
@@ -132,6 +131,7 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             next: offerData => {
               this.offers = offerData.offers
               this.length = offerData.maxOffers
+              this.paginator._intl.itemsPerPageLabel = 'Ilośc ofert na stronie:'
             }
           })
       
@@ -151,6 +151,7 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             startWith(''),
             map(value => this._filterModels(value))
           )
+          
       
         } else if (url[0].path === 'my-offers') {
           this.mode = 'my-offers'

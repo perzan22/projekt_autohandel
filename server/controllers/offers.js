@@ -277,10 +277,13 @@ exports.getOffersSearch = (req, res, next) => {
                 }
             })
         } else {
-            res.status(200).json({ 
-                message: "Offers fetched successfully",
-                offers: offers 
-            });
+            return Offer.countDocuments(query).then(count => {
+                res.status(200).json({ 
+                    message: "Offers fetched successfully",
+                    offers: offers,
+                    maxOffers: count 
+                });
+            })
         }
         
         

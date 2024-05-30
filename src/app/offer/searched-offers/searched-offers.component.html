@@ -79,7 +79,7 @@
     <p *ngIf="offers.length <= 0 && mode === 'favorites'" id="no-offers">Nie masz żadnych ulubionych ofert! Poszukaj i dodaj ulubione oferty</p>
 
     <div class="card-container">
-        <mat-paginator #paginator class="paginator" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"></mat-paginator>
+        <mat-paginator #paginator class="paginator" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" *ngIf="offers.length >= 0 && mode === 'search'"></mat-paginator>
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
             <div class="image">
                 <img [src]="offer.imagePath" [alt]="offer.nazwa">

@@ -166,6 +166,7 @@ export class OfferService {
             next: (fetchedOffers) => {
                 this.offers = fetchedOffers.offers;
                 this.offersSubs.next({ offers: [...this.offers], maxOffers: fetchedOffers.maxOffers });
+                console.log(fetchedOffers.maxOffers)
             }, 
             error: error => {
                 console.log(error)
