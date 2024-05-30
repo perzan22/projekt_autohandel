@@ -25,6 +25,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   filteredBrands!: Observable<string[]> | undefined
   filteredModels!: Observable<string[]> | undefined
   private carSubs!: Subscription
+  images: File[] = []
+
+  isImageOverlayOpen: boolean = false
+  selectedImage: string | null = null
 
 
   rodzaj_paliw = [
@@ -164,16 +168,21 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
 
   onImagePicked(event: Event) {
     const inputElement = event.target as HTMLInputElement | null;
-    if (!inputElement || !inputElement.files || !this.form) {
+    if (!inputElement || !inputElement.files || !this.form || inputElement.files.length === 0) {
       return;
     }
     
     const files = Array.from(inputElement.files);
+    if (files.length + this.imgURLs.length > 6) {
+      alert('Możesz opublikować maksymalnie 6 zdjęć!')
+      return
+    }
 
     this.form.patchValue({ images: files });
     this.form.get('images')?.updateValueAndValidity();
 
     files.forEach(file => {
+      this.images.push(file)
       const reader = new FileReader();
       reader.onload = () => {
         this.imgURLs.push(reader.result as string);
@@ -185,6 +194,17 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
     console.log(this.form.value.images);
   }
 
+  updateImagePreviews(): void {
+    this.imgURLs = [];
+    this.images.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imgURLs.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   onHideButton() {
     this.showButton = false;
   }
@@ -193,5 +213,21 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   //   this.imgURL = avatar;
   //   this.form.get('image')?.updateValueAndValidity();
   // }
+
+  removeImage(index: number): void {
+    this.images.splice(index, 1)
+    this.updateImagePreviews()
+    this.form.patchValue({ images: this.images })
+    this.form.get('images')?.updateValueAndValidity()
+  }
+
+  openImageOverlay(imageUrl: string) {
+    this.selectedImage = imageUrl;
+    this.isImageOverlayOpen = true;
+  }
+
+  closeImageOverlay() {
+    this.isImageOverlayOpen = false;
+  }
   
 }
