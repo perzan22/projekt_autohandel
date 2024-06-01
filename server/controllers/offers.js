@@ -5,8 +5,7 @@ const Profile = require('../models/profile')
 
 exports.createOffer = (req, res, next) => {
     const url = req.protocol + '://' + req.get('host');
-
-    let imagePath = req.file.filename
+    const imagePaths = req.files.map(file => url + '/images/cars/' + file.filename)
     
     const offer = new Offer({
         nazwa: req.body.nazwa,
@@ -20,7 +19,7 @@ exports.createOffer = (req, res, next) => {
         opis: req.body.opis,
         cena: +req.body.cena,
         creator: req.userData.userID,
-        imagePath: url + '/images/cars/' + imagePath,
+        imagePath: imagePaths,
         date: Date.now()
     })
 

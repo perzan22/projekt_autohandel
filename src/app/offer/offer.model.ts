@@ -11,7 +11,7 @@ export interface Offer {
     opis: string
     cena: number
     creator: string
-    imagePath: string
+    imagePath: string[]
     date: Date
     czyUlubione: boolean
 }

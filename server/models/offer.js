@@ -11,7 +11,7 @@ const offerSchema = mongoose.Schema({
     rodzaj_paliwa: { type: String, required: true },
     opis: { type: String, required: false },
     cena: { type: Number, required: true },
-    imagePath: { type: String, required: true },
+    imagePath: { type: [String], required: true },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     date: { type: Date, required: true, default: Date.now() }
 })

@@ -156,7 +156,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
 
     if (this.mode === 'create') {
       this.offerService.addOffer(this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
-      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.image);
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.images);
     } else {
       this.offerService.editOffer(this.offerID, this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
       this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
@@ -178,8 +178,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
       return
     }
 
-    this.form.patchValue({ images: files });
-    this.form.get('images')?.updateValueAndValidity();
+    
 
     files.forEach(file => {
       this.images.push(file)
@@ -190,6 +189,9 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
       reader.readAsDataURL(file);
       
       })
+
+    this.form.patchValue({ images: this.images });
+    this.form.get('images')?.updateValueAndValidity();
 
     console.log(this.form.value.images);
   }

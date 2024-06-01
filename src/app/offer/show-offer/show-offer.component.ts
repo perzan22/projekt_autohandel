@@ -29,6 +29,7 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     this.offerService.getOffer(this.route.snapshot.params['offerID']).subscribe({
       next: offer => {
         this.offer = offer
+        console.log(this.offer)
         this.isAuth = this.authService.getIsAuth();
         if (this.isAuth) {
             this.userID = this.authService.getUserId();

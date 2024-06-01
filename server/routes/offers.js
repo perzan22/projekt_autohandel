@@ -16,12 +16,12 @@ router.get('/favorites/:userID', checkAuth, OffersControllers.getFavoritesOffers
 
 router.get('', checkProfile, OffersControllers.getRandomOffers);
 
-router.post('', fileExtractor, checkAuth, OffersControllers.createOffer)
+router.post('', fileExtractor.array('images', 6), checkAuth, OffersControllers.createOffer)
 
 router.get('/:id', checkProfile, OffersControllers.getOffer)
 
 router.delete('/:id', checkAuth, OffersControllers.deleteOffer)
 
-router.put('/:id', fileExtractor, checkAuth, OffersControllers.editOffer)
+router.put('/:id', fileExtractor.array('images', 6), checkAuth, OffersControllers.editOffer)
 
 module.exports = router;
