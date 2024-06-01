@@ -22,7 +22,60 @@ button
     font-size: 12px
 
 .header-info
+    position: relative
     width: 50%
+
+    .img-buttons-navigation
+        position: absolute
+        bottom: 15px
+        height: 40px
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        .container
+            background: rgba(0, 0, 0, 0.5)
+            color: white
+            border: none
+            border-radius: 5px
+            margin: 3px 0
+            width: 40px
+            height: 100%
+            text-align: center
+            display: flex
+            justify-content: center
+            align-items: center
+
+        .img-button-nav
+            background: rgba(0, 0, 0, 0.5)
+            color: white
+            border: none
+            border-radius: 5px   
+            margin: 3px
+            height: 40px
+            width: 40px
+
+    .img-button-visible
+        position: absolute
+        bottom: 15px
+        right: 15px
+        display: none
+        
+        .img-button
+            background: rgba(0, 0, 0, 0.5)
+            color: white
+            border: none
+            border-radius: 5px   
+            margin: 3px
+            height: 40px
+            width: 40px
+            
+            
+            mat-icon
+                font-size: 25px
+
+.header-info:hover .img-button-visible
+    display: block
 
     .header-text
         display: flex
@@ -75,3 +128,31 @@ mat-card-footer
     a
         text-decoration: none
         color: #546E7A
+
+.overlay 
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background-color: rgba(0, 0, 0, 0.5)
+    display: flex
+    justify-content: center
+    align-items: center
+
+.modal 
+    background-color: white
+    padding: 20px
+    border-radius: 10px
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)
+
+
+.modal img 
+    max-width: 100%
+    max-height: 700px
+
+
+.modal button 
+    position: absolute
+    top: 100px
+    right: 100px

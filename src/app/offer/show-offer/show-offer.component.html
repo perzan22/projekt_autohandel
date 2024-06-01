@@ -16,7 +16,15 @@
             </p>
         </div>
         <div class="header-info">
-            <img [src]="offer.imagePath[0]">
+            <img [src]="offer.imagePath[whichImage]">
+            <div class="img-buttons-navigation">
+                <div class="container"><p>{{ whichImage + 1 }} / {{ offer.imagePath.length }} </p></div>
+                <button mat-mini-fab type="button" class="img-button-nav" id="previous" (click)="previous()" *ngIf="whichImage !== 0 && offer.imagePath.length > 1"><mat-icon>chevron_left</mat-icon></button>
+                <button mat-mini-fab type="button" class="img-button-nav" id="next" (click)="next()" *ngIf="whichImage < offer.imagePath.length - 1"><mat-icon>chevron_right</mat-icon></button>
+            </div>
+            <div class="img-button-visible">
+                <button mat-mini-fab type="button" class="img-button" (click)="openImageOverlay(offer.imagePath[whichImage])"><mat-icon>visibility</mat-icon></button>
+            </div>
         </div>
         
     </mat-card-header>
@@ -60,3 +68,11 @@
         <p>ID: {{ offer.id }} Dodano: {{ offer.date }}</p>
     </mat-card-footer>
 </mat-card>
+
+<div class="overlay" *ngIf="isImageOverlayOpen" (click)="closeImageOverlay()">
+    <div class="modal">
+        <img [src]="selectedImage">
+        <button mat-icon-button (click)="closeImageOverlay()"><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+

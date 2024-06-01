@@ -2,7 +2,7 @@ import { AbstractControl } from "@angular/forms";
 import { Observable, Observer, of, forkJoin, map } from "rxjs";
 
 export const mimeTypeMulti = (control: AbstractControl): Promise<{ [key: string]: any} > | Observable<{ [key: string]: any }> => {
-  if (typeof(control.value) === 'string') {
+  if (typeof(control.value[0]) === 'string') {
     return of({});
   }
 

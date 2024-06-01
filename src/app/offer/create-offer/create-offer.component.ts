@@ -89,12 +89,12 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
                           model: offerData.model, rok_produkcji: offerData.rok_produkcji, przebieg: offerData.przebieg, 
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
                           cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date, czyUlubione: false};
-          // if (this.offer.imagePath) {
-          //   this.onImagePickedFromPath(this.offer.imagePath);
-          // } 
+          if (this.offer.imagePath) {
+             this.onImagePickedFromPath(this.offer.imagePath);
+          } 
           this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
             'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena,
-            'image': this.offer.imagePath
+            'images': this.offer.imagePath
           });
         });
       } else {
@@ -211,10 +211,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
     this.showButton = false;
   }
 
-  // onImagePickedFromPath(avatar: string) {
-  //   this.imgURL = avatar;
-  //   this.form.get('image')?.updateValueAndValidity();
-  // }
+  onImagePickedFromPath(paths: string[]) {
+    this.imgURLs = paths;
+    this.form.get('images')?.updateValueAndValidity();
+  }
 
   removeImage(index: number): void {
     this.images.splice(index, 1)
