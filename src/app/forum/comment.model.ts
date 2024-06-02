@@ -4,6 +4,5 @@ export interface Comment {
     id: string,
     tresc: string,
     autor: Profile,
-    data: Date,
-    ocena: number
+    data: Date
 }

@@ -6,22 +6,41 @@
             <p><a routerLink="create">+ Utwórz nowy wpis</a></p>
         </div>
         <mat-divider></mat-divider>
-        <div class="post">
+        <div class="post" *ngFor="let post of posts">
             <div class="autor">
-                <h4>Autor wpisu perzan22</h4>
+                <h4>Autor wpisu<br>{{ post.autor.nickname }}</h4>
+                <div class="image">
+                    <img [src]="post.avatar">
+                </div>
             </div>
             <div class="content">
                 <div class="title">
-                    <h3>Test</h3>
-                    <p>02.06.2024</p>
+                    <h3>{{ post.tytul }}</h3>
+                    <p>{{ post.data_publikacji }}</p>
                 </div>
                 <mat-divider></mat-divider>
                 <div class="post-content">
-                    <p>Test test testv test</p>
-                </div>
+                    <p>{{ post.tresc }}</p>
+                </div> 
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>Komentarze ({{ post.komentarze.length }})</mat-expansion-panel-header>
+                    <div class="komentarze">
+                        <div class="komentarz" *ngFor="let komentarz of post.komentarze">
+                            <p>{{ komentarz.autor.nickname }} napisał: {{ komentarz.tresc }}</p>
+                        </div>
+                    </div>
+                    <form #commentForm="ngForm" (submit)="onSubmit(commentForm, post.id)">
+                        <mat-form-field>
+                            <input matInput type="text" name="comment" placeholder="Dodaj komentarz..." ngModel #commentInput="ngModel" required>
+                            <mat-error *ngIf="commentInput.invalid">Proszę wpisać komentarz</mat-error>
+                        </mat-form-field>
+                        <button type="submit" mat-raised-button color="primary">OPUBLIKUJ</button>
+                    </form>
+                </mat-expansion-panel>
             </div> 
+             
         </div>
-        <mat-divider></mat-divider>
+        
         
     </mat-card-content>
 </mat-card>

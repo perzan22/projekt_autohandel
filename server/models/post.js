@@ -6,7 +6,9 @@ const postSchema = mongoose.Schema({
     tresc: { type: String, required: true },
     autor: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     data_publikacji: { type: Date, required: true },
-    ocena: { type: Number }
+    ocena: { type: Number },
+    avatar: { type: String },
+    komentarze: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 })
 
 postSchema.plugin(uniqueValidator);
