@@ -245,6 +245,8 @@ exports.getOffersSearch = (req, res, next) => {
     const offerQuery = Offer.find(query)
     if (pageSize && pageIndex) {
         offerQuery.skip(pageSize*(pageIndex - 1)).limit(pageSize)
+    } else {
+        offerQuery.limit(10)
     }
     offerQuery
     .sort(sort)
