@@ -21,6 +21,10 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
   authStatusSubs!: Subscription
   profile!: Profile
   showPhone: boolean = false
+  whichImage: number = 0
+
+  isImageOverlayOpen: boolean = false
+  selectedImage: string | null = null
 
   constructor(private offerService: OfferService, private route: ActivatedRoute, private authService: AuthService, private router: Router, private profileService: ProfileService, private chatService: ChatService) {}
   
@@ -29,6 +33,7 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
     this.offerService.getOffer(this.route.snapshot.params['offerID']).subscribe({
       next: offer => {
         this.offer = offer
+        console.log(this.offer)
         this.isAuth = this.authService.getIsAuth();
         if (this.isAuth) {
             this.userID = this.authService.getUserId();
@@ -90,5 +95,24 @@ export class ShowOfferComponent implements OnInit, OnDestroy{
 
   onChat() {
     this.chatService.openChat(this.offer.creator, this.userID, this.offer.id);
+  }
+
+  openImageOverlay(imageUrl: string) {
+    this.selectedImage = imageUrl;
+    this.isImageOverlayOpen = true;
+  }
+
+  closeImageOverlay() {
+    this.isImageOverlayOpen = false;
+  }
+
+  next() {
+    this.whichImage += 1
+    console.log(this.whichImage)
+  }
+
+  previous() {
+    this.whichImage -= 1
+    console.log(this.whichImage)
   }
 }

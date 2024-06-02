@@ -3,7 +3,6 @@ import { ChatService } from '../chat.service';
 import { Chat } from '../chat.model';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { Offer } from '../../offer/offer.model';
 import { OfferService } from '../../offer/offer.service';
 
 @Component({
@@ -16,10 +15,8 @@ export class ChatListComponent implements OnInit, OnDestroy{
   userID!: string
   chats: Chat[] = []
   chatsSubs!: Subscription
-  chatsOffers: Offer[] = []
-  chatsOffersSubs!: Subscription
 
-  constructor(private chatService: ChatService, private authService: AuthService, private offerService: OfferService) {}
+  constructor(private chatService: ChatService, private authService: AuthService) {}
   
 
   ngOnInit(): void {
@@ -31,7 +28,7 @@ export class ChatListComponent implements OnInit, OnDestroy{
     this.chatsSubs = this.chatService.getChatUpdateListener().subscribe({
       next: chats => {
         this.chats = chats.chats
-        console.log(chats)
+        console.log(this.chats)
       }
     })
   }

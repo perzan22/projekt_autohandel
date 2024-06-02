@@ -9,7 +9,7 @@
                 <div class="chat" *ngIf="chat.seller === userID">
                     <div class="messages-info">
                         <div class="image">
-                            <img [src]="chat.offer.imagePath">
+                            <img [src]="chat.offer.imagePath[0]">
                         </div>
                         <div class="info">
                             <h3>{{ chat.offer.nazwa }}</h3>
@@ -30,7 +30,7 @@
                 <div class="chat">
                     <div class="messages-info" *ngIf="chat.buyer === userID">
                         <div class="image">
-                            <img [src]="chat.offer.imagePath">
+                            <img [src]="chat.offer.imagePath[0]">
                         </div>
                         <div class="info">
                             <h3>{{ chat.offer.nazwa }}</h3>

@@ -56,7 +56,7 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
     { name: 'Od najstarszych', value: 'dateDesc' }
   ]
 
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   constructor(private offerService: OfferService, private router: Router, private route: ActivatedRoute, private carService: CarService, private authService: AuthService, private profileService: ProfileService) {}
 
@@ -131,7 +131,10 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             next: offerData => {
               this.offers = offerData.offers
               this.length = offerData.maxOffers
-              this.paginator._intl.itemsPerPageLabel = 'Ilośc ofert na stronie:'
+              if (this.length > 0) {
+                console.log(this.paginator)
+                this.paginator._intl.itemsPerPageLabel = 'Ilośc ofert na stronie:'
+              }
             }
           })
       
@@ -151,7 +154,6 @@ export class SearchedOffersComponent implements OnInit, OnDestroy{
             startWith(''),
             map(value => this._filterModels(value))
           )
-          
       
         } else if (url[0].path === 'my-offers') {
           this.mode = 'my-offers'

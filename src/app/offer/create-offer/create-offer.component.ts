@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Offer } from '../offer.model';
 import { OfferService } from '../offer.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { mimeType } from '../../validators/mime-type.validator';
+import { mimeTypeMulti } from '../../validators/mime-type-multi.validator';
 import { Car } from '../../car/car.model';
 import { Observable, Subscription, map, startWith } from 'rxjs';
 import { CarService } from '../../car/car.service';
@@ -19,12 +19,16 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   offer!: Offer
   mode: string = 'create'
   offerID: string | null = null
-  imgURL!: string
+  imgURLs: string[] = []
   showButton: boolean = true
   cars: Car[] = []
   filteredBrands!: Observable<string[]> | undefined
   filteredModels!: Observable<string[]> | undefined
   private carSubs!: Subscription
+  images: File[] = []
+
+  isImageOverlayOpen: boolean = false
+  selectedImage: string | null = null
 
 
   rodzaj_paliw = [
@@ -70,8 +74,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
       "cena": new FormControl(null, {
         validators: [Validators.required]
       }),
-      'image': new FormControl(null, {
-        validators: [Validators.required], asyncValidators: [mimeType]
+      'images': new FormControl(null, {
+        validators: [Validators.required], asyncValidators: [mimeTypeMulti]
       }
 
       )
@@ -86,11 +90,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
                           spalanie: offerData.spalanie, pojemnosc_silnika: offerData.pojemnosc_silnika, rodzaj_paliwa: offerData.rodzaj_paliwa, opis: offerData.opis, 
                           cena: offerData.cena, creator: offerData.creator, imagePath: offerData.imagePath, date: offerData.date, czyUlubione: false};
           if (this.offer.imagePath) {
-            this.onImagePickedFromPath(this.offer.imagePath);
+             this.onImagePickedFromPath(this.offer.imagePath);
           } 
           this.form.setValue({'nazwa': this.offer.nazwa, 'marka': this.offer.marka, 'model': this.offer.model, 'rok_produkcji': this.offer.rok_produkcji, 'przebieg': this.offer.przebieg,
             'spalanie': this.offer.spalanie, 'pojemnosc_silnika': this.offer.pojemnosc_silnika, 'rodzaj_paliwa': offerData.rodzaj_paliwa, 'opis': offerData.opis, 'cena': offerData.cena,
-            'image': this.offer.imagePath
+            'images': this.offer.imagePath
           });
         });
       } else {
@@ -152,10 +156,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
 
     if (this.mode === 'create') {
       this.offerService.addOffer(this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
-      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.image);
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.images);
     } else {
       this.offerService.editOffer(this.offerID, this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
-      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.images);
     }
     
 
@@ -163,36 +167,81 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
   }
 
   onImagePicked(event: Event) {
-    console.log(event.target)
     const inputElement = event.target as HTMLInputElement | null;
-    if (!inputElement) {
+    if (!inputElement || !inputElement.files || !this.form || inputElement.files.length === 0) {
       return;
     }
-    const file = inputElement.files?.[0];
-    if (!file) {
-      return;
-    }
-
-    this.form.patchValue({image: file});
-    if (!this.form) {
+    
+    const files = Array.from(inputElement.files);
+    if (files.length + this.imgURLs.length > 6) {
+      alert('Możesz opublikować maksymalnie 6 zdjęć!')
       return
     }
-    this.form.get('image')?.updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imgURL = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-    console.log(this.form.value.image);
+
+    
+
+    files.forEach(file => {
+      this.images.push(file)
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imgURLs.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      
+      })
+
+    this.form.patchValue({ images: this.images });
+    this.form.get('images')?.updateValueAndValidity();
+
+    console.log(this.form.value.images);
+    console.log(this.imgURLs)
+
+  }
+
+  updateImagePreviews(): void {
+    this.imgURLs = [];
+    this.images.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imgURLs.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   onHideButton() {
     this.showButton = false;
   }
 
-  onImagePickedFromPath(avatar: string) {
-    this.imgURL = avatar;
-    this.form.get('image')?.updateValueAndValidity();
+  async onImagePickedFromPath(paths: string[]) {
+    for (let path of paths) {
+      console.log(path)
+      const response = await fetch(path, { mode: 'cors'  })
+      const blob = await response.blob()
+      console.log(blob)
+      const file = new File([blob], 'image.jpg', { type: 'image/jpeg'})
+      this.images.push(file)
+    }
+    this.imgURLs = paths;
+    //this.form.patchValue({ images: this.images })
+    this.form.get('images')?.updateValueAndValidity();
+    console.log(this.imgURLs)
+  }
+
+  removeImage(index: number): void {
+    this.images.splice(index, 1)
+    this.updateImagePreviews()
+    this.form.patchValue({ images: this.images })
+    this.form.get('images')?.updateValueAndValidity()
+  }
+
+  openImageOverlay(imageUrl: string) {
+    this.selectedImage = imageUrl;
+    this.isImageOverlayOpen = true;
+  }
+
+  closeImageOverlay() {
+    this.isImageOverlayOpen = false;
   }
   
 }

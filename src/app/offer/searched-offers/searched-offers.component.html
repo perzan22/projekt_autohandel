@@ -82,7 +82,7 @@
         <mat-paginator #paginator class="paginator" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" *ngIf="offers.length >= 0 && mode === 'search'"></mat-paginator>
         <mat-card *ngFor="let offer of offers" (click)="showOffer(offer.id)" class="offer">
             <div class="image">
-                <img [src]="offer.imagePath" [alt]="offer.nazwa">
+                <img [src]="offer.imagePath[0]" [alt]="offer.nazwa">
             </div>
             <div class="content">
                 <mat-card-header>
