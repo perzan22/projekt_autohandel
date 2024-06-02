@@ -9,6 +9,7 @@ const userRoutes = require('./routes/users')
 const profilesRoutes = require('./routes/profiles')
 const carsRoutes = require('./routes/cars')
 const chatRoutes = require('./routes/chat')
+const forumRoutes = require('./routes/forum')
 
 
 
@@ -35,6 +36,7 @@ app.use('/api/users/', userRoutes)
 app.use('/api/profiles/', profilesRoutes)
 app.use('/api/cars/', carsRoutes)
 app.use('/api/chat/', chatRoutes)
+app.use('/api/forum', forumRoutes)
 
 
 module.exports = app;

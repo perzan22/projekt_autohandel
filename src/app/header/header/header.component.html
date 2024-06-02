@@ -30,9 +30,12 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
-            <h1>
-                <a routerLink="/" (click)="sidenav.close()">Autohandel Bojano</a>
-            </h1>
+            <div class="header-title">
+                <h1>
+                    <a routerLink="/" (click)="sidenav.close()">Autohandel Bojano</a>
+                </h1>
+                <button mat-flat-button type="button" routerLink="forum" >Forum</button>
+            </div>
             <ul>
                 <mat-icon id="favorite" *ngIf="isAuthenticated" routerLink="/favorites">favorite</mat-icon>
                 <mat-icon id="chat" *ngIf="isAuthenticated" routerLink="my-messages">chat</mat-icon>
