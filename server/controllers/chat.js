@@ -67,8 +67,6 @@ exports.getMessages = (req, res, next) => {
     const senderID = req.query.senderID;
     const receiverID = req.query.receiverID;
     const chatID = req.query.chatID;
-    const offset = req.query.offset;
-    const limit = req.query.limit
 
     if (!senderID || !receiverID) {
         res.status(400).json({
@@ -76,8 +74,6 @@ exports.getMessages = (req, res, next) => {
         })
     } else {
         Message.find({ $or: [{ sender: senderID, receiver: receiverID, chat: chatID }, { sender: receiverID, receiver: senderID, chat: chatID }] }).sort({ date: 'asc' })
-        //.skip(Number(offset))
-        //.limit(Number(limit))
         .exec().then(messages => {
             res.status(200).json({
                 info: 'Messages fetched successfully',
