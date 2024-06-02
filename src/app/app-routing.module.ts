@@ -12,6 +12,8 @@ import { ShowProfileComponent } from './profile/show-profile/show-profile.compon
 import { SearchedOffersComponent } from './offer/searched-offers/searched-offers.component';
 import { ChatComponent } from './chat/chat/chat.component';
 import { ChatListComponent } from './chat/chat-list/chat-list.component';
+import { PostListComponent } from './forum/post-list/post-list.component';
+import { PostCreateComponent } from './forum/post-create/post-create.component';
 
 const routes: Routes = [
   { path: '', component: OfferListComponent },
@@ -28,8 +30,9 @@ const routes: Routes = [
   { path: 'my-offers', component: SearchedOffersComponent, canActivate: [AuthGuard] },
   { path: 'favorites', component: SearchedOffersComponent, canActivate: [AuthGuard] },
   { path: 'chat/:chatID', component: ChatComponent, canActivate: [AuthGuard] },
-  { path: 'my-messages', component: ChatListComponent, canActivate: [AuthGuard] }
-
+  { path: 'my-messages', component: ChatListComponent, canActivate: [AuthGuard] },
+  { path: 'forum', component: PostListComponent },
+  { path: 'forum/create', component: PostCreateComponent, canActivate: [AuthGuard, HasProfileGuard] }
 ];
 
 @NgModule({

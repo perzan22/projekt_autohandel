@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { PostService } from '../forum.service';
 
 @Component({
   selector: 'app-post-create',
@@ -7,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class PostCreateComponent {
 
+  postForm!: NgForm
+
+  constructor(private postService: PostService) {}
+
+  onSave(postForm: NgForm) {
+
+
+    if(postForm.invalid) {
+      return
+    }
+
+    this.postService.addPost(postForm.value.title, postForm.value.content)
+  }
 }
