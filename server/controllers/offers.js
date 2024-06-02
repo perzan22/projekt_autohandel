@@ -132,11 +132,8 @@ exports.deleteOffer = (req, res, next) => {
 }
 
 exports.editOffer = (req, res, next) => {
-    let imagePath = req.body.imagePath;
-    if (req.file) {
-        const url = req.protocol + '://' + req.get('host');
-        imagePath = url + '/images/cars/' + req.file.filename;
-    }
+    const url = req.protocol + '://' + req.get('host');
+    const imagePaths = req.files.map(file => url + '/images/cars/' + file.filename)
 
     const offer = new Offer({
         _id: req.body.id,
@@ -151,7 +148,7 @@ exports.editOffer = (req, res, next) => {
         opis: req.body.opis,
         cena: +req.body.cena,
         creator: req.userData.userID,
-        imagePath: imagePath,
+        imagePath: imagePaths,
         date: Date.now()
     });
 

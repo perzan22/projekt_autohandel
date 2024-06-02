@@ -159,7 +159,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
       this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.images);
     } else {
       this.offerService.editOffer(this.offerID, this.form.value.nazwa, this.form.value.marka, this.form.value.model, this.form.value.rok_produkcji, this.form.value.przebieg, this.form.value.spalanie, 
-      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena);
+      this.form.value.pojemnosc_silnika, this.form.value.rodzaj_paliwa, this.form.value.opis, this.form.value.cena, this.form.value.images);
     }
     
 
@@ -194,6 +194,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
     this.form.get('images')?.updateValueAndValidity();
 
     console.log(this.form.value.images);
+    console.log(this.imgURLs)
+
   }
 
   updateImagePreviews(): void {
@@ -211,9 +213,19 @@ export class CreateOfferComponent implements OnInit, OnDestroy{
     this.showButton = false;
   }
 
-  onImagePickedFromPath(paths: string[]) {
+  async onImagePickedFromPath(paths: string[]) {
+    for (let path of paths) {
+      console.log(path)
+      const response = await fetch(path, { mode: 'cors'  })
+      const blob = await response.blob()
+      console.log(blob)
+      const file = new File([blob], 'image.jpg', { type: 'image/jpeg'})
+      this.images.push(file)
+    }
     this.imgURLs = paths;
+    //this.form.patchValue({ images: this.images })
     this.form.get('images')?.updateValueAndValidity();
+    console.log(this.imgURLs)
   }
 
   removeImage(index: number): void {

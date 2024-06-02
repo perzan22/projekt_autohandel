@@ -22,13 +22,13 @@ mongoose.connect('mongodb+srv://olafperzanowski:' + 'NwadPWZOOJdM4uMR' + '@clust
     console.log('Connection to MongoDB failed')
 })
 
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use('/images/avatars', express.static(path.join('server/images/avatars')))
 app.use('/images/cars', express.static(path.join('server/images/cars')))
 
-
-app.use(cors());
 
 app.use('/api/offers/', offerRoutes)
 app.use('/api/users/', userRoutes)

@@ -112,7 +112,7 @@ export class OfferService {
         return this.http.delete('http://localhost:3000/api/offers/' + offerID)
     }
 
-    editOffer(id: string | null, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number, spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number) {
+    editOffer(id: string | null, nazwa: string, marka: string, model: string, rok_produkcji: number, przebieg: number, spalanie: number, pojemnosc_silnika: number, rodzaj_paliwa: string, opis: string, cena: number, images: File[] | null) {
         const offerData = new FormData();
         if (id !== null) {
             offerData.append('id', id)
@@ -126,6 +126,13 @@ export class OfferService {
             offerData.append('rodzaj_paliwa', rodzaj_paliwa)
             offerData.append('opis', opis)
             offerData.append('cena', cena.toString())
+
+            if (images && images.length > 0) {
+                images.forEach(file => {
+                    console.log(file)
+                    offerData.append('images', file, nazwa)
+                })
+            }
 
 
             this.http.put('http://localhost:3000/api/offers/' + id, offerData)
