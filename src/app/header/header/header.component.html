@@ -37,8 +37,10 @@
                 <button mat-flat-button type="button" routerLink="forum" >Forum</button>
             </div>
             <ul>
-                <mat-icon id="favorite" *ngIf="isAuthenticated" routerLink="/favorites">favorite</mat-icon>
-                <mat-icon id="chat" *ngIf="isAuthenticated" routerLink="my-messages">chat</mat-icon>
+                <div class="buttons">
+                    <mat-icon id="favorite" *ngIf="isAuthenticated" routerLink="/favorites">favorite</mat-icon>
+                    <mat-icon id="chat" *ngIf="isAuthenticated" routerLink="my-messages">chat</mat-icon>
+                </div>
                 <h1 *ngIf="isAuthenticated" id="show-nick">Witaj, {{ nickname }} <img [src]='avatar' class="avatar-image"></h1>
                 <li>
                     

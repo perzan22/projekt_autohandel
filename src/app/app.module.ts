@@ -25,7 +25,6 @@ import { ChatListComponent } from './chat/chat-list/chat-list.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PostCreateComponent } from './forum/post-create/post-create.component';
 import { PostListComponent } from './forum/post-list/post-list.component';
-import { CommentCreateComponent } from './forum/comment-create/comment-create.component';
 
 const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
 
@@ -44,8 +43,7 @@ const config: SocketIoConfig = { url:"http://localhost:3000", options: {} }
     ChatComponent,
     ChatListComponent,
     PostCreateComponent,
-    PostListComponent,
-    CommentCreateComponent
+    PostListComponent
   ],
   imports: [
     BrowserModule,

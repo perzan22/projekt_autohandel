@@ -2,6 +2,8 @@ mat-toolbar
     display: flex
     justify-content: space-between
     align-items: center
+    @media screen and (max-width: 600px)
+        height: 120%
 
     a
         text-decoration: none
@@ -11,12 +13,23 @@ mat-toolbar
         font-size: 20px
         color: white
 
+        @media screen and (max-width: 600px)
+            font-size: 14px
+
 .header-title
     display: flex
+    align-items: center
+    @media screen and (max-width: 600px)
+        flex-direction: column
+
 
     button
         margin-left: 2rem
-        
+        @media screen and (max-width: 600px)
+            font-size: 12px
+            height: 24px
+            width: 40px
+            margin-left: 5px
 
 
 a
@@ -28,16 +41,27 @@ ul
     display: flex
     justify-items: center
     align-items: center
+    @media screen and (max-width: 600px)
+        flex-direction: column
+
+    .buttons
+        display: flex
+        align-items: center
 
     #favorite
         color: #ce504c
         margin-right: 10px
+        @media screen and (max-width: 600px)
+            margin-right: 5px
 
     #favorite:hover
         cursor: pointer
 
     #chat
         margin-right: 10px
+        @media screen and (max-width: 600px)
+            margin-right: 5px
+
 
     #chat:hover
         cursor: pointer
@@ -53,6 +77,8 @@ ul
             border-radius: 50%
             overflow: hidden
             margin-left: 10px
+            @media screen and (max-width: 600px)
+                display: none
 
 mat-sidenav
     width: 200px

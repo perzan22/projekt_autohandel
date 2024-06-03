@@ -1,6 +1,8 @@
 mat-card
     width: 50%
     margin: 2rem auto
+    @media screen and (max-width: 600px)
+        width: 100%
 
     h1
         text-align: center
@@ -63,8 +65,13 @@ mat-card
                 button
                     width: 20%
                     margin-left: 10px
+                    @media screen and (max-width: 600px)
+                        margin-left: 3px
+                        font-size: 10px
 
                 mat-form-field
                     width: 75%
+                    @media screen and (max-width: 600px)
+                        width: 70%
 
                     
