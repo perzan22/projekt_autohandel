@@ -27,6 +27,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
+
 app.use('/images/avatars', express.static(path.join('server/images/avatars')))
 app.use('/images/cars', express.static(path.join('server/images/cars')))
 
@@ -37,6 +38,7 @@ app.use('/api/profiles/', profilesRoutes)
 app.use('/api/cars/', carsRoutes)
 app.use('/api/chat/', chatRoutes)
 app.use('/api/forum', forumRoutes)
+
 
 
 module.exports = app;

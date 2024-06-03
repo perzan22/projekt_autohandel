@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  angular-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: angular-build
+    ports:
+      - "4200:4200"
+    depends_on:
+      - server
+      - mongodb
+
+  server:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: server
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URL: "mongodb+srv://olafperzanowski:NwadPWZOOJdM4uMR@cluster0.wjuhgvo.mongodb.net/autohandel-server"
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+  
