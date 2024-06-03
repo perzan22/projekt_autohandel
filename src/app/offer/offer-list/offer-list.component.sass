@@ -2,6 +2,7 @@
     margin: 50px auto
     display: flex
     flex-direction: column
+
     h1
         text-align: center
         color: #546E7A
@@ -9,6 +10,10 @@
 .searchbar
     width: 60%
     margin: 10px auto
+    @media screen and (max-width: 600px)
+        width: 100%
+    @media (min-width: 601px) and (max-width: 1024px)
+        width: 90%
 
 
 .card-container
@@ -17,11 +22,18 @@
     display: flex
     flex-wrap: wrap
     justify-content: space-around
+    @media (min-width: 601px) and (max-width: 1200px)
+        width: 90%
     
 .offer
     width: calc(20% - 16px)
     height: 100%
     margin-bottom: 20px
+
+    @media screen and (max-width: 600px)
+        width: calc( 50% - 16px )
+
+
 
     mat-card-content
         height: 100%
@@ -40,6 +52,11 @@
         display: flex
         justify-content: space-between
         color: #546E7A
+
+        @media screen and (max-width: 600px)
+            font-size: 16px
+        @media (min-width: 601px) and (max-width: 1024px)
+            font-size: 20px
 
     mat-card-header
         height: 100px
@@ -89,6 +106,9 @@
     .search-select
         margin: 10px 10px
         width: 25%
+        @media screen and (max-width: 1024px)
+            width: 40%
+            margin: 10px auto
 
     .year
         display: flex
@@ -97,6 +117,8 @@
     .price-slider
         display: flex
         flex-direction: column
+        @media screen and (max-width: 1024px)
+            margin: auto
 
         h3
             text-align: center
@@ -106,6 +128,8 @@
         position: relative
         top: -10px
         margin: auto 10px
+        @media screen and (max-width: 600px)
+            margin: auto
 
 mat-card
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25)
@@ -115,4 +139,6 @@ mat-card
 
 .price-slider
     margin-left: 30px
+
+
 

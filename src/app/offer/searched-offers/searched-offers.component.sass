@@ -10,18 +10,26 @@
     width: 60%
     margin: 10px auto
 
+    @media screen and (max-width: 1024px)
+        width: 100%
+
 
 .card-container
     
+    display: flex
+    flex-direction: column
     margin: 20px auto
     justify-content: space-around
     
 .offer
     margin-bottom: 20px
-    width: 1200px
+    //width: 1200px
     height: 300px
     display: flex
     flex-direction: row
+    @media screen and (max-width: 1024px)
+        width: 100%
+        height: 120%
 
     :hover
         cursor: pointer
@@ -37,10 +45,20 @@
 
     mat-card-title
         font-size: 25px
+        @media screen and (max-width: 600px)
+            font-size: 18px
+
+        @media (min-width: 601px) and (max-width: 1024px)
+            font-size: 22px
 
 
     mat-card-subtitle
         font-size: 20px
+        @media screen and (max-width: 600px)
+            font-size: 14px
+            margin: auto
+        @media (min-width: 601px) and (max-width: 1024px)
+            font-size: 17px
 
     mat-card-header
         display: flex
@@ -55,9 +73,15 @@
     mat-card-content
         display: flex
         justify-content: space-between
+        @media screen and (max-width: 1024px)
+            flex-direction: column
 
         h1
             font-size: 40px
+            @media screen and (max-width: 600px)
+                font-size: 24px
+            @media (min-width: 601px) and (max-width: 1024px)
+                font-size: 30px
 
         table
             table-layout: fixed
@@ -66,12 +90,26 @@
             
             th, td
                 padding: 0 10px
+                @media screen and (max-width: 600px)
+                    padding: 0 5px
+                    font-size: 12px
+                @media (min-width: 601px) and (max-width: 1024px)
+                    padding: 0 5px
+                    font-size: 14px
         
     .image
         position: relative
         height: 200px
         width: 400px
         margin: auto 20px
+        @media screen and (max-width: 600px)
+            width: 200px
+            height: 100px
+            margin: auto 5px
+        @media (min-width: 601px) and (max-width: 1024px)
+            width: 250px
+            height: 125px
+            margin: auto 20px
 
     .image img
         position: absolute
@@ -92,6 +130,16 @@
         height: 100%
         width: 40px
         font-size: 40px
+        @media screen and (max-width: 600px)
+            height: 100%
+            width: 30px
+            font-size: 30px
+
+    #heart
+        @media screen and (max-width: 600px)
+            height: 100%
+            width: 30px
+            font-size: 30px
 
     #heart:hover
         fill: black
@@ -100,9 +148,6 @@
         color: black
 
 .search-card
-
-    .price-slider
-        margin-left: 30px
 
     mat-card-title
         font-family: 'Roboto', sans-serif
@@ -121,6 +166,9 @@
     .search-select
         margin: 10px 10px
         width: 25%
+        @media screen and (max-width: 1600px)
+            width: 40%
+            margin: 10px auto
 
     .year
         display: flex
@@ -129,6 +177,7 @@
     .price-slider
         display: flex
         flex-direction: column
+        margin: auto
 
         h3
             text-align: center
@@ -138,6 +187,9 @@
         position: relative
         top: -10px
         margin: auto 10px
+        @media screen and (max-width: 1024px)
+            margin: auto
+
 
 mat-card
     box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.25)

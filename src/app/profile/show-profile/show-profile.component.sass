@@ -6,12 +6,19 @@ mat-card
     left: 50%
     transform: translate(-50%, -50%)
 
+    @media screen and (max-width: 600px)
+        width: 100%
+
 mat-card-content
     display: flex
+    @media screen and (max-width: 1024px)
+        flex-direction: column
 
 
 section
     margin: auto 
+    @media screen and (max-width: 1024px)
+        margin: 20px auto
 
 
 mat-divider

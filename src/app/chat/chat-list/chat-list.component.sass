@@ -1,10 +1,17 @@
 mat-card
     width: 60%
     margin: 20px auto
+    @media screen and (max-width: 800px)
+            width: 100%
 
     h1
         text-align: center
         color: #546E7A
+        @media screen and (max-width: 600px)
+            font-size: 24px
+        @media (min-width: 601px) and (max-width: 1024px)
+            font-size: 28px
+        
     mat-divider
         margin: 5px auto
         width: 95%
@@ -24,6 +31,8 @@ mat-card
                 display: flex
                 justify-content: space-between
                 width: 100%
+                @media screen and (max-width: 1100px)
+                    flex-direction: column
                 
                 .messages-info
                     display: flex
@@ -46,6 +55,7 @@ mat-card
                 .send
                     align-self: center
                     margin: auto 10px
+
 
                 mat-icon
                     transform: rotate(210deg)
